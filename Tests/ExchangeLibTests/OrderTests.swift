@@ -9,7 +9,7 @@ class OrderTests : XCTestCase
 
         XCTAssertEqual(order.trader, "")
         XCTAssertEqual(order.instrument, "")
-        XCTAssertEqual(order.quantity, 0.0)
+        XCTAssertEqual(order.quantity, 0)
         XCTAssertEqual(order.price, 0.0)
     }
 
@@ -19,7 +19,7 @@ class OrderTests : XCTestCase
 
         XCTAssertEqual(order.trader, "A")
         XCTAssertEqual(order.instrument, "AUDUSD")
-        XCTAssertEqual(order.quantity, 100.0)
+        XCTAssertEqual(order.quantity, 100)
         XCTAssertEqual(order.price, 1.47)
     }
 

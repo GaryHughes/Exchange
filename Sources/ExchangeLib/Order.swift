@@ -4,7 +4,7 @@ class Order
 {
     var trader = ""
     var instrument = ""
-    var quantity = 0.0
+    var quantity = 0
     var price = 0.0
 
     init()
@@ -19,7 +19,7 @@ class Order
         let elements =  string.components(separatedBy: ":")
         trader = elements[0]
         instrument = elements[1]
-        quantity = Double(elements[2]) ?? 0.0
+        quantity = Int(elements[2]) ?? 0
         price = Double(elements[3]) ?? 0.0
     }
 }

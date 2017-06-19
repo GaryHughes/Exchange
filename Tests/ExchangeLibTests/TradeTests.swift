@@ -10,7 +10,7 @@ class TradeTests : XCTestCase
         XCTAssertEqual(trade.buyer, "")
         XCTAssertEqual(trade.seller, "")
         XCTAssertEqual(trade.instrument, "")
-        XCTAssertEqual(trade.quantity, 0.0)
+        XCTAssertEqual(trade.quantity, 0)
         XCTAssertEqual(trade.price, 0.0)
     }
 
@@ -23,7 +23,7 @@ class TradeTests : XCTestCase
         trade.quantity = 50
         trade.price = 1.47
 
-        XCTAssertEqual(trade.toString(), "A:B:AUDUSD:50.0:1.47")
+        XCTAssertEqual(trade.toString(), "A:B:AUDUSD:50:1.47")
     }
 
     static var allTests =
