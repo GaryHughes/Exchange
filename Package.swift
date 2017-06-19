@@ -3,5 +3,10 @@
 import PackageDescription
 
 let package = Package(
-    name: "exchange"
+    name: "Exchange",
+    targets:
+    [
+        Target(name: "Exchange", dependencies: ["ExchangeLib"]),
+        Target(name: "ExchangeLib")
+    ]
 )
