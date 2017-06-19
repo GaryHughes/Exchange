@@ -327,7 +327,7 @@ class OrderBookTests : XCTestCase
 
         XCTAssertEqual(orderBook.asks[0].trader, "B")
         XCTAssertEqual(orderBook.asks[0].instrument, "AUDUSD")
-        XCTAssertEqual(orderBook.asks[0].quantity, 150)
+        XCTAssertEqual(orderBook.asks[0].quantity, -150)
         XCTAssertEqual(orderBook.asks[0].price, 1.48)
     }
     static var allTests =
