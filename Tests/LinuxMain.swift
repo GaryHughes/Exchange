@@ -5,5 +5,6 @@ XCTMain([
     testCase(OrderTests.allTests),
     testCase(TradeTests.allTests),
     testCase(OrderBookTests.allTests),
+    testCase(ExchangeTests.allTests),
 ])
 
