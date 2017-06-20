@@ -42,16 +42,12 @@ class OrderBook
 
                 if ask.price <= order.price
                 {
-                    let trade = Trade()
-                    trade.buyer = order.trader
-                    trade.seller = ask.trader
-                    trade.instrument = order.instrument
-                    trade.quantity = min(abs(ask.quantity), abs(order.quantity))
-                    trade.price = ask.price
-                    trades.append(trade)
+                    let trade = execute(order, with: ask)
 
                     ask.quantity += trade.quantity
                     order.quantity -= trade.quantity
+
+                    trades.append(trade)
                 }
             }
 
@@ -69,16 +65,12 @@ class OrderBook
 
                 if bid.price >= order.price
                 {
-                    let trade = Trade()
-                    trade.buyer = bid.trader
-                    trade.seller = order.trader
-                    trade.instrument = order.instrument
-                    trade.quantity = min(abs(bid.quantity), abs(order.quantity))
-                    trade.price = bid.price
-                    trades.append(trade)
+                    let trade = execute(order, with: bid)
 
                     bid.quantity -= trade.quantity
                     order.quantity += trade.quantity
+
+                    trades.append(trade)
                 }
             }
 
@@ -98,5 +90,27 @@ class OrderBook
         {
             side.append(order)
         }
+    }
+
+    private func execute(_ order: Order, with other: Order) -> Trade
+    {
+        let trade = Trade()
+
+        trade.instrument = order.instrument
+        trade.quantity = min(abs(order.quantity), abs(other.quantity))
+        trade.price = other.price
+
+        if order.quantity > 0
+        {
+            trade.buyer = order.trader
+            trade.seller = other.trader
+        }
+        else
+        {
+            trade.buyer = other.trader
+            trade.seller = order.trader
+        }
+
+        return trade
     }
 }
