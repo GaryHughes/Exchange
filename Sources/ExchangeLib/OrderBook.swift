@@ -4,38 +4,24 @@ class OrderBook
     var bids : [Order]
     var asks : [Order]
 
-    init()
+    public init()
     {
         bids = []
         asks = []
     }
 
-    func insert(order: Order) -> [Trade]
+    public func insert(order: Order) -> [Trade]
     {
         let trades = match(order: order)
 
         if order.quantity > 0
         {
-            if let index = bids.index(where: { $0.price < order.price })
-            {
-                bids.insert(order, at: index)
-            }
-            else
-            {
-                bids.append(order)
-            }
+            insert(order, inSide: &bids, where: { $0.price < order.price })
         }
 
         if order.quantity < 0
         {
-            if let index = asks.index(where: { $0.price > order.price })
-            {
-                asks.insert(order, at: index)
-            }
-            else
-            {
-                asks.append(order)    
-            }
+            insert(order, inSide: &asks, where: { $0.price > order.price })
         }
 
         return trades
@@ -100,5 +86,17 @@ class OrderBook
         }
 
         return trades
+    }
+
+    private func insert(_ order: Order, inSide side: inout [Order], where condition: (Order) -> Bool)
+    {
+        if let index = side.index(where: condition)
+        {
+            side.insert(order, at: index)
+        }
+        else
+        {
+            side.append(order)
+        }
     }
 }
