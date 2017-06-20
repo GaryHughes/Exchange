@@ -1,10 +1,14 @@
 import Foundation
 
-class Exchange
+public class Exchange
 {
     var orderBooks : [String : OrderBook] = [:]
 
-    func insert(order: Order) -> [Trade]
+    public init()
+    {
+    }
+
+    public func insert(order: Order) -> [Trade]
     {
         var orderBook = orderBooks[order.instrument]
 

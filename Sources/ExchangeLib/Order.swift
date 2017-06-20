@@ -1,17 +1,17 @@
 import Foundation
 
-class Order
+public class Order
 {
     var trader = ""
     var instrument = ""
     var quantity = 0
     var price = 0.0
 
-    init()
+    public init()
     {
     }
 
-    init(fromString string: String)
+    public init(fromString string: String)
     {
         // <buyer/sellerid>:<instrument>:<signed­quantity>:<limit­price>
         // eg. A:AUDUSD:­100:1.47

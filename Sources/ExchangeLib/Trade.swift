@@ -1,5 +1,5 @@
 
-class Trade
+public class Trade
 {
     var buyer = ""
     var seller = ""
@@ -7,7 +7,7 @@ class Trade
     var quantity = 0
     var price = 0.0
 
-    func toString() -> String
+    public func toString() -> String
     {
         return "\(buyer):\(seller):\(instrument):\(quantity):\(price)"
     }
