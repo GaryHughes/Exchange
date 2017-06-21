@@ -97,8 +97,8 @@ std::istream& operator>>(std::istream& is, order& o)
 		throw std::runtime_error(msg.str());
 	}
 
-	const std::string& participant = tokens[token_participant];
-	const std::string& instrument = tokens[token_instrument];
+	const auto& participant = tokens[token_participant];
+	const auto& instrument = tokens[token_instrument];
 	quantity_type quantity;
 	price_type price;
 

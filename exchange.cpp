@@ -22,7 +22,7 @@ order_book_ptr exchange::order_book_for_instrument(const std::string& instrument
 	if(existing != m_order_books.end())
 		return existing->second;
 
-	return m_order_books.insert(std::make_pair(instrument, std::make_shared<order_book>())).first->second;
+	return m_order_books.emplace(instrument, std::make_shared<order_book>()).first->second;
 }
 
 }
