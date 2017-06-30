@@ -3,16 +3,6 @@ import XCTest
 
 class OrderTests : XCTestCase
 {
-    func testDefaultInit() throws
-    {
-        let order = try Order()
-
-        XCTAssertEqual(order.participant, "")
-        XCTAssertEqual(order.instrument, "")
-        XCTAssertEqual(order.quantity, 0)
-        XCTAssertEqual(order.price, 0.0)
-    }
-
     func testStringInit() throws
     {
         let order = try Order(fromString: "A:AUDUSD:100:1.47")
@@ -47,7 +37,6 @@ class OrderTests : XCTestCase
 
     static var allTests =
     [
-        ("testDefaultInit", testDefaultInit),
         ("testStringInit", testStringInit),
         ("testEmptyInit", testEmptyInit),
         ("testInvalidInit", testInvalidInit),

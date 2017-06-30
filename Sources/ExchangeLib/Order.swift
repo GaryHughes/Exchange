@@ -2,14 +2,10 @@ import Foundation
 
 public class Order
 {
-    var participant = ""
-    var instrument = ""
-    var quantity = 0
-    var price = 0.0
-
-    public init()
-    {
-    }
+    let participant : String
+    let instrument : String
+    var quantity : Int
+    let price : Double
 
     public init(fromString string: String) throws
     {
