@@ -1,0 +1,18 @@
+
+
+    1. Download and install swift by following the instructions at:
+
+        https://swift.org/getting-started/
+
+
+    2. Use the following commands to build and test the code:
+
+        $ swift build
+
+        $ swift test
+
+
+    3. Run the program:
+
+        cat example1.txt | ./Exchange > trades.txt
+
