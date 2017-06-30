@@ -2,7 +2,7 @@ import Foundation
 
 public class Order
 {
-    var trader = ""
+    var participant = ""
     var instrument = ""
     var quantity = 0
     var price = 0.0
@@ -34,7 +34,7 @@ public class Order
             throw OrderError.InvalidPrice(elements[3])
         }
 
-        trader = elements[0]
+        participant = elements[0]
         instrument = elements[1]
         quantity = parsedQuantity
         price = parsedPrice

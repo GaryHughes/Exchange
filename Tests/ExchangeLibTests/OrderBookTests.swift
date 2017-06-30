@@ -21,7 +21,7 @@ class OrderBookTests : XCTestCase
         XCTAssertEqual(orderBook.asks.count, 0)
         XCTAssertEqual(trades.count, 0)
 
-        XCTAssertEqual(orderBook.bids[0].trader, "A")
+        XCTAssertEqual(orderBook.bids[0].participant, "A")
         XCTAssertEqual(orderBook.bids[0].instrument, "AUDUSD")
         XCTAssertEqual(orderBook.bids[0].quantity, 100)
         XCTAssertEqual(orderBook.bids[0].price, 1.47)
@@ -37,7 +37,7 @@ class OrderBookTests : XCTestCase
         XCTAssertEqual(orderBook.asks.count, 1)
         XCTAssertEqual(trades.count, 0)
 
-        XCTAssertEqual(orderBook.asks[0].trader, "B")
+        XCTAssertEqual(orderBook.asks[0].participant, "B")
         XCTAssertEqual(orderBook.asks[0].instrument, "AUDUSD")
         XCTAssertEqual(orderBook.asks[0].quantity, -100)
         XCTAssertEqual(orderBook.asks[0].price, 1.47)
@@ -56,17 +56,17 @@ class OrderBookTests : XCTestCase
         XCTAssertEqual(orderBook.asks.count, 0)
         XCTAssertEqual(trades.count, 0)
 
-        XCTAssertEqual(orderBook.bids[0].trader, "C")
+        XCTAssertEqual(orderBook.bids[0].participant, "C")
         XCTAssertEqual(orderBook.bids[0].instrument, "AUDUSD")
         XCTAssertEqual(orderBook.bids[0].quantity, 300)
         XCTAssertEqual(orderBook.bids[0].price, 1.49)
 
-        XCTAssertEqual(orderBook.bids[1].trader, "B")
+        XCTAssertEqual(orderBook.bids[1].participant, "B")
         XCTAssertEqual(orderBook.bids[1].instrument, "AUDUSD")
         XCTAssertEqual(orderBook.bids[1].quantity, 200)
         XCTAssertEqual(orderBook.bids[1].price, 1.48)
 
-        XCTAssertEqual(orderBook.bids[2].trader, "A")
+        XCTAssertEqual(orderBook.bids[2].participant, "A")
         XCTAssertEqual(orderBook.bids[2].instrument, "AUDUSD")
         XCTAssertEqual(orderBook.bids[2].quantity, 100)
         XCTAssertEqual(orderBook.bids[2].price, 1.47)
@@ -85,17 +85,17 @@ class OrderBookTests : XCTestCase
         XCTAssertEqual(orderBook.asks.count, 3)
         XCTAssertEqual(trades.count, 0)
 
-        XCTAssertEqual(orderBook.asks[0].trader, "C")
+        XCTAssertEqual(orderBook.asks[0].participant, "C")
         XCTAssertEqual(orderBook.asks[0].instrument, "AUDUSD")
         XCTAssertEqual(orderBook.asks[0].quantity, -300)
         XCTAssertEqual(orderBook.asks[0].price, 1.47)
 
-        XCTAssertEqual(orderBook.asks[1].trader, "B")
+        XCTAssertEqual(orderBook.asks[1].participant, "B")
         XCTAssertEqual(orderBook.asks[1].instrument, "AUDUSD")
         XCTAssertEqual(orderBook.asks[1].quantity, -200)
         XCTAssertEqual(orderBook.asks[1].price, 1.48)
 
-        XCTAssertEqual(orderBook.asks[2].trader, "A")
+        XCTAssertEqual(orderBook.asks[2].participant, "A")
         XCTAssertEqual(orderBook.asks[2].instrument, "AUDUSD")
         XCTAssertEqual(orderBook.asks[2].quantity, -100)
         XCTAssertEqual(orderBook.asks[2].price, 1.49)
@@ -114,17 +114,17 @@ class OrderBookTests : XCTestCase
         XCTAssertEqual(orderBook.asks.count, 0)
         XCTAssertEqual(trades.count, 0)
 
-        XCTAssertEqual(orderBook.bids[0].trader, "A")
+        XCTAssertEqual(orderBook.bids[0].participant, "A")
         XCTAssertEqual(orderBook.bids[0].instrument, "AUDUSD")
         XCTAssertEqual(orderBook.bids[0].quantity, 100)
         XCTAssertEqual(orderBook.bids[0].price, 1.47)
 
-        XCTAssertEqual(orderBook.bids[1].trader, "B")
+        XCTAssertEqual(orderBook.bids[1].participant, "B")
         XCTAssertEqual(orderBook.bids[1].instrument, "AUDUSD")
         XCTAssertEqual(orderBook.bids[1].quantity, 200)
         XCTAssertEqual(orderBook.bids[1].price, 1.47)
 
-        XCTAssertEqual(orderBook.bids[2].trader, "C")
+        XCTAssertEqual(orderBook.bids[2].participant, "C")
         XCTAssertEqual(orderBook.bids[2].instrument, "AUDUSD")
         XCTAssertEqual(orderBook.bids[2].quantity, 300)
         XCTAssertEqual(orderBook.bids[2].price, 1.47)
@@ -143,17 +143,17 @@ class OrderBookTests : XCTestCase
         XCTAssertEqual(orderBook.asks.count, 3)
         XCTAssertEqual(trades.count, 0)
 
-        XCTAssertEqual(orderBook.asks[0].trader, "A")
+        XCTAssertEqual(orderBook.asks[0].participant, "A")
         XCTAssertEqual(orderBook.asks[0].instrument, "AUDUSD")
         XCTAssertEqual(orderBook.asks[0].quantity, -100)
         XCTAssertEqual(orderBook.asks[0].price, 1.47)
 
-        XCTAssertEqual(orderBook.asks[1].trader, "B")
+        XCTAssertEqual(orderBook.asks[1].participant, "B")
         XCTAssertEqual(orderBook.asks[1].instrument, "AUDUSD")
         XCTAssertEqual(orderBook.asks[1].quantity, -200)
         XCTAssertEqual(orderBook.asks[1].price, 1.47)
 
-        XCTAssertEqual(orderBook.asks[2].trader, "C")
+        XCTAssertEqual(orderBook.asks[2].participant, "C")
         XCTAssertEqual(orderBook.asks[2].instrument, "AUDUSD")
         XCTAssertEqual(orderBook.asks[2].quantity, -300)
         XCTAssertEqual(orderBook.asks[2].price, 1.47)
@@ -171,12 +171,12 @@ class OrderBookTests : XCTestCase
         XCTAssertEqual(orderBook.asks.count, 1)
         XCTAssertEqual(trades.count, 0)
 
-        XCTAssertEqual(orderBook.bids[0].trader, "A")
+        XCTAssertEqual(orderBook.bids[0].participant, "A")
         XCTAssertEqual(orderBook.bids[0].instrument, "AUDUSD")
         XCTAssertEqual(orderBook.bids[0].quantity, 100)
         XCTAssertEqual(orderBook.bids[0].price, 1.47)
 
-        XCTAssertEqual(orderBook.asks[0].trader, "B")
+        XCTAssertEqual(orderBook.asks[0].participant, "B")
         XCTAssertEqual(orderBook.asks[0].instrument, "AUDUSD")
         XCTAssertEqual(orderBook.asks[0].quantity, -100)
         XCTAssertEqual(orderBook.asks[0].price, 1.48)
@@ -239,7 +239,7 @@ class OrderBookTests : XCTestCase
         XCTAssertEqual(trades[0].quantity, 100)
         XCTAssertEqual(trades[0].price, 1.47)
 
-        XCTAssertEqual(orderBook.bids[0].trader, "A")
+        XCTAssertEqual(orderBook.bids[0].participant, "A")
         XCTAssertEqual(orderBook.bids[0].instrument, "AUDUSD")
         XCTAssertEqual(orderBook.bids[0].quantity, 150)
         XCTAssertEqual(orderBook.bids[0].price, 1.47)
@@ -263,7 +263,7 @@ class OrderBookTests : XCTestCase
         XCTAssertEqual(trades[0].quantity, 100)
         XCTAssertEqual(trades[0].price, 1.47)
 
-        XCTAssertEqual(orderBook.asks[0].trader, "A")
+        XCTAssertEqual(orderBook.asks[0].participant, "A")
         XCTAssertEqual(orderBook.asks[0].instrument, "AUDUSD")
         XCTAssertEqual(orderBook.asks[0].quantity, -150)
         XCTAssertEqual(orderBook.asks[0].price, 1.47)
@@ -294,7 +294,7 @@ class OrderBookTests : XCTestCase
         XCTAssertEqual(trades[1].quantity, 50)
         XCTAssertEqual(trades[1].price, 1.46)
 
-        XCTAssertEqual(orderBook.bids[0].trader, "B")
+        XCTAssertEqual(orderBook.bids[0].participant, "B")
         XCTAssertEqual(orderBook.bids[0].instrument, "AUDUSD")
         XCTAssertEqual(orderBook.bids[0].quantity, 150)
         XCTAssertEqual(orderBook.bids[0].price, 1.46)
@@ -325,7 +325,7 @@ class OrderBookTests : XCTestCase
         XCTAssertEqual(trades[1].quantity, 50)
         XCTAssertEqual(trades[1].price, 1.48)
 
-        XCTAssertEqual(orderBook.asks[0].trader, "B")
+        XCTAssertEqual(orderBook.asks[0].participant, "B")
         XCTAssertEqual(orderBook.asks[0].instrument, "AUDUSD")
         XCTAssertEqual(orderBook.asks[0].quantity, -150)
         XCTAssertEqual(orderBook.asks[0].price, 1.48)

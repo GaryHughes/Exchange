@@ -7,7 +7,7 @@ class OrderTests : XCTestCase
     {
         let order = try Order()
 
-        XCTAssertEqual(order.trader, "")
+        XCTAssertEqual(order.participant, "")
         XCTAssertEqual(order.instrument, "")
         XCTAssertEqual(order.quantity, 0)
         XCTAssertEqual(order.price, 0.0)
@@ -17,7 +17,7 @@ class OrderTests : XCTestCase
     {
         let order = try Order(fromString: "A:AUDUSD:100:1.47")
 
-        XCTAssertEqual(order.trader, "A")
+        XCTAssertEqual(order.participant, "A")
         XCTAssertEqual(order.instrument, "AUDUSD")
         XCTAssertEqual(order.quantity, 100)
         XCTAssertEqual(order.price, 1.47)
@@ -39,7 +39,7 @@ class OrderTests : XCTestCase
     {
         let order = try Order(fromString: "  A : AUDUSD   : 100  : 1.47   ")
 
-        XCTAssertEqual(order.trader, "A")
+        XCTAssertEqual(order.participant, "A")
         XCTAssertEqual(order.instrument, "AUDUSD")
         XCTAssertEqual(order.quantity, 100)
         XCTAssertEqual(order.price, 1.47)

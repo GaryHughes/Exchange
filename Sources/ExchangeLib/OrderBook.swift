@@ -102,13 +102,13 @@ class OrderBook
 
         if order.quantity > 0
         {
-            trade.buyer = order.trader
-            trade.seller = other.trader
+            trade.buyer = order.participant
+            trade.seller = other.participant
         }
         else
         {
-            trade.buyer = other.trader
-            trade.seller = order.trader
+            trade.buyer = other.participant
+            trade.seller = order.participant
         }
 
         return trade
