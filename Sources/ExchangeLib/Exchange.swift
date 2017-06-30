@@ -18,8 +18,7 @@ public class Exchange
             orderBooks[order.instrument] = orderBook
         }
 
-        let trades = orderBook!.insert(order: order)
-        return trades
+        return orderBook!.insert(order: order)
     }
 }
 
