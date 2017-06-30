@@ -11,11 +11,11 @@ class OrderBookTests : XCTestCase
         XCTAssertEqual(orderBook.asks.count, 0)
     }
 
-    func testInsertBid()
+    func testInsertBid() throws
     {
         let orderBook = OrderBook()
 
-        let trades = orderBook.insert(order: Order(fromString: "A:AUDUSD:100:1.47"))
+        let trades = orderBook.insert(order: try Order(fromString: "A:AUDUSD:100:1.47"))
 
         XCTAssertEqual(orderBook.bids.count, 1)
         XCTAssertEqual(orderBook.asks.count, 0)
@@ -27,11 +27,11 @@ class OrderBookTests : XCTestCase
         XCTAssertEqual(orderBook.bids[0].price, 1.47)
     }
 
-    func testInsertAsk()
+    func testInsertAsk() throws
     {
         let orderBook = OrderBook()
 
-        let trades = orderBook.insert(order: Order(fromString: "B:AUDUSD:-100:1.47"))
+        let trades = orderBook.insert(order: try Order(fromString: "B:AUDUSD:-100:1.47"))
 
         XCTAssertEqual(orderBook.bids.count, 0)
         XCTAssertEqual(orderBook.asks.count, 1)
@@ -43,14 +43,14 @@ class OrderBookTests : XCTestCase
         XCTAssertEqual(orderBook.asks[0].price, 1.47)
     }
 
-    func testInsertBidsAtDifferentPrices()
+    func testInsertBidsAtDifferentPrices() throws
     {
         let orderBook = OrderBook()
 
         var trades : [Trade] = []
-        trades += orderBook.insert(order: Order(fromString: "A:AUDUSD:100:1.47"))
-        trades += orderBook.insert(order: Order(fromString: "B:AUDUSD:200:1.48"))
-        trades += orderBook.insert(order: Order(fromString: "C:AUDUSD:300:1.49"))
+        trades += orderBook.insert(order: try Order(fromString: "A:AUDUSD:100:1.47"))
+        trades += orderBook.insert(order: try Order(fromString: "B:AUDUSD:200:1.48"))
+        trades += orderBook.insert(order: try Order(fromString: "C:AUDUSD:300:1.49"))
 
         XCTAssertEqual(orderBook.bids.count, 3)
         XCTAssertEqual(orderBook.asks.count, 0)
@@ -72,14 +72,14 @@ class OrderBookTests : XCTestCase
         XCTAssertEqual(orderBook.bids[2].price, 1.47)
     }
 
-    func testInsertAsksAtDifferentPrices()
+    func testInsertAsksAtDifferentPrices() throws
     {
         let orderBook = OrderBook()
 
         var trades : [Trade] = []
-        trades += orderBook.insert(order: Order(fromString: "A:AUDUSD:-100:1.49"))
-        trades += orderBook.insert(order: Order(fromString: "B:AUDUSD:-200:1.48"))
-        trades += orderBook.insert(order: Order(fromString: "C:AUDUSD:-300:1.47"))
+        trades += orderBook.insert(order: try Order(fromString: "A:AUDUSD:-100:1.49"))
+        trades += orderBook.insert(order: try Order(fromString: "B:AUDUSD:-200:1.48"))
+        trades += orderBook.insert(order: try Order(fromString: "C:AUDUSD:-300:1.47"))
 
         XCTAssertEqual(orderBook.bids.count, 0)
         XCTAssertEqual(orderBook.asks.count, 3)
@@ -101,14 +101,14 @@ class OrderBookTests : XCTestCase
         XCTAssertEqual(orderBook.asks[2].price, 1.49)
     }
 
-    func testInsertBidsAtTheSamePrice()
+    func testInsertBidsAtTheSamePrice() throws
     {
         let orderBook = OrderBook()
 
         var trades : [Trade] = []
-        trades += orderBook.insert(order: Order(fromString: "A:AUDUSD:100:1.47"))
-        trades += orderBook.insert(order: Order(fromString: "B:AUDUSD:200:1.47"))
-        trades += orderBook.insert(order: Order(fromString: "C:AUDUSD:300:1.47"))
+        trades += orderBook.insert(order: try Order(fromString: "A:AUDUSD:100:1.47"))
+        trades += orderBook.insert(order: try Order(fromString: "B:AUDUSD:200:1.47"))
+        trades += orderBook.insert(order: try Order(fromString: "C:AUDUSD:300:1.47"))
 
         XCTAssertEqual(orderBook.bids.count, 3)
         XCTAssertEqual(orderBook.asks.count, 0)
@@ -130,14 +130,14 @@ class OrderBookTests : XCTestCase
         XCTAssertEqual(orderBook.bids[2].price, 1.47)
     }
 
-    func testInsertAsksAtTheSamePrice()
+    func testInsertAsksAtTheSamePrice() throws
     {
         let orderBook = OrderBook()
 
         var trades : [Trade] = []
-        trades += orderBook.insert(order: Order(fromString: "A:AUDUSD:-100:1.47"))
-        trades += orderBook.insert(order: Order(fromString: "B:AUDUSD:-200:1.47"))
-        trades += orderBook.insert(order: Order(fromString: "C:AUDUSD:-300:1.47"))
+        trades += orderBook.insert(order: try Order(fromString: "A:AUDUSD:-100:1.47"))
+        trades += orderBook.insert(order: try Order(fromString: "B:AUDUSD:-200:1.47"))
+        trades += orderBook.insert(order: try Order(fromString: "C:AUDUSD:-300:1.47"))
 
         XCTAssertEqual(orderBook.bids.count, 0)
         XCTAssertEqual(orderBook.asks.count, 3)
@@ -159,13 +159,13 @@ class OrderBookTests : XCTestCase
         XCTAssertEqual(orderBook.asks[2].price, 1.47)
     }
 
-    func testMatchNothing()
+    func testMatchNothing() throws
     {
         let orderBook = OrderBook()
 
         var trades : [Trade] = []
-        trades += orderBook.insert(order: Order(fromString: "A:AUDUSD:100:1.47"))
-        trades += orderBook.insert(order: Order(fromString: "B:AUDUSD:-100:1.48"))
+        trades += orderBook.insert(order: try Order(fromString: "A:AUDUSD:100:1.47"))
+        trades += orderBook.insert(order: try Order(fromString: "B:AUDUSD:-100:1.48"))
 
         XCTAssertEqual(orderBook.bids.count, 1)
         XCTAssertEqual(orderBook.asks.count, 1)
@@ -182,13 +182,13 @@ class OrderBookTests : XCTestCase
         XCTAssertEqual(orderBook.asks[0].price, 1.48)
     }
 
-    func testMatchBidExactly()
+    func testMatchBidExactly() throws
     {
         let orderBook = OrderBook()
 
         var trades : [Trade] = []
-        trades += orderBook.insert(order: Order(fromString: "A:AUDUSD:100:1.47"))
-        trades += orderBook.insert(order: Order(fromString: "B:AUDUSD:-100:1.47"))
+        trades += orderBook.insert(order: try Order(fromString: "A:AUDUSD:100:1.47"))
+        trades += orderBook.insert(order: try Order(fromString: "B:AUDUSD:-100:1.47"))
 
         XCTAssertEqual(orderBook.bids.count, 0)
         XCTAssertEqual(orderBook.asks.count, 0)
@@ -202,13 +202,13 @@ class OrderBookTests : XCTestCase
 
     }
 
-    func testMatchAskExactly()
+    func testMatchAskExactly() throws
     {
         let orderBook = OrderBook()
 
         var trades : [Trade] = []
-        trades += orderBook.insert(order: Order(fromString: "A:AUDUSD:-100:1.47"))
-        trades += orderBook.insert(order: Order(fromString: "B:AUDUSD:100:1.47"))
+        trades += orderBook.insert(order: try Order(fromString: "A:AUDUSD:-100:1.47"))
+        trades += orderBook.insert(order: try Order(fromString: "B:AUDUSD:100:1.47"))
 
         XCTAssertEqual(orderBook.bids.count, 0)
         XCTAssertEqual(orderBook.asks.count, 0)
@@ -221,13 +221,13 @@ class OrderBookTests : XCTestCase
         XCTAssertEqual(trades[0].price, 1.47)
     }
 
-    func testMatchBidPartial()
+    func testMatchBidPartial() throws
     {
         let orderBook = OrderBook()
 
         var trades : [Trade] = []
-        trades += orderBook.insert(order: Order(fromString: "A:AUDUSD:250:1.47"))
-        trades += orderBook.insert(order: Order(fromString: "B:AUDUSD:-100:1.47"))
+        trades += orderBook.insert(order: try Order(fromString: "A:AUDUSD:250:1.47"))
+        trades += orderBook.insert(order: try Order(fromString: "B:AUDUSD:-100:1.47"))
 
         XCTAssertEqual(orderBook.bids.count, 1)
         XCTAssertEqual(orderBook.asks.count, 0)
@@ -245,13 +245,13 @@ class OrderBookTests : XCTestCase
         XCTAssertEqual(orderBook.bids[0].price, 1.47)
     }
 
-    func testMatchAskPartial()
+    func testMatchAskPartial() throws
     {
         let orderBook = OrderBook()
 
         var trades : [Trade] = []
-        trades += orderBook.insert(order: Order(fromString: "A:AUDUSD:-250:1.47"))
-        trades += orderBook.insert(order: Order(fromString: "B:AUDUSD:100:1.47"))
+        trades += orderBook.insert(order: try Order(fromString: "A:AUDUSD:-250:1.47"))
+        trades += orderBook.insert(order: try Order(fromString: "B:AUDUSD:100:1.47"))
 
         XCTAssertEqual(orderBook.bids.count, 0)
         XCTAssertEqual(orderBook.asks.count, 1)
@@ -269,14 +269,14 @@ class OrderBookTests : XCTestCase
         XCTAssertEqual(orderBook.asks[0].price, 1.47)
     }
 
-    func testMatchBidMultiple()
+    func testMatchBidMultiple() throws
     {
         let orderBook = OrderBook()
 
         var trades : [Trade] = []
-        trades += orderBook.insert(order: Order(fromString: "A:AUDUSD:100:1.47"))
-        trades += orderBook.insert(order: Order(fromString: "B:AUDUSD:200:1.46"))
-        trades += orderBook.insert(order: Order(fromString: "C:AUDUSD:-150:1.46"))
+        trades += orderBook.insert(order: try Order(fromString: "A:AUDUSD:100:1.47"))
+        trades += orderBook.insert(order: try Order(fromString: "B:AUDUSD:200:1.46"))
+        trades += orderBook.insert(order: try Order(fromString: "C:AUDUSD:-150:1.46"))
 
         XCTAssertEqual(orderBook.bids.count, 1)
         XCTAssertEqual(orderBook.asks.count, 0)
@@ -300,14 +300,14 @@ class OrderBookTests : XCTestCase
         XCTAssertEqual(orderBook.bids[0].price, 1.46)
     }
 
-    func testMatchAskMultiple()
+    func testMatchAskMultiple() throws
     {
         let orderBook = OrderBook()
 
         var trades : [Trade] = []
-        trades += orderBook.insert(order: Order(fromString: "A:AUDUSD:-100:1.47"))
-        trades += orderBook.insert(order: Order(fromString: "B:AUDUSD:-200:1.48"))
-        trades += orderBook.insert(order: Order(fromString: "C:AUDUSD:150:1.48"))
+        trades += orderBook.insert(order: try Order(fromString: "A:AUDUSD:-100:1.47"))
+        trades += orderBook.insert(order: try Order(fromString: "B:AUDUSD:-200:1.48"))
+        trades += orderBook.insert(order: try Order(fromString: "C:AUDUSD:150:1.48"))
 
         XCTAssertEqual(orderBook.bids.count, 0)
         XCTAssertEqual(orderBook.asks.count, 1)

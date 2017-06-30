@@ -11,16 +11,39 @@ public class Order
     {
     }
 
-    public init(fromString string: String)
+    public init(fromString string: String) throws
     {
-        // <buyer/sellerid>:<instrument>:<signed­quantity>:<limit­price>
-        // eg. A:AUDUSD:­100:1.47
+        // <buyer/sellerid>:<instrument>:<signed quantity>:<limit price>
+        // eg. A:AUDUSD:100:1.47
 
-        let elements =  string.components(separatedBy: ":")
+        var elements =  string.components(separatedBy: ":")
+        if elements.count < 4
+        {
+            throw OrderError.UnableToParse(string)
+        }
+
+        elements = elements.map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+
+        guard let parsedQuantity = Int(elements[2]) else
+        {
+            throw OrderError.InvalidQuantity(elements[2])
+        }
+
+        guard let parsedPrice = Double(elements[3]) else
+        {
+            throw OrderError.InvalidPrice(elements[3])
+        }
+
         trader = elements[0]
         instrument = elements[1]
-        quantity = Int(elements[2]) ?? 0
-        price = Double(elements[3]) ?? 0.0
+        quantity = parsedQuantity
+        price = parsedPrice
     }
 }
 
+public enum OrderError : Error
+{
+    case UnableToParse(String)
+    case InvalidQuantity(String)
+    case InvalidPrice(String)
+}

@@ -3,9 +3,9 @@ import XCTest
 
 class OrderTests : XCTestCase
 {
-    func testDefaultInit()
+    func testDefaultInit() throws
     {
-        let order = Order()
+        let order = try Order()
 
         XCTAssertEqual(order.trader, "")
         XCTAssertEqual(order.instrument, "")
@@ -13,9 +13,31 @@ class OrderTests : XCTestCase
         XCTAssertEqual(order.price, 0.0)
     }
 
-    func testStringInit()
+    func testStringInit() throws
     {
-        let order = Order(fromString: "A:AUDUSD:100:1.47")
+        let order = try Order(fromString: "A:AUDUSD:100:1.47")
+
+        XCTAssertEqual(order.trader, "A")
+        XCTAssertEqual(order.instrument, "AUDUSD")
+        XCTAssertEqual(order.quantity, 100)
+        XCTAssertEqual(order.price, 1.47)
+    }
+
+    func testEmptyInit() throws
+    {
+        XCTAssertThrowsError(try Order(fromString: ""))
+    }
+
+    func testInvalidInit() throws
+    {
+        XCTAssertThrowsError(try Order(fromString: "blah"))
+        XCTAssertThrowsError(try Order(fromString: "A:B:C:D"))
+        XCTAssertThrowsError(try Order(fromString: "A:B:1.2345:1.0"))
+    }
+
+    func testWhitespaceInit() throws
+    {
+        let order = try Order(fromString: "  A : AUDUSD   : 100  : 1.47   ")
 
         XCTAssertEqual(order.trader, "A")
         XCTAssertEqual(order.instrument, "AUDUSD")
@@ -27,5 +49,8 @@ class OrderTests : XCTestCase
     [
         ("testDefaultInit", testDefaultInit),
         ("testStringInit", testStringInit),
+        ("testEmptyInit", testEmptyInit),
+        ("testInvalidInit", testInvalidInit),
+        ("testWhitespaceInit", testWhitespaceInit),
     ]
 }

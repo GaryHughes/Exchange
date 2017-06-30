@@ -10,66 +10,66 @@ class ExchangeTests : XCTestCase
         XCTAssertEqual(exchange.orderBooks.count, 0)
     }
 
-    func testInsert()
+    func testInsert() throws
     {
         let exchange = Exchange()
 
-        let trades = exchange.insert(order: Order(fromString: "A:AUDUSD:100:1.47"))
+        let trades = exchange.insert(order: try Order(fromString: "A:AUDUSD:100:1.47"))
 
         XCTAssertEqual(trades.count, 0)
         XCTAssertEqual(exchange.orderBooks.count, 1)
     }
 
-    func testInsertMultiple()
+    func testInsertMultiple() throws
     {
         let exchange = Exchange()
 
         var trades : [Trade] = []
-        trades += exchange.insert(order: Order(fromString: "A:AUDUSD:100:1.47"))
-        trades += exchange.insert(order: Order(fromString: "B:GBPUSD:100:1.47"))
-        trades += exchange.insert(order: Order(fromString: "C:USDCAD:100:1.47"))
+        trades += exchange.insert(order: try Order(fromString: "A:AUDUSD:100:1.47"))
+        trades += exchange.insert(order: try Order(fromString: "B:GBPUSD:100:1.47"))
+        trades += exchange.insert(order: try Order(fromString: "C:USDCAD:100:1.47"))
 
         XCTAssertEqual(trades.count, 0)
         XCTAssertEqual(exchange.orderBooks.count, 3)
     }
 
-    func testTrade()
+    func testTrade() throws
     {
         let exchange = Exchange()
 
         var trades : [Trade] = []
-        trades += exchange.insert(order: Order(fromString: "A:AUDUSD:100:1.47"))
-        trades += exchange.insert(order: Order(fromString: "B:AUDUSD:-100:1.47"))
+        trades += exchange.insert(order: try Order(fromString: "A:AUDUSD:100:1.47"))
+        trades += exchange.insert(order: try Order(fromString: "B:AUDUSD:-100:1.47"))
 
         XCTAssertEqual(exchange.orderBooks.count, 1)
         XCTAssertEqual(trades.count, 1)
     }
 
-    func testScenario1()
+    func testScenario1() throws
     {
         let exchange = Exchange()
 
         var trades : [Trade] = []
-        trades += exchange.insert(order: Order(fromString: "A:AUDUSD:100:1.47"))
-        trades += exchange.insert(order: Order(fromString: "B:AUDUSD:-50:1.45"))
+        trades += exchange.insert(order: try Order(fromString: "A:AUDUSD:100:1.47"))
+        trades += exchange.insert(order: try Order(fromString: "B:AUDUSD:-50:1.45"))
 
         XCTAssertEqual(trades.count, 1)
         XCTAssertEqual(trades[0].toString(), "A:B:AUDUSD:50:1.47")
     }
 
-    func testScenario2()
+    func testScenario2() throws
     {
         let exchange = Exchange()
 
         let orders =
         [
-            Order(fromString: "A:GBPUSD:100:1.66"),
-            Order(fromString: "B:EURUSD:-100:1.11"),
-            Order(fromString: "F:EURUSD:-50:1.1"),
-            Order(fromString: "C:GBPUSD:-10:1.5"),
-            Order(fromString: "C:GBPUSD:-20:1.6"),
-            Order(fromString: "C:GBPUSD:-20:1.7"),
-            Order(fromString: "D:EURUSD:100:1.11")
+            try Order(fromString: "A:GBPUSD:100:1.66"),
+            try Order(fromString: "B:EURUSD:-100:1.11"),
+            try Order(fromString: "F:EURUSD:-50:1.1"),
+            try Order(fromString: "C:GBPUSD:-10:1.5"),
+            try Order(fromString: "C:GBPUSD:-20:1.6"),
+            try Order(fromString: "C:GBPUSD:-20:1.7"),
+            try Order(fromString: "D:EURUSD:100:1.11")
         ]
 
         var trades : [Trade] = []
