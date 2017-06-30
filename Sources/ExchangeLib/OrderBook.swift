@@ -33,48 +33,12 @@ class OrderBook
 
         if order.quantity > 0
         {
-            for ask in asks
-            {
-                if order.quantity <= 0
-                {
-                    break
-                }
-
-                if ask.price <= order.price
-                {
-                    let trade = execute(order, with: ask)
-
-                    ask.quantity += trade.quantity
-                    order.quantity -= trade.quantity
-
-                    trades.append(trade)
-                }
-            }
-
-            asks = asks.filter() { $0.quantity < 0 }
+            trades += match(order, against: &asks, where: { $0.price <= order.price })
         }
 
         if order.quantity < 0
         {
-            for bid in bids
-            {
-                if order.quantity >= 0
-                {
-                    break
-                }
-
-                if bid.price >= order.price
-                {
-                    let trade = execute(order, with: bid)
-
-                    bid.quantity -= trade.quantity
-                    order.quantity += trade.quantity
-
-                    trades.append(trade)
-                }
-            }
-
-            bids = bids.filter() { $0.quantity > 0 }
+            trades += match(order, against: &bids, where: { $0.price >= order.price })
         }
 
         return trades
@@ -90,6 +54,31 @@ class OrderBook
         {
             side.append(order)
         }
+    }
+
+    private func match(_ order: Order, against side: inout [Order], where condition: (Order) -> Bool) -> [Trade]
+    {
+        var trades : [Trade] = []
+
+        var sign = (order.quantity > 0 ? 1 : -1)
+
+        for other_order in side.filter(condition)
+        {
+            if order.quantity == 0
+            {
+                break
+            }
+
+            let trade = execute(order, with: other_order)
+            trades.append(trade)
+
+            order.quantity -= sign * trade.quantity
+            other_order.quantity += sign * trade.quantity
+        }
+
+        side = side.filter() { $0.quantity != 0 }
+
+        return trades
     }
 
     private func execute(_ order: Order, with other: Order) -> Trade
