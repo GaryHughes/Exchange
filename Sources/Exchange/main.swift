@@ -2,13 +2,17 @@ import ExchangeLib
 
 let exchange = Exchange()
 
-var trades : [Trade] = []
 while let line = readLine()
 {
     do
     {
         var order = try Order(fromString: line)
-        trades += exchange.insert(order: order)
+
+        let trades = exchange.insert(order: order)
+        for trade in trades
+        {
+            print(trade.toString())
+        }
     }
     catch let error
     {
@@ -16,8 +20,4 @@ while let line = readLine()
     }
 }
 
-for trade in trades
-{
-    print(trade.toString())
-}
 
