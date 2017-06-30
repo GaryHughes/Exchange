@@ -60,7 +60,7 @@ class OrderBook
     {
         var trades : [Trade] = []
 
-        var sign = (order.quantity > 0 ? 1 : -1)
+        let sign = (order.quantity > 0 ? 1 : -1)
 
         for other_order in side.filter(condition)
         {
