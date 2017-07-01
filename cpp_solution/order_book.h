@@ -2,7 +2,7 @@
 #define ae_order_book_h
 
 #include <memory>
-#include <list>
+#include <vector>
 #include "order.h"
 #include "trade_collection.h"
 
@@ -13,8 +13,8 @@ class order_book
 {
 private:
 
-	using buy_order_collection = std::list<order>;
-	using sell_order_collection = std::list<order>;
+	using buy_order_collection = std::vector<order>;
+	using sell_order_collection = std::vector<order>;
 
 	buy_order_collection m_buy_orders;
 	sell_order_collection m_sell_orders;
