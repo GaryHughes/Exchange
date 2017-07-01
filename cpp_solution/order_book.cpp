@@ -9,21 +9,27 @@ void order_book::insert(const order& order)
 
 	if(order.is_buy())
 	{
-		m_buy_orders.push_back(order);
+		buy_order_collection::iterator buy;
 
-		m_buy_orders.sort([](const auto& lhs, const auto& rhs)
+		for (buy = m_buy_orders.begin(); buy != m_buy_orders.end(); ++buy)
 		{
-			return lhs.price() > rhs.price();
-		});
+			if (buy->price() < order.price())
+				break;
+		}
+
+		m_buy_orders.insert(buy, order);
 	}
 	else
 	{
-		m_sell_orders.push_back(order);
+		sell_order_collection::iterator sell;		
 
-		m_sell_orders.sort([](const auto& lhs, const auto& rhs)
+		for (sell = m_sell_orders.begin(); sell != m_sell_orders.end(); ++sell)
 		{
-			return lhs.price() < rhs.price();
-		});
+			if (sell->price() > order.price())
+				break;
+		}
+
+		m_sell_orders.insert(sell, order);
 	}
 }
 
