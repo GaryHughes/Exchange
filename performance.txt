@@ -1,0 +1,39 @@
+
+Environment
+-----------
+    
+    Ubuntu 16.04
+    Intel i7-4790K @ 4GHZ (8 cores)
+    16 GB RAM
+    SSD Disk
+    Optimized build 'swift build -c release'
+
+
+Results
+-------
+
+    real    0m10.358s
+    user    0m10.336s
+    sys     0m0.028s
+
+    real    0m10.125s
+    user    0m10.112s
+    sys     0m0.016s
+
+    real    0m9.943s
+    user    0m9.936s
+    sys     0m0.012s
+
+    real    0m9.991s
+    user    0m9.976s
+    sys     0m0.024s
+
+    real    0m10.119s
+    user    0m10.092s
+    sys     0m0.032s
+
+
+    Avg:    10.107s
+    Min:     9.943s  
+    Max:    10.358s
+
