@@ -37,3 +37,31 @@ Results
     Min:     9.943s  
     Max:    10.358s
 
+
+
+After changing the program to perform input, processing and output on different queues:
+
+    real    0m13.714s
+    user    0m13.756s
+    sys     0m0.732s
+
+    real    0m14.518s
+    user    0m14.656s
+    sys     0m0.756s
+
+    real    0m13.216s
+    user    0m13.256s
+    sys     0m0.672s
+
+    real    0m13.801s
+    user    0m13.912s
+    sys     0m0.624s
+
+    real    0m14.442s
+    user    0m14.560s
+    sys     0m0.588s
+
+    Avg:    13.938s
+    Min:    13.216s
+    Max:    14.518s
+
