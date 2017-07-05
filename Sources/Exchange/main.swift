@@ -7,12 +7,7 @@ while let line = readLine()
     do
     {
         var order = try Order(fromString: line)
-
-        let trades = exchange.insert(order: order)
-        for trade in trades
-        {
-            print(trade.toString())
-        }
+        exchange.insert(order: order)
     }
     catch let error
     {
@@ -20,4 +15,9 @@ while let line = readLine()
     }
 }
 
+exchange.waitForTrades()
+for trade in exchange.trades
+{
+    print(trade.toString())
+}
 
