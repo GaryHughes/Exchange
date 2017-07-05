@@ -65,3 +65,30 @@ After changing the program to perform input, processing and output on different 
     Min:    13.216s
     Max:    14.518s
 
+
+After changing the program to process each order book on different queues:
+
+    real    0m3.908s
+    user    0m20.416s
+    sys     0m0.272s
+
+    real    0m3.664s
+    user    0m20.404s
+    sys    0m0.304s
+
+    real    0m3.518s
+    user    0m20.200s
+    sys     0m0.264s
+
+    real    0m3.812s
+    user    0m21.520s
+    sys     0m0.376s
+
+    real    0m3.873s
+    user    0m21.304s
+    sys     0m0.320s
+
+    Avg:    3.755s
+    Min:    3.518s
+    Max:    3.908s
+
