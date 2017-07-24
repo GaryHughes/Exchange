@@ -2,7 +2,7 @@
 
 # Part 2
 
-Benchmark your program against the supplied file orders_100K.txt, how long does it take to run? 
+Benchmark your program against the supplied file orders-100K.txt, how long does it take to run? 
 
 * Record the conditions under which you run your tests
     * Hardware
