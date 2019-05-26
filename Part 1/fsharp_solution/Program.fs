@@ -40,7 +40,7 @@ let getOrderBook (instrument:string) =
         orderBooks.Add(instrument, orderBook)
         orderBook        
 
-let insertOrder (order:Order) : OrderBook =
+let insertOrder (order:Order) =
     let orderBook = getOrderBook order.Instrument
     let side, (predicate:Order->bool) =
         match order.Quantity with
@@ -71,20 +71,20 @@ let createTrade (buyOrder:Order,  sellOrder:Order) =
         Price = tradePrice
         Quantity = tradeQuantity }
 
-let trimOrderBook (orderBook:OrderBook) trade =
+let trimOrderBook orderBook trade =
     let buyOrder = orderBook.BuyOrders |> Seq.head
     let sellOrder = orderBook.SellOrders |> Seq.head
     let buyOrder = { buyOrder with Quantity = buyOrder.Quantity - trade.Quantity }
     let sellOrder = { sellOrder with Quantity = sellOrder.Quantity + trade.Quantity }
     orderBook.BuyOrders.RemoveAt 0
     orderBook.SellOrders.RemoveAt 0
-    if buyOrder.Quantity > 0L then
+    if Math.Abs(buyOrder.Quantity) > 0L then
         orderBook.BuyOrders.Insert(0, buyOrder)
-    if sellOrder.Quantity > 0L then
+    if Math.Abs(sellOrder.Quantity) > 0L then
         orderBook.SellOrders.Insert(0, sellOrder)
     trade
   
-let matchOrders orderBook : Trade list =
+let matchOrders orderBook =
     let trimOrderBook = trimOrderBook orderBook
     seq {
         while true do
