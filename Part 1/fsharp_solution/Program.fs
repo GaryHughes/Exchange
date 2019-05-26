@@ -96,7 +96,7 @@ let matchOrders orderBook =
     |> List.ofSeq
 
 let printTrade trade =
-    printfn "%s:%s:%s:%i:%f" trade.Buyer trade.Seller trade.Instrument trade.Quantity trade.Price
+    printfn "%s:%s:%s:%i:%g" trade.Buyer trade.Seller trade.Instrument trade.Quantity trade.Price
    
   
 [<EntryPoint>]
