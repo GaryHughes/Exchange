@@ -22,21 +22,33 @@ type OrderBook =
     {   BuyOrders : List<Order>
         SellOrders : List<Order>    }
 
-let parseOrder (orderText:string) =
-    if String.IsNullOrEmpty(orderText) then
+
+let tokeniseOrderText text =
+    if String.IsNullOrEmpty(text) then
         Error "The order text is empty"
     else
-        let components = orderText.Split(':')
+        Ok (text.Split(':'))
 
-        if components.Length <> 4 then
-            Error (sprintf "Not enough fields, expected 4 got %i: %s" components.Length orderText)
-        else
-            Ok { Participant = components.[0]
-                 Instrument = components.[1]
-                 Quantity = Int64.Parse(components.[2])
-                 RemainingQuantity = 0
-                 Price = Decimal.Parse(components.[3])
-                 Generation = Environment.TickCount }
+let validateNumberOfFields (fields:string[]) =
+    if fields.Length <> 4 then
+        Error (sprintf "Not enough fields, expected 4 got %i" fields.Length)
+    else    
+        Ok fields
+
+let createOrder (fields:string[]) =
+    Ok { Participant = fields.[0]
+         Instrument = fields.[1]
+         Quantity = Int64.Parse(fields.[2])
+         RemainingQuantity = 0
+         Price = Decimal.Parse(fields.[3])
+         Generation = Environment.TickCount }
+
+let parseOrder text =
+    text
+    |> tokeniseOrderText
+    |> Result.bind validateNumberOfFields
+    |> Result.bind createOrder
+        
 
 let orderBooks = new Dictionary<string, OrderBook>()
 
@@ -107,6 +119,8 @@ let matchOrders orderBook =
 let printTrade trade =
     printfn "%s:%s:%s:%i:%g" trade.Buyer trade.Seller trade.Instrument trade.Quantity trade.Price
    
+let printError (message:string) =
+    eprintf "%s" message
   
 [<EntryPoint>]
 let main argv =
@@ -115,9 +129,13 @@ let main argv =
             yield Console.ReadLine()
     }
     |> Seq.takeWhile(String.IsNullOrEmpty >> not)
-    |> Seq.map(fun result -> match parseOrder result with | Ok res-> Some res | Error _ -> None )
+    |> Seq.map(fun result -> 
+        match parseOrder result with 
+        | Ok res-> Some res 
+        | Error message -> printError message; None )
     |> Seq.choose id
     |> Seq.collect(insertOrder >> matchOrders)
     |> Seq.iter(printTrade)
 
     0 // return an integer exit code
+
