@@ -1,4 +1,6 @@
-﻿open System
+﻿module Exchange
+
+open System
 open System.Collections.Generic
 
 type Order =
@@ -21,13 +23,20 @@ type OrderBook =
         SellOrders : List<Order>    }
 
 let parseOrder (orderText:string) =
-    let components = orderText.Split(':')
-    {   Participant = components.[0]
-        Instrument = components.[1]
-        Quantity = Int64.Parse(components.[2])
-        RemainingQuantity = 0
-        Price = Decimal.Parse(components.[3])
-        Generation = Environment.TickCount }
+    if String.IsNullOrEmpty(orderText) then
+        Error "The order text is empty"
+    else
+        let components = orderText.Split(':')
+
+        if components.Length <> 4 then
+            Error (sprintf "Not enough fields, expected 4 got %i: %s" components.Length orderText)
+        else
+            Ok { Participant = components.[0]
+                 Instrument = components.[1]
+                 Quantity = Int64.Parse(components.[2])
+                 RemainingQuantity = 0
+                 Price = Decimal.Parse(components.[3])
+                 Generation = Environment.TickCount }
 
 let orderBooks = new Dictionary<string, OrderBook>()
 
@@ -105,8 +114,10 @@ let main argv =
         while true do
             yield Console.ReadLine()
     }
-    |> Seq.takeWhile(String.IsNullOrEmpty >> not) 
-    |> Seq.collect(parseOrder >> insertOrder >> matchOrders)
+    |> Seq.takeWhile(String.IsNullOrEmpty >> not)
+    |> Seq.map(fun result -> match parseOrder result with | Ok res-> Some res | Error _ -> None )
+    |> Seq.choose id
+    |> Seq.collect(insertOrder >> matchOrders)
     |> Seq.iter(printTrade)
 
     0 // return an integer exit code
