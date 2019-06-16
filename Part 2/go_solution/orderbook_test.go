@@ -1,41 +1,59 @@
 package main
 
 import (
+	"container/heap"
+	"math/rand"
 	"testing"
+	"testing/quick"
 
 	"gotest.tools/assert"
 )
 
-func TestBuyOrdering(t *testing.T) {
-	var book OrderBook
-	book.Insert(makeOrder("A", "AUDUSD", 100, 10))
-	book.Insert(makeOrder("A", "AUDUSD", 100, 7))
-	book.Insert(makeOrder("A", "AUDUSD", 100, 11))
-	book.Insert(makeOrder("A", "AUDUSD", 100, 9))
-	assert.Equal(t, len(book.Buys), 4)
-	assert.Equal(t, len(book.Sells), 0)
-	assert.Equal(t, book.Buys[0].Price, Price(11))
-	assert.Equal(t, book.Buys[1].Price, Price(10))
-	assert.Equal(t, book.Buys[2].Price, Price(9))
-	assert.Equal(t, book.Buys[3].Price, Price(7))
-}
-
-func TestSellOrdering(t *testing.T) {
-	var book OrderBook
-	book.Insert(makeOrder("A", "AUDUSD", -100, 10))
-	book.Insert(makeOrder("A", "AUDUSD", -100, 7))
-	book.Insert(makeOrder("A", "AUDUSD", -100, 11))
-	book.Insert(makeOrder("A", "AUDUSD", -100, 9))
-	assert.Equal(t, len(book.Buys), 0)
-	assert.Equal(t, len(book.Sells), 4)
-	assert.Equal(t, book.Sells[0].Price, Price(7))
-	assert.Equal(t, book.Sells[1].Price, Price(9))
-	assert.Equal(t, book.Sells[2].Price, Price(10))
-	assert.Equal(t, book.Sells[3].Price, Price(11))
+func TestOrderBookOrdering(t *testing.T) {
+	book := NewOrderBook("")
+	f := func(n uint8) bool {
+		// create n orders
+		for i := 0; i < int(n); i++ {
+			px := Price(rand.Intn(100))
+			buy := rand.Uint32()%2 == 0
+			book.Insert(Order{
+				Price: px,
+				IsBuy: buy,
+			})
+		}
+		// buys should be highest to lowest
+		t.Log("buys", book.Buys.Len())
+		if book.Buys.Len() > 0 {
+			head := book.Buys.Peek()
+			for book.Buys.Len() > 0 {
+				next := heap.Pop(&book.Buys).(*Order)
+				if head.Price < next.Price {
+					t.Errorf("%v < %v", head, next)
+				}
+				head = next
+			}
+		}
+		// sells should be lowest to highest
+		t.Log("sells", book.Sells.Len())
+		if book.Sells.Len() > 0 {
+			head := book.Sells.Peek()
+			for book.Sells.Len() > 0 {
+				next := heap.Pop(&book.Sells).(*Order)
+				if head.Price > next.Price {
+					t.Errorf("%v > %v", head, next)
+				}
+				head = next
+			}
+		}
+		return true
+	}
+	if err := quick.Check(f, nil); err != nil {
+		t.Error(err)
+	}
 }
 
 func TestFirstPriceEnteredSelected(t *testing.T) {
-	var book OrderBook
+	book := NewOrderBook("")
 	book.Insert(makeOrder("B", "EURUSD", -100, 1.11))
 	book.Insert(makeOrder("F", "EURUSD", -50, 1.1))
 	book.Insert(makeOrder("D", "EURUSD", 100, 1.11))

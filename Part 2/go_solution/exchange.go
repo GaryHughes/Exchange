@@ -19,7 +19,7 @@ func (ex *Exchange) Book(ins string) *OrderBook {
 	if ob, ok := ex.book[ins]; ok {
 		return ob
 	}
-	ob := &OrderBook{Instrument: ins}
+	ob := NewOrderBook(ins)
 	ex.book[ins] = ob
 	return ob
 }

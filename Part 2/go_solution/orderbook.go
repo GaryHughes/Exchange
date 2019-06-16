@@ -1,40 +1,62 @@
 package main
 
 import (
+	"container/heap"
 	"fmt"
-	"sort"
 	"strings"
 )
 
 type OrderBook struct {
-	Buys       []Order
-	Sells      []Order
+	Buys       BuyQueue
+	Sells      SellQueue
 	Instrument string
 	nextgen    uint64
 }
 
+func NewOrderBook(inst string) *OrderBook {
+	ob := OrderBook{Instrument: inst}
+	ob.Buys = BuyQueue{make(OrderQueue, 0, 100)}
+	ob.Sells = SellQueue{make(OrderQueue, 0, 100)}
+	heap.Init(&ob.Buys)
+	heap.Init(&ob.Sells)
+	return &ob
+}
+
 func (ob *OrderBook) String() string {
+	buys := BuyQueue{append(OrderQueue(nil), ob.Buys.OrderQueue...)}
+	sells := SellQueue{append(OrderQueue(nil), ob.Sells.OrderQueue...)}
+
 	var sb strings.Builder
-	n := len(ob.Buys)
-	if n < len(ob.Sells) {
-		n = len(ob.Sells)
-	}
-	sb.WriteString(strings.Repeat("-", 43))
-	sb.WriteString(fmt.Sprintf("\n| %-39s |\n", ob.Instrument))
-	sb.WriteString(strings.Repeat("-", 43))
-	sb.WriteString(fmt.Sprintf("\n%6s %6s %6s | %6s %6s %6s\n",
+	sb.WriteString(strings.Repeat("-", 49))
+	sb.WriteString(fmt.Sprintf("\n| %-45s |\n", ob.Instrument))
+	sb.WriteString(strings.Repeat("-", 49))
+	sb.WriteString(fmt.Sprintf("\n%6s %6s %9s | %9s %6s %6s\n",
 		"BUYS", "Qty", "Px",
 		"Px", "Qty", "SELLS"))
-	for i := 0; i < n; i++ {
+	rows := 0
+	for rows < 10 && buys.Len() > 0 || sells.Len() > 0 {
+		rows++
 		var b, s string
-		if i < len(ob.Buys) {
-			b = fmt.Sprintf("%6d %6.2f", ob.Buys[i].Remaining, ob.Buys[i].Price)
+		if buys.Len() > 0 {
+			top := heap.Pop(&buys).(*Order)
+			b = fmt.Sprintf("%6d %9.5f", top.Remaining, top.Price)
 		}
-		if i < len(ob.Sells) {
-			s = fmt.Sprintf("%6.2f %6d", ob.Sells[i].Price, ob.Sells[i].Remaining)
+		if sells.Len() > 0 {
+			top := heap.Pop(&sells).(*Order)
+			s = fmt.Sprintf("%9.5f %6d", top.Price, top.Remaining)
 		}
-		row := fmt.Sprintf("%20s | %-20s\n", b, s)
+		row := fmt.Sprintf("%23s | %-23s\n", b, s)
 		sb.WriteString(row)
+	}
+	var b, s string
+	if buys.Len() > 0 {
+		b = fmt.Sprintf("%v more", buys.Len())
+	}
+	if sells.Len() > 0 {
+		s = fmt.Sprintf("%v more", sells.Len())
+	}
+	if b != "" || s != "" {
+		sb.WriteString(fmt.Sprintf("%23s | %-23s\n", b, s))
 	}
 	return sb.String()
 }
@@ -43,23 +65,17 @@ func (ob *OrderBook) Insert(o Order) {
 	o.gen = ob.nextgen
 	ob.nextgen++
 	if o.IsBuy {
-		ob.Buys = append(ob.Buys, o)
-		sort.Slice(ob.Buys, func(i, j int) bool {
-			return ob.Buys[i].Price > ob.Buys[j].Price
-		})
+		heap.Push(&ob.Buys, &o)
 	} else {
-		ob.Sells = append(ob.Sells, o)
-		sort.Slice(ob.Sells, func(i, j int) bool {
-			return ob.Sells[i].Price < ob.Sells[j].Price
-		})
+		heap.Push(&ob.Sells, &o)
 	}
 }
 
 func (ob *OrderBook) Match() ([]Trade, error) {
 	ts := []Trade{}
-	for len(ob.Buys) > 0 && len(ob.Sells) > 0 {
-		buy := &ob.Buys[0]
-		sell := &ob.Sells[0]
+	for ob.Buys.Len() > 0 && ob.Sells.Len() > 0 {
+		buy := ob.Buys.Peek()
+		sell := ob.Sells.Peek()
 		if buy.Price < sell.Price {
 			break
 		}
@@ -86,14 +102,14 @@ func (ob *OrderBook) Match() ([]Trade, error) {
 			return ts, err
 		}
 		if buy.Remaining == 0 {
-			ob.Buys = ob.Buys[1:]
+			heap.Pop(&ob.Buys)
 		}
 		err = sell.Fill(t.Quantity)
 		if err != nil {
 			return ts, err
 		}
 		if sell.Remaining == 0 {
-			ob.Sells = ob.Sells[1:]
+			heap.Pop(&ob.Sells)
 		}
 	}
 	return ts, nil
