@@ -67,6 +67,35 @@ func TestFirstPriceEnteredSelected(t *testing.T) {
 	assert.Equal(t, trades[1].Quantity, Quantity(50))
 }
 
+func BenchmarkOrderBookInsert(b *testing.B) {
+	book := NewOrderBook("")
+	orders := make([]Order, b.N)
+	for i := 0; i < b.N; i++ {
+		orders[i] = makeOrder("A", "EURUSD", 100, 1)
+	}
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		book.Insert(orders[i])
+	}
+}
+
+func BenchmarkOrderBookMatch(b *testing.B) {
+	book := NewOrderBook("")
+	for i := 0; i < b.N; i++ {
+		book.Insert(makeOrder("A", "EURUSD", 100, 1))
+		book.Insert(makeOrder("B", "EURUSD", -100, 1))
+	}
+	b.ResetTimer()
+	trades, err := book.Match()
+	b.StopTimer()
+	if err != nil {
+		b.Error(err)
+	}
+	if len(trades) < b.N {
+		b.Errorf("trades: expected %v, got %v", b.N, len(trades))
+	}
+}
+
 func makeOrder(party, inst string, qty int64, px float32) Order {
 	buy := true
 	if qty < 0 {

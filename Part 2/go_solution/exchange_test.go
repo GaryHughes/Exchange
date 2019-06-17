@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+	"math/rand"
 	"testing"
 
 	"gotest.tools/assert"
@@ -66,4 +68,17 @@ func TestPriceFromFirstOrderSelected(t *testing.T) {
 	assert.Equal(t, len(trades), 1)
 
 	assert.Equal(t, trades[0].Price, Price(10))
+}
+
+func BenchmarkExchange(b *testing.B) {
+	exchange := NewExchange()
+	for i := 0; i < b.N; i++ {
+		qty := int64(rand.Intn(10000) - 5000)
+		px := float32(rand.Intn(100) + 1)
+		inst := fmt.Sprintf("I%v", rand.Intn(10))
+		_, err := exchange.Execute(makeOrder("A", inst, qty, px))
+		if err != nil {
+			b.Error(err)
+		}
+	}
 }
