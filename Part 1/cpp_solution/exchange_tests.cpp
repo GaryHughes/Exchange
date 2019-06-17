@@ -64,7 +64,7 @@ BOOST_AUTO_TEST_CASE( test_price_from_first_order_selected )
 
 	BOOST_REQUIRE_EQUAL(0, trades.size());
 
-	trades = exchange.execute(ae::order("B", "AUDUSD", -100, 10));
+	trades = exchange.execute(ae::order("B", "AUDUSD", -100, 9));
 
 	BOOST_REQUIRE_EQUAL(1, trades.size());
 
