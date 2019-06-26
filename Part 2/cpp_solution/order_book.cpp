@@ -30,9 +30,6 @@ void order_book::match(trade_collection& trades)
 		if(buy_price < sell_price)
 			break;
 
-		//std::cout << buy_price << " " << sell_price << std::endl;
-	
-
 		auto match_price = buy_order.generation() < sell_order.generation() ? buy_price : sell_price;
 
 		auto match_quantity = std::min(buy_order.remaining_quantity(), sell_order.remaining_quantity());

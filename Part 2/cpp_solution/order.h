@@ -18,24 +18,12 @@ public:
 		  quantity_type quantity,
 		  price_type price);
 
-	bool operator<(const order& other);
-
-	void participant(const std::string& value) { m_participant = value; }
 	const std::string participant() const { return m_participant; }
-
-	void instrument(const std::string& value) { m_instrument = value; }
 	const std::string instrument() const { return m_instrument; }
-
-	void quantity(quantity_type value);
 	quantity_type quantity() const { return m_quantity; } 
-
-	void price(price_type value);
 	price_type price() const { return m_price; }
-
 	bool is_buy() const { return m_is_buy; }
-
 	quantity_type remaining_quantity() const { return m_remaining_quantity; }
-
 	size_t generation() const { return m_generation; }
 
 	void bump_generation() const
@@ -46,6 +34,13 @@ public:
 	quantity_type fill(quantity_type quantity);
 
 	static order parse(const char* buffer);
+
+private:
+
+	void participant(const std::string& value) { m_participant = value; }
+	void instrument(const std::string& value) { m_instrument = value; }
+	void quantity(quantity_type value);
+	void price(price_type value);
 
 private:
 
