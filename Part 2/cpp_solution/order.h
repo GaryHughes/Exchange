@@ -43,6 +43,8 @@ public:
 
 	quantity_type fill(quantity_type quantity);
 
+	static order parse(const char* buffer);
+
 private:
 
 	bool m_is_buy;
@@ -63,7 +65,7 @@ private:
 
 };
 
-std::istream& operator>>(std::istream& is, order& o);
+std::ostream& operator<<(std::ostream& os, const order& o);
 
 } 
 

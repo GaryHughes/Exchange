@@ -3,6 +3,8 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 
+#include <iostream>
+
 static const std::string separator = ":";
 
 namespace ae
@@ -64,72 +66,32 @@ quantity_type order::fill(quantity_type quantity)
 	return m_remaining_quantity;
 }
 
-std::istream& operator>>(std::istream& is, order& o)
+order order::parse(const char* buffer)
 {
-	std::string line;
-
-	for(;;)
-	{
-		if(!std::getline(is, line))
-			return is;
-
-		if(!line.empty())
-			break;
-	}
-
-	enum
-	{
-		token_participant,
-		token_instrument,
-		token_quantity,
-		token_price,
-		token_required
-	};
-
-	std::vector<std::string> tokens;
-
-	boost::split(tokens, line, boost::is_any_of(separator));
-
-	if(tokens.size() != token_required)
-	{
-		std::ostringstream msg;
-		msg << "order::parse() input does not have " << token_required << " components";
-		throw std::runtime_error(msg.str());
-	}
-
-	const auto& participant = tokens[token_participant];
-	const auto& instrument = tokens[token_instrument];
+	char participant[32];
+	char instrument[32];
 	quantity_type quantity;
-	price_type price;
+	price_type price; 
 
-	try
-	{
-		quantity = boost::lexical_cast<quantity_type>(tokens[token_quantity]);
-	}
-	catch(boost::bad_lexical_cast& ex)
+	auto result = sscanf(buffer, "%[^:]:%[^:]:%li:%lf", participant, instrument, &quantity, &price);
+	
+	if (result != 4)
 	{
 		std::ostringstream msg;
-		msg << "quantity field '" << tokens[token_quantity] << "' is invalid";
+		msg << "could not parse line '" << buffer << "' result = " << result; 
 		throw std::runtime_error(msg.str());
 	}
 
-	try
-	{
-		price = boost::lexical_cast<price_type>(tokens[token_price]);
-	}
-	catch(boost::bad_lexical_cast& ex)
-	{
-		std::ostringstream msg;
-		msg << "price field '" << tokens[token_price] << "' is invalid";
-		throw std::runtime_error(msg.str());
-	}
+	return order(participant, instrument, quantity, price);
+}
 
-	o.participant(participant);
-	o.instrument(instrument);
-	o.quantity(quantity);
-	o.price(price);
-
-	return is;
+std::ostream& operator<<(std::ostream& os, const order& o)
+{
+	os << o.participant() << ":"
+	   << o.instrument() << ":" 
+	   << o.quantity() << ":"
+	   << o.price();
+	return os;
 }
 
 } // namespace ae
