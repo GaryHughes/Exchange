@@ -9,27 +9,11 @@ void order_book::insert(const order& order)
 
 	if(order.is_buy())
 	{
-		buy_order_collection::iterator buy;
-
-		for (buy = m_buy_orders.begin(); buy != m_buy_orders.end(); ++buy)
-		{
-			if (buy->price() < order.price())
-				break;
-		}
-
-		m_buy_orders.insert(buy, order);
+		m_buy_orders.insert(std::make_pair(order.price(), order));
 	}
 	else
 	{
-		sell_order_collection::iterator sell;		
-
-		for (sell = m_sell_orders.begin(); sell != m_sell_orders.end(); ++sell)
-		{
-			if (sell->price() > order.price())
-				break;
-		}
-
-		m_sell_orders.insert(sell, order);
+		m_sell_orders.insert(std::make_pair(order.price(), order));
 	}
 }
 
@@ -37,14 +21,17 @@ void order_book::match(trade_collection& trades)
 {
 	while(!m_buy_orders.empty() && !m_sell_orders.empty())
 	{
-		auto& buy_order = *m_buy_orders.begin();
-		auto& sell_order = *m_sell_orders.begin();
+		auto& buy_order = m_buy_orders.begin()->second;
+		auto& sell_order = m_sell_orders.begin()->second;
 
 		auto buy_price = buy_order.price();
 		auto sell_price = sell_order.price();
 
 		if(buy_price < sell_price)
 			break;
+
+		//std::cout << buy_price << " " << sell_price << std::endl;
+	
 
 		auto match_price = buy_order.generation() < sell_order.generation() ? buy_price : sell_price;
 

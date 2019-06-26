@@ -18,10 +18,7 @@ int main(int, char**)
 
 		while (std::fgets(buffer, buffer_size, stdin) != NULL)
 		{
-			for (auto trade : exchange.execute(ae::order::parse(buffer)))
-			{
-				std::cout << trade << '\n';	
-			}
+			std::cout << exchange.execute(ae::order::parse(buffer));
 		}
 	}
 	catch(std::exception& ex)

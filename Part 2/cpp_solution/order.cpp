@@ -23,6 +23,11 @@ order::order(const std::string& part,
 	price(prc);
 }
 
+bool order::operator<(const order& other)
+{
+	return price() < other.price() && generation() < other.generation();
+}
+
 void order::quantity(quantity_type value)
 {
 	if(value == 0)

@@ -18,6 +18,8 @@ public:
 		  quantity_type quantity,
 		  price_type price);
 
+	bool operator<(const order& other);
+
 	void participant(const std::string& value) { m_participant = value; }
 	const std::string participant() const { return m_participant; }
 

@@ -15,8 +15,8 @@ BOOST_AUTO_TEST_CASE( test_buy_ordering )
     BOOST_REQUIRE_EQUAL(4, book.buy_orders().size());
     BOOST_REQUIRE_EQUAL(0, book.sell_orders().size());
 
-    BOOST_REQUIRE_EQUAL(11, book.buy_orders().begin()->price());
-    BOOST_REQUIRE_EQUAL(7, book.buy_orders().rbegin()->price());
+    BOOST_REQUIRE_EQUAL(11, book.buy_orders().begin()->second.price());
+    BOOST_REQUIRE_EQUAL(7, book.buy_orders().rbegin()->second.price());
 }
 
 BOOST_AUTO_TEST_CASE( test_sell_ordering )
@@ -31,8 +31,8 @@ BOOST_AUTO_TEST_CASE( test_sell_ordering )
     BOOST_REQUIRE_EQUAL(0, book.buy_orders().size());
     BOOST_REQUIRE_EQUAL(4, book.sell_orders().size());
 
-    BOOST_REQUIRE_EQUAL(7, book.sell_orders().begin()->price());
-    BOOST_REQUIRE_EQUAL(11, book.sell_orders().rbegin()->price());
+    BOOST_REQUIRE_EQUAL(7, book.sell_orders().begin()->second.price());
+    BOOST_REQUIRE_EQUAL(11, book.sell_orders().rbegin()->second.price());
 }
 
 BOOST_AUTO_TEST_CASE( test_first_price_entered_selected )
