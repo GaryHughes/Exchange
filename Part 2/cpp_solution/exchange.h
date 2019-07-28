@@ -1,7 +1,7 @@
 #ifndef ae_exchange_h
 #define ae_exchange_h
 
-#include <map>
+#include <unordered_map>
 #include "order_book.h"
 
 namespace ae
@@ -17,7 +17,7 @@ private:
 
 	order_book_ptr order_book_for_instrument(const std::string& instrument);
 
-	std::map<std::string, order_book_ptr> m_order_books;
+	std::unordered_map<std::string, order_book_ptr> m_order_books;
 
 };
 

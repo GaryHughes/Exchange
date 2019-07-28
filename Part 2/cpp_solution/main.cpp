@@ -2,7 +2,10 @@
 #include <exception>
 #include <algorithm>
 #include <iterator>
+#include <sstream>
+#include <array>
 #include "exchange.h"
+
 
 int main(int, char**)
 {
@@ -10,13 +13,13 @@ int main(int, char**)
 	{
 		ae::exchange exchange;
 
-		std::transform(std::istream_iterator<ae::order>(std::cin),
-					   std::istream_iterator<ae::order>(),
-					   std::ostream_iterator<ae::trade_collection>(std::cout, ""),
-					   [&](const ae::order& order)
-					   {
-							return exchange.execute(order);
-					   });
+		const size_t buffer_size = 256;
+		char buffer[buffer_size];
+
+		while (std::fgets(buffer, buffer_size, stdin) != NULL)
+		{
+			std::cout << exchange.execute(ae::order::parse(buffer));
+		}
 	}
 	catch(std::exception& ex)
 	{
