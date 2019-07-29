@@ -15,9 +15,9 @@ public:
 
 private:
 
-	order_book_ptr order_book_for_instrument(const std::string& instrument);
+	order_book& order_book_for_instrument(const std::string& instrument);
 
-	std::unordered_map<std::string, order_book_ptr> m_order_books;
+	std::unordered_map<std::string, order_book> m_order_books;
 
 };
 

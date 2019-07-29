@@ -3,6 +3,16 @@
 namespace ae
 {
 
+order_book::order_book(const std::string& instrument)
+:	m_instrument(instrument)
+{
+}
+
+const std::string& order_book::instrument() const
+{
+	return m_instrument;
+}
+
 void order_book::insert(const order& order)
 {
 	order.bump_generation();

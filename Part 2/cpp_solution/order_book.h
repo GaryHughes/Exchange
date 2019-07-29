@@ -14,6 +14,8 @@ class order_book
 {
 private:
 
+	std::string m_instrument;
+
 	using buy_order_collection = std::multimap<price_type, order, std::greater<price_type>>;
 	using sell_order_collection = std::multimap<price_type, order>;
 
@@ -21,6 +23,10 @@ private:
 	sell_order_collection m_sell_orders;
 
 public:
+
+	order_book(const std::string& instrument);
+
+	const std::string& instrument() const;
 
 	void insert(const order& order);
 	void match(trade_collection& trades);
