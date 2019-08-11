@@ -4,11 +4,33 @@
 #include <memory>
 #include <vector>
 #include <map>
+#include <queue>
+#include <limits>
+#include <cmath>
 #include "order.h"
 #include "trade_collection.h"
 
 namespace ae
 {
+
+inline bool prices_equal(const price_type& one, const price_type& two)
+{
+	return std::fabs(one - two) < std::numeric_limits<price_type>::epsilon();
+}
+
+inline bool operator<(const order& lhs, const order& rhs)
+{
+	if (prices_equal(lhs.price(), rhs.price()))
+		return lhs.generation() < rhs.generation();
+	return lhs.price() < rhs.price();
+}
+
+inline bool operator>(const order& lhs, const order& rhs)
+{
+	if (prices_equal(lhs.price(), rhs.price()))
+		return lhs.generation() > rhs.generation();
+	return lhs.price() > rhs.price();
+}
 
 class order_book
 {
@@ -16,8 +38,8 @@ private:
 
 	std::string m_instrument;
 
-	using buy_order_collection = std::multimap<price_type, order, std::greater<price_type>>;
-	using sell_order_collection = std::multimap<price_type, order>;
+	using buy_order_collection = std::priority_queue<order, std::vector<order>>;
+	using sell_order_collection = std::priority_queue<order, std::vector<order>, std::greater<>>;
 
 	buy_order_collection m_buy_orders;
 	sell_order_collection m_sell_orders;
@@ -34,9 +56,10 @@ public:
 	const buy_order_collection& buy_orders() const { return m_buy_orders; }
 	const sell_order_collection& sell_orders() const { return m_sell_orders; }
 
-};
+	buy_order_collection& buy_orders() { return m_buy_orders; }
+	sell_order_collection& sell_orders() { return m_sell_orders; }
 
-using order_book_ptr = std::shared_ptr<order_book>;
+};
 
 }
 
