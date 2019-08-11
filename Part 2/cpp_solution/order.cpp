@@ -25,12 +25,12 @@ order::order(const std::string& part,
 
 void order::quantity(quantity_type value)
 {
-	if(value == 0)
+	if (value == 0)
 	{
 		throw std::runtime_error("0 is not valid quantity");
 	}
 
-	if(value > 0)
+	if (value > 0)
 	{
 		m_is_buy = true;
 		m_quantity = value;
@@ -46,7 +46,7 @@ void order::quantity(quantity_type value)
 
 void order::price(price_type value)
 {
-	if(value == 0)
+	if (value == 0)
 	{
 		throw std::runtime_error("0 is not a valid price");
 	}
@@ -54,16 +54,16 @@ void order::price(price_type value)
 	m_price = value;
 }
 
-quantity_type order::fill(quantity_type quantity)
+order order::fill(quantity_type quantity) const
 {
-	if(quantity > m_remaining_quantity)
+	if (quantity > m_remaining_quantity)
 	{
 		throw std::runtime_error("invalid attempt to fill more than the remaining quantity");
 	}
 
-	m_remaining_quantity -= quantity;
-
-	return m_remaining_quantity;
+	order result = *this;
+	result.m_remaining_quantity -= quantity;
+	return result;
 }
 
 order order::parse(const char* buffer)
@@ -83,15 +83,6 @@ order order::parse(const char* buffer)
 	}
 
 	return order(participant, instrument, quantity, price);
-}
-
-std::ostream& operator<<(std::ostream& os, const order& o)
-{
-	os << o.participant() << ":"
-	   << o.instrument() << ":" 
-	   << o.quantity() << ":"
-	   << o.price();
-	return os;
 }
 
 } // namespace ae

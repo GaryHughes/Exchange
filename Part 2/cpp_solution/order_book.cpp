@@ -3,17 +3,27 @@
 namespace ae
 {
 
+order_book::order_book(const std::string& instrument)
+:	m_instrument(instrument)
+{
+}
+
+const std::string& order_book::instrument() const
+{
+	return m_instrument;
+}
+
 void order_book::insert(const order& order)
 {
 	order.bump_generation();
 
 	if(order.is_buy())
 	{
-		m_buy_orders.insert(std::make_pair(order.price(), order));
+		m_buy_orders.push(order);
 	}
 	else
 	{
-		m_sell_orders.insert(std::make_pair(order.price(), order));
+		m_sell_orders.push(order);
 	}
 }
 
@@ -21,8 +31,8 @@ void order_book::match(trade_collection& trades)
 {
 	while(!m_buy_orders.empty() && !m_sell_orders.empty())
 	{
-		auto& buy_order = m_buy_orders.begin()->second;
-		auto& sell_order = m_sell_orders.begin()->second;
+		const auto& buy_order = m_buy_orders.top();
+		const auto& sell_order = m_sell_orders.top();
 
 		auto buy_price = buy_order.price();
 		auto sell_price = sell_order.price();
@@ -34,17 +44,23 @@ void order_book::match(trade_collection& trades)
 
 		auto match_quantity = std::min(buy_order.remaining_quantity(), sell_order.remaining_quantity());
 
-		trades.emplace_back(ae::trade(buy_order.participant(),
-								  	  sell_order.participant(),
-									  buy_order.instrument(),
-									  match_quantity,
-									  match_price));
+		trades.emplace_back(buy_order.participant(),
+							sell_order.participant(),
+							buy_order.instrument(),
+							match_quantity,
+							match_price);
+		
+		auto buy_remainder = buy_order.fill(match_quantity);
+		auto sell_remainder = sell_order.fill(match_quantity);
 
-		if(buy_order.fill(match_quantity) == 0)
-			m_buy_orders.erase(m_buy_orders.begin());
+		m_buy_orders.pop();
+		m_sell_orders.pop();
 
-		if(sell_order.fill(match_quantity) == 0)
-			m_sell_orders.erase(m_sell_orders.begin());
+		if (buy_remainder.remaining_quantity() > 0)
+			m_buy_orders.push(buy_remainder);
+
+		if (sell_remainder.remaining_quantity() > 0)
+			m_sell_orders.push(sell_remainder);
 	}
 }
 

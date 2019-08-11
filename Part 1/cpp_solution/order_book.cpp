@@ -1,7 +1,14 @@
 #include "order_book.h"
+#include <cmath>
+#include <limits>
 
 namespace ae
 {
+
+inline bool prices_equal(const price_type& one, const price_type& two)
+{
+	return std::fabs(one - two) < std::numeric_limits<price_type>::epsilon();
+}
 
 void order_book::insert(const order& order)
 {
@@ -13,6 +20,8 @@ void order_book::insert(const order& order)
 
 		m_buy_orders.sort([](const auto& lhs, const auto& rhs)
 		{
+			if (prices_equal(lhs.price(), rhs.price()))
+				return lhs.generation() > rhs.generation();
 			return lhs.price() > rhs.price();
 		});
 	}
@@ -22,6 +31,8 @@ void order_book::insert(const order& order)
 
 		m_sell_orders.sort([](const auto& lhs, const auto& rhs)
 		{
+			if (prices_equal(lhs.price(), rhs.price()))
+				return lhs.generation() < rhs.generation();
 			return lhs.price() < rhs.price();
 		});
 	}

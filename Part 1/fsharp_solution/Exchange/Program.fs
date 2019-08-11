@@ -65,8 +65,21 @@ let insertOrder (order:Order) =
     let orderBook = getOrderBook order.Instrument
     let side, (predicate:Order->bool) =
         match order.Quantity with
-        | quantity when quantity < 0L -> (orderBook.SellOrders, fun other -> order.Price < other.Price)
-        | _ -> (orderBook.BuyOrders, fun other -> order.Price > other.Price)
+        | quantity when quantity < 0L -> 
+            (orderBook.SellOrders, 
+                fun other -> 
+                    if order.Price = other.Price then
+                        order.Generation < other.Generation
+                    else
+                        order.Price < other.Price
+            )
+        | _ -> (orderBook.BuyOrders, 
+                fun other -> 
+                    if order.Price = other.Price then
+                        order.Generation > other.Generation
+                    else
+                        order.Price > other.Price
+               )
     match side |> Seq.tryFindIndex(predicate) with
     | Some index -> side.Insert(index, order) 
     | None -> side.Add(order)
@@ -99,9 +112,9 @@ let trimOrderBook orderBook trade =
     let sellOrder = { sellOrder with Quantity = sellOrder.Quantity + trade.Quantity }
     orderBook.BuyOrders.RemoveAt 0
     orderBook.SellOrders.RemoveAt 0
-    if Math.Abs(buyOrder.Quantity) > 0L then
+    if Math.Abs(buyOrder.Quantity) <> 0L then
         orderBook.BuyOrders.Insert(0, buyOrder)
-    if Math.Abs(sellOrder.Quantity) > 0L then
+    if Math.Abs(sellOrder.Quantity) <> 0L then
         orderBook.SellOrders.Insert(0, sellOrder)
     trade
   

@@ -15,15 +15,7 @@ type Order =
         Price:decimal
         Generation:int }
     
-type BuyPriceGenerationComparer() =
-    interface IComparer<Order> with
-        member this.Compare(left, right) =
-            match left.Price.CompareTo(right.Price) with
-            | 1 -> 1
-            | -1 -> -1
-            | _ -> right.Generation.CompareTo(left.Generation)
-
-type SellPriceGenerationComparer() =
+type PriceGenerationComparer() =
     interface IComparer<Order> with
         member this.Compare(left, right) =
             match left.Price.CompareTo(right.Price) with
@@ -80,8 +72,8 @@ let getOrderBook instrument =
     | true -> orderBook
     | false -> 
         let orderBook = {
-            BuyOrders = new IntervalHeap<Order>(BuyPriceGenerationComparer())
-            SellOrders = new IntervalHeap<Order>(SellPriceGenerationComparer()) 
+            BuyOrders = new IntervalHeap<Order>(PriceGenerationComparer())
+            SellOrders = new IntervalHeap<Order>(PriceGenerationComparer()) 
         }
         orderBooks.Add(instrument, orderBook)
         orderBook        
@@ -139,14 +131,9 @@ let matchOrders orderBook =
     |> Seq.map(createTrade >> trimOrderBook)
     |> List.ofSeq
 
-//let out = File.OpenWrite("trades")
-//let writer = new StreamWriter(out)
-
 let printTrade trade =
     let line = String.Format("{0}:{1}:{2}:{3}:{4}\n", trade.Buyer, trade.Seller, trade.Instrument, trade.Quantity, trade.Price)
-    // This is slow
     Console.Write(line)
-    //writer.Write(line)
 
 let printError (message:string) =
     eprintf "%s" message

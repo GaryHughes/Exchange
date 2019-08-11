@@ -18,8 +18,8 @@ public:
 		  quantity_type quantity,
 		  price_type price);
 
-	const std::string participant() const { return m_participant; }
-	const std::string instrument() const { return m_instrument; }
+	const std::string& participant() const { return m_participant; }
+	const std::string& instrument() const { return m_instrument; }
 	quantity_type quantity() const { return m_quantity; } 
 	price_type price() const { return m_price; }
 	bool is_buy() const { return m_is_buy; }
@@ -31,7 +31,7 @@ public:
 		m_generation = s_next_generation++;
 	}
 
-	quantity_type fill(quantity_type quantity);
+	order fill(quantity_type quantity) const;
 
 	static order parse(const char* buffer);
 
@@ -59,10 +59,7 @@ private:
 	mutable size_t m_generation = 0;
 
 	static size_t s_next_generation;
-
 };
-
-std::ostream& operator<<(std::ostream& os, const order& o);
 
 } 
 
