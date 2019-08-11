@@ -20,11 +20,12 @@ type SellQueue struct{ OrderQueue }
 func (q BuyQueue) Less(i, j int) bool {
 	ii := q.OrderQueue[i]
 	jj := q.OrderQueue[j]
+	// TODO: shouldn't compare floats for equality, this would
+	// break if there was any maths done on them...
 	if ii.Price == jj.Price {
 		return ii.gen < jj.gen
 	}
-	return jj.Price.IsLess(ii.Price.Fixed10)
-	// return ii.Price > jj.Price
+	return ii.Price > jj.Price
 }
 func (q SellQueue) Less(i, j int) bool {
 	ii := q.OrderQueue[i]
@@ -32,5 +33,5 @@ func (q SellQueue) Less(i, j int) bool {
 	if ii.Price == jj.Price {
 		return ii.gen < jj.gen
 	}
-	return ii.Price.IsLess(jj.Price.Fixed10)
+	return ii.Price < jj.Price
 }

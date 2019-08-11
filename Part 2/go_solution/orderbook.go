@@ -76,7 +76,7 @@ func (ob *OrderBook) Match() ([]Trade, error) {
 	for ob.Buys.Len() > 0 && ob.Sells.Len() > 0 {
 		buy := ob.Buys.Peek()
 		sell := ob.Sells.Peek()
-		if buy.Price.IsLess(sell.Price.Fixed10) {
+		if buy.Price < sell.Price {
 			break
 		}
 		t := Trade{
