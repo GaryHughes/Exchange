@@ -5,6 +5,8 @@ namespace ae
 
 order_book::order_book(const std::string& instrument)
 :	m_instrument(instrument)
+,	m_buy_orders(buy_ordering)
+,	m_sell_orders(sell_ordering)
 {
 }
 
