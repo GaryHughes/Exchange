@@ -9,7 +9,7 @@ import (
 
 // Gary would use a fixed point type for prices in a real implementation
 type Quantity int64
-type Price float32
+type Price struct{ Fixed10 }
 
 type Order struct {
 	Participant string
@@ -34,7 +34,7 @@ func ScanOrder(r []string) (*Order, error) {
 	if err != nil {
 		return nil, errors.Wrap(err, "parsing quantity")
 	}
-	px, err := strconv.ParseFloat(r[priceField], 64)
+	px, err := ParseFixed10(r[priceField])
 	if err != nil {
 		return nil, errors.Wrap(err, "parsing price")
 	}
@@ -50,7 +50,7 @@ func ScanOrder(r []string) (*Order, error) {
 		Instrument:  r[instrumentField],
 		Quantity:    Quantity(qty),
 		Remaining:   Quantity(qty),
-		Price:       Price(px),
+		Price:       Price{px},
 	}, nil
 
 }

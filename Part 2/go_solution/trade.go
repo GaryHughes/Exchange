@@ -13,5 +13,5 @@ type Trade struct {
 func (t Trade) String() string {
 	return fmt.Sprintf("%v:%v:%v:%v:%v",
 		t.Buyer, t.Seller, t.Instrument,
-		t.Quantity, t.Price)
+		t.Quantity, t.Price.StringPrec(5))
 }
