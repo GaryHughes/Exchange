@@ -15,7 +15,15 @@ type Order =
         Price:decimal
         Generation:int }
     
-type PriceGenerationComparer() =
+type BuyPriceGenerationComparer() =
+    interface IComparer<Order> with
+        member this.Compare(left, right) =
+            match left.Price.CompareTo(right.Price) with
+            | 1 -> 1
+            | -1 -> -1
+            | _ -> right.Generation.CompareTo(left.Generation)
+
+type SellPriceGenerationComparer() =
     interface IComparer<Order> with
         member this.Compare(left, right) =
             match left.Price.CompareTo(right.Price) with
@@ -72,8 +80,8 @@ let getOrderBook instrument =
     | true -> orderBook
     | false -> 
         let orderBook = {
-            BuyOrders = new IntervalHeap<Order>(PriceGenerationComparer())
-            SellOrders = new IntervalHeap<Order>(PriceGenerationComparer()) 
+            BuyOrders = new IntervalHeap<Order>(BuyPriceGenerationComparer())
+            SellOrders = new IntervalHeap<Order>(SellPriceGenerationComparer()) 
         }
         orderBooks.Add(instrument, orderBook)
         orderBook        
