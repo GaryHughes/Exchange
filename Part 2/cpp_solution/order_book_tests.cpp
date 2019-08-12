@@ -28,6 +28,31 @@ BOOST_AUTO_TEST_CASE( test_buy_ordering )
     book.buy_orders().pop();
 }
 
+BOOST_AUTO_TEST_CASE( test_buy_ordering_same_price )
+{
+	ae::order_book book("AUDUSD");
+
+    book.insert(ae::order("A", "AUDUSD", 100, 10));
+    book.insert(ae::order("A", "AUDUSD", 101, 10));
+    book.insert(ae::order("A", "AUDUSD", 102, 10));
+    book.insert(ae::order("A", "AUDUSD", 103, 10));
+
+    BOOST_REQUIRE_EQUAL(4, book.buy_orders().size());
+    BOOST_REQUIRE_EQUAL(0, book.sell_orders().size());
+
+    BOOST_REQUIRE_EQUAL(100, book.buy_orders().top().quantity());
+    book.buy_orders().pop();
+
+    BOOST_REQUIRE_EQUAL(101, book.buy_orders().top().quantity());
+    book.buy_orders().pop();
+
+    BOOST_REQUIRE_EQUAL(102, book.buy_orders().top().quantity());
+    book.buy_orders().pop();
+
+    BOOST_REQUIRE_EQUAL(103, book.buy_orders().top().quantity());
+    book.buy_orders().pop();
+}
+
 BOOST_AUTO_TEST_CASE( test_sell_ordering )
 {
 	ae::order_book book("AUDUSD");
@@ -51,6 +76,31 @@ BOOST_AUTO_TEST_CASE( test_sell_ordering )
 
     BOOST_REQUIRE_EQUAL(11, book.sell_orders().top().price());
     book.sell_orders().pop();    
+}
+
+BOOST_AUTO_TEST_CASE( test_sell_ordering_same_price )
+{
+	ae::order_book book("AUDUSD");
+
+    book.insert(ae::order("A", "AUDUSD", -100, 10));
+    book.insert(ae::order("A", "AUDUSD", -101, 10));
+    book.insert(ae::order("A", "AUDUSD", -102, 10));
+    book.insert(ae::order("A", "AUDUSD", -103, 10));
+
+    BOOST_REQUIRE_EQUAL(0, book.buy_orders().size());
+    BOOST_REQUIRE_EQUAL(4, book.sell_orders().size());
+
+    BOOST_REQUIRE_EQUAL(100, book.sell_orders().top().quantity());
+    book.sell_orders().pop();
+
+    BOOST_REQUIRE_EQUAL(101, book.sell_orders().top().quantity());
+    book.sell_orders().pop();
+
+    BOOST_REQUIRE_EQUAL(102, book.sell_orders().top().quantity());
+    book.sell_orders().pop();
+
+    BOOST_REQUIRE_EQUAL(103, book.sell_orders().top().quantity());
+    book.sell_orders().pop();
 }
 
 BOOST_AUTO_TEST_CASE( test_first_price_entered_selected )
