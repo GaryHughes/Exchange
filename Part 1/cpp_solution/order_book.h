@@ -27,6 +27,9 @@ public:
 	const buy_order_collection& buy_orders() const { return m_buy_orders; }
 	const sell_order_collection& sell_orders() const { return m_sell_orders; }
 
+	buy_order_collection& buy_orders() { return m_buy_orders; }
+	sell_order_collection& sell_orders() { return m_sell_orders; }
+
 };
 
 using order_book_ptr = std::shared_ptr<order_book>;

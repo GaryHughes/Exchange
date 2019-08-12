@@ -20,8 +20,6 @@ void order_book::insert(const order& order)
 
 		m_buy_orders.sort([](const auto& lhs, const auto& rhs)
 		{
-			if (prices_equal(lhs.price(), rhs.price()))
-				return lhs.generation() > rhs.generation();
 			return lhs.price() > rhs.price();
 		});
 	}
@@ -31,8 +29,6 @@ void order_book::insert(const order& order)
 
 		m_sell_orders.sort([](const auto& lhs, const auto& rhs)
 		{
-			if (prices_equal(lhs.price(), rhs.price()))
-				return lhs.generation() < rhs.generation();
 			return lhs.price() < rhs.price();
 		});
 	}
