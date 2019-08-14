@@ -3,11 +3,11 @@
 open System
 open System.Collections.Generic
 
-type Order =
+type Order = 
     {   Participant:string
         Instrument:string
         Quantity:Int64
-        RemainingQuantity:int
+        RemainingQuantity:int64
         Price:decimal
         Generation:int }
 
@@ -35,13 +35,16 @@ let validateNumberOfFields (fields:string[]) =
     else    
         Ok fields
 
+let mutable generation = 0
+
 let createOrder (fields:string[]) =
+    generation <- generation + 1
     Ok { Participant = fields.[0]
          Instrument = fields.[1]
          Quantity = Int64.Parse(fields.[2])
-         RemainingQuantity = 0
+         RemainingQuantity = 0L
          Price = Decimal.Parse(fields.[3])
-         Generation = Environment.TickCount }
+         Generation = generation }
 
 let parseOrder text =
     text
@@ -67,18 +70,18 @@ let insertOrder (order:Order) =
         match order.Quantity with
         | quantity when quantity < 0L -> 
             (orderBook.SellOrders, 
-                fun other -> 
-                    if order.Price = other.Price then
-                        order.Generation < other.Generation
+                fun existing -> 
+                    if existing.Price = order.Price then
+                       existing.Generation > order.Generation
                     else
-                        order.Price < other.Price
+                        existing.Price > order.Price
             )
         | _ -> (orderBook.BuyOrders, 
-                fun other -> 
-                    if order.Price = other.Price then
-                        order.Generation > other.Generation
+                fun existing -> 
+                    if existing.Price = order.Price then
+                        existing.Generation > order.Generation
                     else
-                        order.Price > other.Price
+                        existing.Price < order.Price
                )
     match side |> Seq.tryFindIndex(predicate) with
     | Some index -> side.Insert(index, order) 
