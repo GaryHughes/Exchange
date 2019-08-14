@@ -45,12 +45,22 @@ func (ob *OrderBook) Insert(o Order) {
 	if o.IsBuy {
 		ob.Buys = append(ob.Buys, o)
 		sort.Slice(ob.Buys, func(i, j int) bool {
-			return ob.Buys[i].Price > ob.Buys[j].Price
+			left := ob.Buys[i]
+			right := ob.Buys[j]
+			if left.Price == right.Price {
+				return left.gen < right.gen
+			}
+			return left.Price > right.Price
 		})
 	} else {
 		ob.Sells = append(ob.Sells, o)
 		sort.Slice(ob.Sells, func(i, j int) bool {
-			return ob.Sells[i].Price < ob.Sells[j].Price
+			left := ob.Sells[i]
+			right := ob.Sells[j]
+			if left.Price == right.Price {
+				return left.gen < right.gen
+			}
+			return left.Price < right.Price
 		})
 	}
 }
