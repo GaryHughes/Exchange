@@ -16,7 +16,7 @@ namespace Exchange
                     }
                     var order = new Order(line);
                     foreach (var trade in exchange.Execute(order)) {
-                        Console.WriteLine($"{trade.Buyer}:{trade.Seller}:{trade.Instrument}:{trade.Quantity}:{trade.Price}");
+                        Console.WriteLine(trade.Buyer + ":" + trade.Seller + ":" + trade.Instrument + ":" + trade.Quantity + ":" + trade.Price);
                     }
                 }
             }   
