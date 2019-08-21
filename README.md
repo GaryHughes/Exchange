@@ -5,11 +5,12 @@ These are sample timings collected on a 2018 2.9 GHz Intel Core i9 MacBook Pro u
 
 ## Part 1
 
-|    | 100K         | 
+|    | 100K         |
 |----|:------------:|
 |C++ | 00:00:15.122 |
 |Go  | 00:00:28.458 |
 |F#  | 00:00:09.994 |
+|C#  | 00:00:00:479 |
 
 ## Part 2
 
