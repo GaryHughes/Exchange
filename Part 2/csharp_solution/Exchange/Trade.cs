@@ -2,7 +2,7 @@ using System;
 
 namespace Exchange
 {
-    public class Trade
+    public struct Trade
     {
         public Trade(string buyer, string seller, string instrument, long quantity, decimal price)
         {
