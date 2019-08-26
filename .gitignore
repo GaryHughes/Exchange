@@ -7,3 +7,4 @@ trades
 .vscode
 bin
 obj
+target/
