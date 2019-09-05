@@ -107,6 +107,7 @@ mod tests {
         }
     }
 
+    #[test]
     fn test_read_sell() {
         if let Order::Sell(o) = read("F", "OWLBAT", "-123", "87.125", 99).unwrap() {
             assert_eq!("F", o.participant);
