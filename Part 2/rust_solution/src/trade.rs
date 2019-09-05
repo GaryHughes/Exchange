@@ -2,7 +2,7 @@ use std::fmt;
 
 use crate::types::Price;
 
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Debug, PartialEq)]
 pub struct Trade {
     pub buyer: String,
     pub seller: String,
