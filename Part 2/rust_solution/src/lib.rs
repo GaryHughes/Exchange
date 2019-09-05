@@ -1,5 +1,3 @@
-#![feature(test)]
-
 pub use self::exchange::Exchange;
 pub use self::order::{read, Buy, Sell};
 pub use self::order_book::OrderBook;

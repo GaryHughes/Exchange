@@ -15,8 +15,9 @@ pub fn run() -> Result<(), Box<dyn Error>> {
         .from_reader(io::stdin());
     for (gen, result) in rdr.records().enumerate() {
         let record = result?;
-        let order = order::read(&record[0], &record[1], &record[2], &record[3], gen);
-        let trades = exchange.execute(order.unwrap());
+        let instrument = &record[1];
+        let order = order::read(&record[0], &record[2], &record[3], gen);
+        let trades = exchange.execute(instrument, order.unwrap());
         for t in trades {
             println!("{}", t);
         }

@@ -24,7 +24,7 @@ impl OrderBook {
         }
     }
 
-    pub fn resolve_matches(&mut self) -> Vec<Trade> {
+    pub fn resolve_matches(&mut self, instrument: &str) -> Vec<Trade> {
         let mut trades = Vec::<Trade>::new();
         while !self.buys.is_empty() && !self.sells.is_empty() {
             let buy = self.buys.peek().unwrap();
@@ -41,7 +41,7 @@ impl OrderBook {
             let t = Trade {
                 buyer: buy.participant.to_string(),
                 seller: sell.participant.to_string(),
-                instrument: buy.instrument.to_string(),
+                instrument: instrument.to_string(),
                 quantity: match_qty,
                 price: match_price,
                 bgen: buy.gen,
@@ -74,7 +74,6 @@ mod tests {
         Buy {
             gen: g,
             participant: p.to_string(),
-            instrument: "OWLBAT".to_string(),
             quantity: qty,
             remaining: rem,
             price: Price(px),
@@ -85,7 +84,6 @@ mod tests {
         Sell {
             gen: g,
             participant: p.to_string(),
-            instrument: "OWLBAT".to_string(),
             quantity: qty,
             remaining: rem,
             price: Price(px),
@@ -157,7 +155,7 @@ mod tests {
     #[test]
     fn test_resolve_matches_stops_when_no_orders_remain() {
         let mut ob = OrderBook::new();
-        let trades = ob.resolve_matches();
+        let trades = ob.resolve_matches("OWLBAT");
         assert!(trades.is_empty())
     }
 
@@ -165,7 +163,7 @@ mod tests {
     fn test_resolve_matches_stops_when_no_buys_remain() {
         let mut ob = OrderBook::new();
         ob.insert(Order::Sell(sell("S", 10.0, 1, 1, 100)));
-        let trades = ob.resolve_matches();
+        let trades = ob.resolve_matches("OWLBAT");
         assert!(trades.is_empty())
     }
 
@@ -173,7 +171,7 @@ mod tests {
     fn test_resolve_matches_stops_when_no_sells_remain() {
         let mut ob = OrderBook::new();
         ob.insert(Order::Buy(buy("B", 10.0, 1, 1, 100)));
-        let trades = ob.resolve_matches();
+        let trades = ob.resolve_matches("OWLBAT");
         assert!(trades.is_empty())
     }
 
@@ -182,7 +180,7 @@ mod tests {
         let mut ob = OrderBook::new();
         ob.insert(Order::Buy(buy("B", 10.0, 1, 1, 100)));
         ob.insert(Order::Sell(sell("S", 11.0, 1, 1, 100)));
-        let trades = ob.resolve_matches();
+        let trades = ob.resolve_matches("OWLBAT");
         assert!(trades.is_empty())
     }
 
@@ -204,7 +202,7 @@ mod tests {
         ob.insert(Order::Buy(buy("B1", 10.0, 50, 50, 100)));
         ob.insert(Order::Buy(buy("B2", 10.0, 100, 100, 101)));
         ob.insert(Order::Sell(sell("S", 9.0, 75, 75, 102)));
-        let trades = ob.resolve_matches();
+        let trades = ob.resolve_matches("OWLBAT");
         assert_eq!(2, trades.len());
         assert_eq!(trade("B1", "S", "OWLBAT", 50, 10.0, 100, 102), trades[0]);
         assert_eq!(trade("B2", "S", "OWLBAT", 25, 10.0, 101, 102), trades[1]);
@@ -219,7 +217,7 @@ mod tests {
         ob.insert(Order::Sell(sell("S1", 9.0, 50, 50, 100)));
         ob.insert(Order::Sell(sell("S2", 9.0, 100, 100, 101)));
         ob.insert(Order::Buy(buy("B", 10.0, 75, 75, 102)));
-        let trades = ob.resolve_matches();
+        let trades = ob.resolve_matches("OWLBAT");
         assert_eq!(2, trades.len());
         assert_eq!(trade("B", "S1", "OWLBAT", 50, 9.0, 102, 100), trades[0]);
         assert_eq!(trade("B", "S2", "OWLBAT", 25, 9.0, 102, 101), trades[1]);
@@ -234,7 +232,7 @@ mod tests {
         ob.insert(Order::Buy(buy("B1", 10.0, 50, 50, 100)));
         ob.insert(Order::Buy(buy("B2", 10.0, 100, 100, 101)));
         ob.insert(Order::Sell(sell("S", 9.0, 200, 200, 102)));
-        let trades = ob.resolve_matches();
+        let trades = ob.resolve_matches("OWLBAT");
         assert_eq!(2, trades.len());
         assert_eq!(trade("B1", "S", "OWLBAT", 50, 10.0, 100, 102), trades[0]);
         assert_eq!(trade("B2", "S", "OWLBAT", 100, 10.0, 101, 102), trades[1]);
@@ -249,7 +247,7 @@ mod tests {
         ob.insert(Order::Sell(sell("S1", 9.0, 50, 50, 100)));
         ob.insert(Order::Sell(sell("S2", 9.0, 100, 100, 101)));
         ob.insert(Order::Buy(buy("B", 10.0, 200, 200, 102)));
-        let trades = ob.resolve_matches();
+        let trades = ob.resolve_matches("OWLBAT");
         assert_eq!(2, trades.len());
         assert_eq!(trade("B", "S1", "OWLBAT", 50, 9.0, 102, 100), trades[0]);
         assert_eq!(trade("B", "S2", "OWLBAT", 100, 9.0, 102, 101), trades[1]);

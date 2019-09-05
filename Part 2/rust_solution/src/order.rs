@@ -1,5 +1,3 @@
-extern crate test;
-
 use crate::types::Price;
 use std::cmp::{Ordering, PartialOrd};
 use std::error::Error;
@@ -8,7 +6,6 @@ use std::error::Error;
 pub struct Buy {
     pub gen: usize,
     pub participant: String,
-    pub instrument: String,
     pub quantity: i64,
     pub remaining: i64,
     pub price: Price,
@@ -18,7 +15,6 @@ pub struct Buy {
 pub struct Sell {
     pub gen: usize,
     pub participant: String,
-    pub instrument: String,
     pub quantity: i64,
     pub remaining: i64,
     pub price: Price,
@@ -31,7 +27,6 @@ pub enum Order {
 
 pub fn read(
     participant: &str,
-    instrument: &str,
     quantity: &str,
     price: &str,
     gen: usize,
@@ -41,7 +36,6 @@ pub fn read(
     let o = if qty > 0 {
         Order::Buy(Buy {
             participant: participant.to_string(),
-            instrument: instrument.to_string(),
             quantity: aqty,
             remaining: aqty,
             price: Price(price.parse()?),
@@ -50,7 +44,6 @@ pub fn read(
     } else {
         Order::Sell(Sell {
             participant: participant.to_string(),
-            instrument: instrument.to_string(),
             quantity: aqty,
             remaining: aqty,
             price: Price(price.parse()?),
@@ -95,9 +88,8 @@ mod tests {
 
     #[test]
     fn test_read_buy() {
-        if let Order::Buy(o) = read("F", "OWLBAT", "123", "87.125", 99).unwrap() {
+        if let Order::Buy(o) = read("F", "123", "87.125", 99).unwrap() {
             assert_eq!("F", o.participant);
-            assert_eq!("OWLBAT", o.instrument);
             assert_eq!(123, o.quantity);
             assert_eq!(123, o.remaining);
             assert_eq!(Price(87.125), o.price);
@@ -109,9 +101,8 @@ mod tests {
 
     #[test]
     fn test_read_sell() {
-        if let Order::Sell(o) = read("F", "OWLBAT", "-123", "87.125", 99).unwrap() {
+        if let Order::Sell(o) = read("F", "-123", "87.125", 99).unwrap() {
             assert_eq!("F", o.participant);
-            assert_eq!("OWLBAT", o.instrument);
             assert_eq!(123, o.quantity);
             assert_eq!(123, o.remaining);
             assert_eq!(Price(87.125), o.price);
@@ -125,7 +116,6 @@ mod tests {
         Buy {
             gen: g,
             participant: "".to_string(),
-            instrument: "".to_string(),
             quantity: 0,
             remaining: 0,
             price: Price(px),
@@ -136,7 +126,6 @@ mod tests {
         Sell {
             gen: g,
             participant: "".to_string(),
-            instrument: "".to_string(),
             quantity: 0,
             remaining: 0,
             price: Price(px),
