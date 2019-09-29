@@ -1,4 +1,4 @@
-use csv::ReaderBuilder;
+use csv::{ReaderBuilder,StringRecord};
 use std::error::Error;
 use std::process;
 use std::io;
@@ -13,8 +13,10 @@ pub fn run() -> Result<(), Box<dyn Error>> {
         .has_headers(false)
         .delimiter(b':')
         .from_reader(io::stdin());
-    for (gen, result) in rdr.records().enumerate() {
-        let record = result?;
+    let mut record = StringRecord::new();
+    let mut gen = 0;
+    while rdr.read_record(&mut record)? {
+        gen+=1;
         let instrument = &record[1];
         let order = order::read(&record[0], &record[2], &record[3], gen);
         let trades = exchange.execute(instrument, order.unwrap());
