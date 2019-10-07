@@ -17,3 +17,14 @@ Install [rustup](https://www.rust-lang.org/tools/install)
 ```
 % cargo build --release && cargo test && gzip -dc ../../orders-100K.txt.gz |  time ./target/release/exchange > ../rust-trades-100K.txt
 ```
+
+## Profiling on macOS
+
+http://carol-nichols.com/2017/04/20/rust-profiling-with-dtrace-on-osx/
+
+Using dtrace and FlameGraph.
+
+```
+% gzip -dc ../../orders-10M.txt.gz|  sudo dtrace -c './target/release/exchange' -o out.stacks -n 'profile-997 /execname == "exchange"/ { @[ustack(100)] = count(); }' > /dev/null
+% stackcollapse.pl out.stacks| flamegraph.pl > exchange-flames.svg
+```

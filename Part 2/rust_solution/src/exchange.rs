@@ -23,9 +23,14 @@ impl Exchange {
     }
 
     fn book(&mut self, instrument: &str) -> &mut OrderBook {
-        self.books
-            .entry(instrument.to_string())
-            .or_insert_with(OrderBook::new)
+        // nicer but slower due to more frequent instrument.to_string():
+        // self.books
+        //     .entry(instrument.to_string())
+        //     .or_insert_with(OrderBook::new)
+        if !self.books.contains_key(instrument) {
+            self.books.insert(instrument.to_string(), OrderBook::new());
+        }
+        return self.books.get_mut(instrument).unwrap();
     }
 }
 
