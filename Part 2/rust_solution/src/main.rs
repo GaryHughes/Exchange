@@ -1,7 +1,7 @@
-use csv::{ReaderBuilder,StringRecord};
+use csv::{ReaderBuilder, StringRecord};
 use std::error::Error;
-use std::process;
 use std::io;
+use std::process;
 
 extern crate exchange;
 use exchange::{order, Exchange};
@@ -13,13 +13,13 @@ pub fn run() -> Result<(), Box<dyn Error>> {
         .has_headers(false)
         .delimiter(b':')
         .from_reader(io::stdin());
-    let mut record = StringRecord::new();
+    let mut record = StringRecord::with_capacity(100, 4);
     let mut gen = 0;
     while rdr.read_record(&mut record)? {
-        gen+=1;
+        gen += 1;
         let instrument = &record[1];
-        let order = order::read(&record[0], &record[2], &record[3], gen);
-        let trades = exchange.execute(instrument, order.unwrap());
+        let order = order::read(&record[0], &record[2], &record[3], gen)?;
+        let trades = exchange.execute(instrument, order);
         for t in trades {
             println!("{}", t);
         }

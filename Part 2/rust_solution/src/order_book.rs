@@ -1,4 +1,4 @@
-use crate::order::{Order, Buy, Sell};
+use crate::order::{Buy, Order, Sell};
 use crate::trade::Trade;
 use std::cmp::min;
 use std::collections::BinaryHeap;

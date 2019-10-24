@@ -30,7 +30,7 @@ impl Exchange {
         if !self.books.contains_key(instrument) {
             self.books.insert(instrument.to_string(), OrderBook::new());
         }
-        return self.books.get_mut(instrument).unwrap();
+        self.books.get_mut(instrument).unwrap()
     }
 }
 
