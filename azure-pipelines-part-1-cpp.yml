@@ -11,6 +11,6 @@ pool:
 
 steps:
 - script: |
-    make check
+    make
   workingDirectory: 'Part 1/cpp_solution'
   displayName: 'make'
