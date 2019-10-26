@@ -15,7 +15,7 @@ variables:
   GOPATH: '$(system.defaultWorkingDirectory)/gopath' # Go workspace path
   modulePath: '$(GOPATH)/src/github.com/$(build.repository.name)' # Path to the module's code
 
-- script: |
-    go build -v .
-  workingDirectory: '$(modulePath)/Part 2/go_solution'
-  displayName: 'build'
+steps:
+- script: go build -v .
+  workingDirectory: 'Part 2/go_solution'
+  displayName: 'go build'
