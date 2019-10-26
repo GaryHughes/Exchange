@@ -1,6 +1,6 @@
 module github.com/mrc/geh-exchange-go
 
-go 1.12
+go 1.11
 
 require (
 	github.com/google/go-cmp v0.3.0 // indirect
