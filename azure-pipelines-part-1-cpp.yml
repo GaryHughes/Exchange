@@ -12,6 +12,6 @@ pool:
 steps:
 - script: |
     sudo apt install -y libboost-all-dev 
-    make
+    make check
   workingDirectory: 'Part 1/cpp_solution'
   displayName: 'make'
