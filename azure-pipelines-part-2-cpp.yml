@@ -13,5 +13,5 @@ steps:
 - script: |
     sudo apt install -y libboost-all-dev 
     make check
-  workingDirectory: 'Part 1/cpp_solution'
+  workingDirectory: 'Part 2/cpp_solution'
   displayName: 'make'
