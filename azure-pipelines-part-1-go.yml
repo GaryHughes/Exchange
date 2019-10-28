@@ -10,6 +10,7 @@ trigger:
   paths:
     include:
       - 'Part 1/go_solution'
+      - azure-pipelines-part-go.yml
 
 pool:
   vmImage: 'ubuntu-latest'
