@@ -10,6 +10,7 @@ trigger:
   paths:
     include:
       - 'Part 1/csharp_solution'
+      - azure-pipelines-part-1-csharp.yml
 
 pool:
   vmImage: 'ubuntu-latest'

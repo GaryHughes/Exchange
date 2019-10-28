@@ -5,6 +5,7 @@ trigger:
   paths:
     include:
       - 'Part 2/rust_solution'
+      - azure-pipelines-part-2-rust.yml
 
 pool:
   vmImage: 'ubuntu-16.04'
