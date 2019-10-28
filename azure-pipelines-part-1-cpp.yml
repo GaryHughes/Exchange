@@ -4,7 +4,12 @@
 # https://docs.microsoft.com/azure/devops/pipelines/apps/c-cpp/gcc
 
 trigger:
-- master
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - 'Part 1/cpp_solution'
 
 pool:
   vmImage: 'ubuntu-latest'
