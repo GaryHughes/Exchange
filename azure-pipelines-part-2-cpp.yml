@@ -18,7 +18,7 @@ steps:
   displayName: 'make'
 - task: CopyFiles@2
   inputs:
-    contents: 'Part 2/cpp_solution/Exchange'
+    contents: 'Part 2/cpp_solution/*'
     targetFolder: $(Build.ArtifactStagingDirectory)
 - task: PublishBuildArtifacts@1
   inputs:
