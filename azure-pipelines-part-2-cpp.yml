@@ -4,7 +4,7 @@ trigger:
       - master
   paths:
     include:
-      - 'Part 2\cpp_solution'
+      - 'Part 2/cpp_solution'
       - azure-pipelines-part-2-cpp.yml
 
 pool:
@@ -14,11 +14,11 @@ steps:
 - script: |
     sudo apt install -y libboost-all-dev 
     make check
-  workingDirectory: 'Part 2\cpp_solution'
+  workingDirectory: 'Part 2/cpp_solution'
   displayName: 'make'
 - task: CopyFiles@2
   inputs:
-    contents: 'Part 2\cpp_solution\Exchange'
+    contents: 'Part 2/cpp_solution/Exchange'
     targetFolder: $(Build.ArtifactStagingDirectory)
 - task: PublishBuildArtifacts@1
   inputs:
