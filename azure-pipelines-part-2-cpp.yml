@@ -1,8 +1,3 @@
-# C/C++ with GCC
-# Build your C/C++ project with GCC using make.
-# Add steps that publish test results, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/apps/c-cpp/gcc
-
 trigger:
   branches:
     include:
@@ -21,3 +16,12 @@ steps:
     make check
   workingDirectory: 'Part 2/cpp_solution'
   displayName: 'make'
+- task: CopyFiles@2
+  inputs:
+    contents: 'Exchange'
+    targetFolder: $(Build.ArtifactStagingDirectory)
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: $(Build.ArtifactStagingDirectory)
+    artifactName: Executable
+    publishLocation: 'Container'
