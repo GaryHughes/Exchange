@@ -12,13 +12,14 @@ pool:
 
 steps:
 - script: |
-    sudo apt install -y libboost-all-dev 
+    sudo apt install -y libboost-all-dev
+    make 
     make check
   workingDirectory: 'Part 2/cpp_solution'
   displayName: 'make'
 - task: CopyFiles@2
   inputs:
-    contents: 'Part 2/cpp_solution/*'
+    contents: 'Part 2/cpp_solution/Exchange'
     targetFolder: $(Build.ArtifactStagingDirectory)
 - task: PublishBuildArtifacts@1
   inputs:
