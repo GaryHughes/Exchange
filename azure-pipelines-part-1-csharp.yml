@@ -14,9 +14,9 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- script: dotnet build --configuration $(buildConfiguration)
+- script: dotnet publish --configuration $(buildConfiguration)
   workingDirectory: 'Part 1/csharp_solution'
-  displayName: 'dotnet build $(buildConfiguration)'
+  displayName: 'dotnet publish $(buildConfiguration)'
 - script: dotnet test --configuration $(buildConfiguration)
   workingDirectory: 'Part 1/csharp_solution'
   displayName: 'dotnet test $(buildConfiguration)'
