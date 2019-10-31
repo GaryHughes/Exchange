@@ -22,3 +22,12 @@ steps:
   - script: cargo test --all
     displayName: Cargo test
     workingDirectory: 'Part 1/rust_solution'
+  - task: CopyFiles@2
+    inputs:
+      contents: 'Part 1/rust_solution/target/release/exchange'
+      targetFolder: $(Build.ArtifactStagingDirectory)
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathToPublish: $(Build.ArtifactStagingDirectory)
+      artifactName: Executable
+      publishLocation: 'Container'
