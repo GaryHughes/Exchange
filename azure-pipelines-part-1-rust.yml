@@ -26,8 +26,9 @@ steps:
     inputs:
       contents: 'Part 1/rust_solution/target/release/exchange'
       targetFolder: $(Build.ArtifactStagingDirectory)
+      flattenFolders: true
   - task: PublishBuildArtifacts@1
     inputs:
       pathToPublish: $(Build.ArtifactStagingDirectory)
-      artifactName: Executable
+      artifactName: part_1_rust_solution
       publishLocation: 'Container'
