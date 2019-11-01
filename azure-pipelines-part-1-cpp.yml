@@ -22,6 +22,11 @@ steps:
     contents: 'Part 1/cpp_solution/Exchange'
     targetFolder: $(Build.ArtifactStagingDirectory)
     flattenFolders: true
+- task: CopyFiles@2
+  inputs:
+    contents: 'Part 1/cpp_solution/runner'
+    targetFolder: $(Build.ArtifactStagingDirectory)
+    flattenFolders: true
 - task: PublishBuildArtifacts@1
   inputs:
     pathToPublish: $(Build.ArtifactStagingDirectory)
