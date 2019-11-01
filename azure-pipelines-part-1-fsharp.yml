@@ -22,7 +22,9 @@ steps:
   displayName: 'dotnet test $(buildConfiguration)'
 - task: CopyFiles@2
   inputs:
-    contents: 'Part 1/fsharp_solution/Exchange/bin/Release/netcoreapp3.0/publish/*'
+    contents: |
+      'Part 1/fsharp_solution/Exchange/bin/Release/netcoreapp3.0/publish/*'
+      'Part 1/fsharp_solution/runner'
     targetFolder: $(Build.ArtifactStagingDirectory)
     flattenFolders: true
 - task: PublishBuildArtifacts@1
