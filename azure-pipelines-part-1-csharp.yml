@@ -1,8 +1,3 @@
-# ASP.NET Core
-# Build and test ASP.NET Core projects targeting .NET Core.
-# Add steps that run tests, create a NuGet package, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
-
 trigger:
   branches:
     include:
@@ -19,9 +14,19 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- script: dotnet build --configuration $(buildConfiguration)
+- script: dotnet publish --configuration $(buildConfiguration)
   workingDirectory: 'Part 1/csharp_solution'
-  displayName: 'dotnet build $(buildConfiguration)'
+  displayName: 'dotnet publish $(buildConfiguration)'
 - script: dotnet test --configuration $(buildConfiguration)
   workingDirectory: 'Part 1/csharp_solution'
   displayName: 'dotnet test $(buildConfiguration)'
+- task: CopyFiles@2
+  inputs:
+    contents: 'Part 1/csharp_solution/Exchange/bin/Release/netcoreapp3.0/publish/*'
+    targetFolder: $(Build.ArtifactStagingDirectory)
+    flattenFolders: true
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: $(Build.ArtifactStagingDirectory)
+    artifactName: part_1_csharp_solution
+    publishLocation: 'Container'
