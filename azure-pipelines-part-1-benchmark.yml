@@ -41,6 +41,7 @@ steps:
     ./benchmark.py part_1 2 orders-100K.txt.gz > part_1_results.md
     git config --global user.email "benchmark@example.com"
     git config --global user.name "benchmark.py"
+    gif checkout master
     git add part_1_results.md
     git commit -m "updated part 1 results"
     git push
