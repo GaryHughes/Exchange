@@ -24,8 +24,9 @@ steps:
   inputs:
     contents: 'Part 1/csharp_solution/Exchange/bin/Release/netcoreapp3.0/publish/*'
     targetFolder: $(Build.ArtifactStagingDirectory)
+    flattenFolders: true
 - task: PublishBuildArtifacts@1
   inputs:
     pathToPublish: $(Build.ArtifactStagingDirectory)
-    artifactName: Executable
+    artifactName: part_1_csharp_solution
     publishLocation: 'Container'
