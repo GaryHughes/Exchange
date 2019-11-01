@@ -39,6 +39,8 @@ steps:
     targetPath: '$(Pipeline.Workspace)'
 - script: |
     ./benchmark.py part_1 2 orders-100K.txt.gz > part_1_results.md
+    git add part_1_results.md
+    git commit -m "updated part 1 results"
   displayName: 'benchmark'
 
 
