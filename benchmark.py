@@ -3,6 +3,8 @@
 import sys
 import os
 import timeit
+import gzip
+import shutil
 
 # The Azure pipeline for each solution is required to publish a flattened artifact named like the following examples:
 #
@@ -35,9 +37,19 @@ def line_count(file):
             pass
     return i + 1
 
+def uncompress(input):
+    if not input.endswith('.gz'):
+        return input
+    output = input[:-3]
+    with gzip.open(input, 'rb') as f_in:
+        with open(output, 'wb') as f_out:
+            shutil.copyfileobj(f_in, f_out)
+    return output
+
 results = {}
 
 for input in input_files:
+    input = uncompress(input)
     order_count = line_count(input)
     results[input] = {}
     for solution in os.listdir('.'):
