@@ -43,6 +43,7 @@ steps:
     git config --global user.name "benchmark.py"
     git add part_1_results.md
     git commit -m "updated part 1 results"
+    git push
   displayName: 'benchmark'
 
 
