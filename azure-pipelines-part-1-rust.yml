@@ -24,9 +24,12 @@ steps:
     workingDirectory: 'Part 1/rust_solution'
   - task: CopyFiles@2
     inputs:
-      contents: |
-        'Part 1/rust_solution/target/release/exchange'
-        'Part 1/rust_solution/runner'
+      contents: 'Part 1/rust_solution/target/release/exchange'
+      targetFolder: $(Build.ArtifactStagingDirectory)
+      flattenFolders: true
+  - task: CopyFiles@2
+    inputs:
+      contents: 'Part 1/rust_solution/runner'
       targetFolder: $(Build.ArtifactStagingDirectory)
       flattenFolders: true
   - task: PublishBuildArtifacts@1
