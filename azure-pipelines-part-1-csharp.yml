@@ -22,9 +22,12 @@ steps:
   displayName: 'dotnet test $(buildConfiguration)'
 - task: CopyFiles@2
   inputs:
-    contents: |
-      'Part 1/csharp_solution/Exchange/bin/Release/netcoreapp3.0/publish/*'
-      'Part 1/csharp_solution/runner'
+    contents: 'Part 1/csharp_solution/Exchange/bin/Release/netcoreapp3.0/publish/*'
+    targetFolder: $(Build.ArtifactStagingDirectory)
+    flattenFolders: true
+- task: CopyFiles@2
+  inputs:
+    contents: 'Part 1/csharp_solution/runner'
     targetFolder: $(Build.ArtifactStagingDirectory)
     flattenFolders: true
 - task: PublishBuildArtifacts@1
