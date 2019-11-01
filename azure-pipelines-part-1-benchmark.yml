@@ -38,7 +38,7 @@ steps:
     buildVersionToDownload: 'latest'
     targetPath: '$(Pipeline.Workspace)'
 - script: |
-    echo "run part 1 benchmarks"
+    ./benchmark.py part_1 2 orders-100K.txt.gz > part_1_results.md
   displayName: 'benchmark'
 
 
