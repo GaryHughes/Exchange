@@ -25,5 +25,5 @@ steps:
 - task: PublishBuildArtifacts@1
   inputs:
     pathToPublish: $(Build.ArtifactStagingDirectory)
-    artifactName: Executable
+    artifactName: part_1_cpp_solution
     publishLocation: 'Container'
