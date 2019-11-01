@@ -21,6 +21,7 @@ steps:
   inputs:
     contents: 'Part 1/cpp_solution/Exchange'
     targetFolder: $(Build.ArtifactStagingDirectory)
+    flattenFolders: true
 - task: PublishBuildArtifacts@1
   inputs:
     pathToPublish: $(Build.ArtifactStagingDirectory)
