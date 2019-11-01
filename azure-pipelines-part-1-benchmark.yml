@@ -44,7 +44,7 @@ steps:
     git checkout master
     git add part_1_results.md
     git commit -m "updated part 1 results"
-    git push
+    git -c http.extraheader="AUTHORIZATION: bearer $(System.AccessToken)" push
   displayName: 'benchmark'
 
 
