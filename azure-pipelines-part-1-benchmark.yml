@@ -15,7 +15,7 @@ steps:
     project: '030b6a1b-1f33-4e57-b63f-f03f0d399d8d'
     definition: '3'
     buildVersionToDownload: 'latest'
-    targetPath: '$(Pipeline.Workspace)'
+    targetPath: '$(Build.SourcesDirectory)'
 - task: DownloadPipelineArtifact@2
   # Download C#
   inputs:
