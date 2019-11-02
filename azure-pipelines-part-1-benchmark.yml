@@ -49,5 +49,5 @@ steps:
     git commit -m "updated part 1 results"
     git -c http.extraheader="AUTHORIZATION: bearer $(System.AccessToken)" push
   displayName: 'benchmark'
-
+  workingDirectory: '$(Pipeline.Workspace)'
 
