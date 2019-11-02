@@ -4,14 +4,14 @@ part_1_rust_solution
 
 part_1_rust_solution
 
-subprocess.run(['./runner < ../orders-100K.txt > /dev/null'], shell=True, cwd='/home/vsts/work/1/part_1_rust_solution')
-[0.003172279999944294, 0.0014934910000192758]
+subprocess.run(['./runner < /home/vsts/work/1/s/orders-100K.txt > /dev/null'], shell=True, cwd='/home/vsts/work/1/part_1_rust_solution')
+[0.003198887000053219, 0.0019183919998795318]
 part_1_cpp_solution
 
 part_1_cpp_solution
 
-subprocess.run(['./runner < ../orders-100K.txt > /dev/null'], shell=True, cwd='/home/vsts/work/1/part_1_cpp_solution')
-[0.0014317910004137957, 0.001392792000387999]
+subprocess.run(['./runner < /home/vsts/work/1/s/orders-100K.txt > /dev/null'], shell=True, cwd='/home/vsts/work/1/part_1_cpp_solution')
+[0.0017305920000580954, 0.001641592999931163]
 s
 
 s does not have the prefix part_1
@@ -28,12 +28,12 @@ part_1_fsharp_solution
 
 part_1_fsharp_solution
 
-subprocess.run(['./runner < ../orders-100K.txt > /dev/null'], shell=True, cwd='/home/vsts/work/1/part_1_fsharp_solution')
-[0.0014137910002318677, 0.0014454909996857168]
+subprocess.run(['./runner < /home/vsts/work/1/s/orders-100K.txt > /dev/null'], shell=True, cwd='/home/vsts/work/1/part_1_fsharp_solution')
+[0.0015941930000735738, 0.0019237920000705344]
 part_1_csharp_solution
 
 part_1_csharp_solution
 
-subprocess.run(['./runner < ../orders-100K.txt > /dev/null'], shell=True, cwd='/home/vsts/work/1/part_1_csharp_solution')
-[0.0016106899997794244, 0.0016311899998981971]
-{'orders-100K.txt': {'part_1_rust_solution': 0.0014934910000192758, 'part_1_cpp_solution': 0.001392792000387999, 'part_1_fsharp_solution': 0.0014137910002318677, 'part_1_csharp_solution': 0.0016106899997794244}}
+subprocess.run(['./runner < /home/vsts/work/1/s/orders-100K.txt > /dev/null'], shell=True, cwd='/home/vsts/work/1/part_1_csharp_solution')
+[0.0015806930000508146, 0.0027520879998519376]
+{'orders-100K.txt': {'part_1_rust_solution': 0.0019183919998795318, 'part_1_cpp_solution': 0.001641592999931163, 'part_1_fsharp_solution': 0.0015941930000735738, 'part_1_csharp_solution': 0.0015806930000508146}}
