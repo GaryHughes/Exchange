@@ -71,7 +71,10 @@ for input in input_files:
         print(command)
         result = timeit.repeat(stmt = command, setup = "import subprocess", number = 1, repeat = iterations)
         print(result)
-        print(line_count(output_file))
+        if not os.path.exists(output_file):
+            print(line_count(output_file))
+        else:
+            print('output file does not exist: ' + output_file)
         results[input][solution] = min(result)
 
 print(results)
