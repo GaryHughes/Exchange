@@ -43,10 +43,13 @@ steps:
     targetPath: '$(Pipeline.Workspace)'
 - script: |
     ./benchmark.py $(Pipeline.Workspace) part_2 5 orders-100K.txt.gz orders-10M.txt.gz > part_2_results.md
+    ./generate_README.sh
     git config --global user.email "benchmark@example.com"
     git config --global user.name "benchmark.py"
     git checkout master
+    gti pull
     git add part_2_results.md
+    gti add README.md
     git commit -m "updated part 2 results"
     git -c http.extraheader="AUTHORIZATION: bearer $(System.AccessToken)" push
   displayName: 'benchmark'
