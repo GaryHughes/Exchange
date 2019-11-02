@@ -49,11 +49,15 @@ def uncompress(input):
 
 results = {}
 
+print(os.path.curdir)
+
 for input in input_files:
+    print(input)
     input = uncompress(input)
     order_count = line_count(input)
     results[input] = {}
     for solution in os.listdir(directory):
+        print(solution)
         if not os.path.isdir(solution):
             continue
         if not solution.startswith(prefix):
