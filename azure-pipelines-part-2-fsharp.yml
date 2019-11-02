@@ -19,7 +19,7 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- script: dotnet build --configuration $(buildConfiguration)
+- script: dotnet publish --configuration $(buildConfiguration)
   workingDirectory: 'Part 2/fsharp_solution'
   displayName: 'dotnet publish $(buildConfiguration)'
 - script: dotnet test --configuration $(buildConfiguration)
