@@ -7,14 +7,14 @@
 |  Rust    | [![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%201%20-%20Rust?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=10&branchName=master)              | [![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%202%20-%20Rust?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=11&branchName=master)              |
 
 
-##Part 1 Performance
+## Part 1 Performance
 ||100.0K|trades|
 -|:-:|:-:|
-|C#|0:00:00.599686|3368|
-|Rust|0:00:01.696152|3368|
-|F#|0:00:07.609436|3368|
-|C++|0:00:28.154319|3368|
-##Part 2 Performance
+|C#|0:00:00.591100|3368|
+|Rust|0:00:01.723135|3368|
+|F#|0:00:07.875470|3368|
+|C++|0:00:28.975176|3368|
+## Part 2 Performance
 ||100.0K|trades|
 -|:-:|:-:|
 |Rust|0:00:00.057195|3368|
