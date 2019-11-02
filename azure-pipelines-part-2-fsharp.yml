@@ -21,7 +21,7 @@ variables:
 steps:
 - script: dotnet build --configuration $(buildConfiguration)
   workingDirectory: 'Part 2/fsharp_solution'
-  displayName: 'dotnet build $(buildConfiguration)'
+  displayName: 'dotnet publish $(buildConfiguration)'
 - script: dotnet test --configuration $(buildConfiguration)
   workingDirectory: 'Part 2/fsharp_solution'
   displayName: 'dotnet test $(buildConfiguration)'
