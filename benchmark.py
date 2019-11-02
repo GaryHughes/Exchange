@@ -103,6 +103,7 @@ for order_count, solutions in results.items():
     for solution in solutions:
         time = str(datetime.timedelta(seconds=solution[1]))
         print('|{}|{}|{}|'.format(language(solution[0]), time, solution[2]))
+    print("\n")
 
 
 
