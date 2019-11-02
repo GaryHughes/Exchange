@@ -17,15 +17,16 @@ import shutil
 # just simplifies this script so it does not need to know the vagaries of running executables for different languages.
 
 def usage():
-    print(sys.argv[0] + ' <prefix> <iterations> input...')
+    print(sys.argv[0] + ' <directory> <prefix> <iterations> input...')
 
-if len(sys.argv) < 3:
+if len(sys.argv) < 4:
     usage()
     sys.exit(1)
 
-prefix = sys.argv[1]
-iterations = int(sys.argv[2])
-input_files = sys.argv[3:]
+directory = sys.argv[1]
+prefix = sys.argv[2]
+iterations = int(sys.argv[3])
+input_files = sys.argv[4:]
 
 if iterations <= 0 or len(input_files) == 0:
     usage()
@@ -52,7 +53,7 @@ for input in input_files:
     input = uncompress(input)
     order_count = line_count(input)
     results[input] = {}
-    for solution in os.listdir('.'):
+    for solution in os.listdir(directory):
         if not os.path.isdir(solution):
             continue
         if not solution.startswith(prefix):
