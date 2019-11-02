@@ -69,7 +69,9 @@ for input in input_files:
         if not os.path.exists(runner):
             print('{} does not contain a runner script'.format(solution))
             continue
-        command = "subprocess.run(['./runner < ../{} > /dev/null'], shell=True, cwd='{}')".format(os.path.relpath(input), os.path.join(directory, solution))
+        input_file = os.path.realpath(input)
+        working_directory = os.path.join(directory, solution)
+        command = "subprocess.run(['./runner < {} > /dev/null'], shell=True, cwd='{}')".format(input_file, working_directory)
         print(command)
         result = timeit.repeat(stmt = command, setup = "import subprocess", number = 1, repeat = iterations)
         print(result)
