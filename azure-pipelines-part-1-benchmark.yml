@@ -5,6 +5,9 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
+- checkout: self
+  clean: true
+  persistCredentials: true
 - task: DownloadPipelineArtifact@2
   # Download C++
   inputs:
@@ -38,7 +41,12 @@ steps:
     buildVersionToDownload: 'latest'
     targetPath: '$(Pipeline.Workspace)'
 - script: |
-    echo "run part 1 benchmarks"
+    ./benchmark.py $(Pipeline.Workspace) part_1 2 orders-100K.txt.gz > part_1_results.md
+    git config --global user.email "benchmark@example.com"
+    git config --global user.name "benchmark.py"
+    git checkout master
+    git add part_1_results.md
+    git commit -m "updated part 1 results"
+    git -c http.extraheader="AUTHORIZATION: bearer $(System.AccessToken)" push
   displayName: 'benchmark'
-
 
