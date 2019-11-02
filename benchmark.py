@@ -53,38 +53,56 @@ results = {}
 for input in input_files:
     input = uncompress(input)
     order_count = line_count(input)
-    results[input] = {}
+    results[order_count] = []
     for solution in os.listdir(directory):
         if not os.path.isdir(os.path.join(directory, solution)):
             continue
         if not solution.startswith(prefix):
             continue
-        runner = os.path.join(directory, solution, 'runner')
+        runner = os.path.relpath(os.path.join(directory, solution, 'runner'))
         if not os.path.exists(runner):
             continue
         input_file = os.path.realpath(input)
-        working_directory = os.path.join(directory, solution)
-        output_file = os.path.join(working_directory, 'trades')
+        working_directory = os.path.realpath(os.path.join(directory, solution))
+        output_file = os.path.realpath(os.path.join(working_directory, 'trades'))
         for solution_file in glob.glob(os.path.join(working_directory, '*')):
             os.chmod(solution_file, 0o755)
-        command = "subprocess.run(['{} < {} > {} && ls -l {}'], shell=True, cwd='{}')".format(runner, input_file, output_file, output_file, working_directory)
+        command = "subprocess.run(['./runner < {} > {}'], shell=True, cwd='{}')".format(input_file, output_file, working_directory)
         result = timeit.repeat(stmt = command, setup = "import subprocess", number = 1, repeat = iterations)
         if not os.path.exists(output_file):
             continue
-        print(line_count(output_file))
-        results[input][solution] = min(result)
+        results[order_count].append((solution, min(result), line_count(output_file)))
 
-print(results)
+def human_format(num):
+    magnitude = 0
+    while abs(num) >= 1000:
+        magnitude += 1
+        num /= 1000
+    return '{}{}'.format(num, ['', 'K', 'M', 'G', 'T', 'P'][magnitude])
 
-# {'orders-100K.txt': {'part_1_csharp_solution': 0.44683831100000004, 'part_1_cpp_solution': 16.479982948, 'part_1_rust_solution': 2.1821637549999977}}
+languages = {
+    "cpp"       : "C++",
+    "csharp"    : "C#",
+    "fsharp"    : "F#",
+    "rust"      : "Rust",
+    "go"        : "Go"
+}
 
-# |     | 100K         |
-# |-----|:------------:|
-# |C++  | 00:00:15.122 |
-# |Go   | 00:00:28.458 |
-# |F#   | 00:00:09.994 |
-# |C#   | 00:00:00:479 |
-# |rust | 00:00:02:260 |
+def language(solution):
+    name = solution.split('_')[2]
+    try:
+        return languages[name]
+    except KeyError:
+        return name
+
+for order_count, solutions in results.items():
+    solutions.sort(key=lambda solution: solution[1])
+    print('||{}|trades|'.format(human_format(order_count)))
+    print('-|:-:|:-:|')
+    for solution in solutions:
+        print('|{}|{}|{}|'.format(language(solution[0]), solution[1], solution[2]))
+
+
 
 
 
