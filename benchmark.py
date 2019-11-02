@@ -57,16 +57,17 @@ for input in input_files:
     order_count = line_count(input)
     results[input] = {}
     for solution in os.listdir(directory):
-        print(solution)
         if not os.path.isdir(solution):
             continue
         if not solution.startswith(prefix):
             continue
+        print(solution + "\n")
         runner = os.path.join(solution, 'runner')
         if not os.path.exists(runner):
-            print('{0} does not contain a runner script'.format(solution))
+            print('{} does not contain a runner script'.format(solution))
             continue
         command = "subprocess.run(['./runner < ../{} > /dev/null'], shell=True, cwd='{}')".format(input, os.path.realpath(solution))
+        print(command)
         result = timeit.repeat(stmt = command, setup = "import subprocess", number = 1, repeat = iterations)
         print(result)
         results[input][solution] = min(result)
