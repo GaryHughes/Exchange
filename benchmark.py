@@ -66,7 +66,7 @@ for input in input_files:
             continue
         input_file = os.path.realpath(input)
         working_directory = os.path.join(directory, solution)
-        output_file = os.path.realpath('./trades')
+        output_file = os.path.join(working_directory, 'trades')
         command = "subprocess.run(['./runner < {} > {} && ls -l {}'], shell=True, cwd='{}')".format(input_file, output_file, working_directory, output_file)
         print(command)
         result = timeit.repeat(stmt = command, setup = "import subprocess", number = 1, repeat = iterations)
