@@ -5,6 +5,7 @@ import os
 import timeit
 import gzip
 import shutil
+import glob
 
 # The Azure pipeline for each solution is required to publish a flattened artifact named like the following examples:
 #
@@ -67,7 +68,8 @@ for input in input_files:
         input_file = os.path.realpath(input)
         working_directory = os.path.join(directory, solution)
         output_file = os.path.join(working_directory, 'trades')
-        os.chmod(runner, 0o755)
+        for solution_file in glob.glob(os.path.join(working_directory, '*')):
+            os.chmod(solution_file, 0o755)
         command = "subprocess.run(['{} < {} > {} && ls -l {}'], shell=True, cwd='{}')".format(runner, input_file, output_file, output_file, working_directory)
         print(command)
         result = timeit.repeat(stmt = command, setup = "import subprocess", number = 1, repeat = iterations)
