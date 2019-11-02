@@ -79,7 +79,7 @@ def human_format(num):
     while abs(num) >= 1000:
         magnitude += 1
         num /= 1000
-    return '{}{}'.format(num, ['', 'K', 'M', 'G', 'T', 'P'][magnitude])
+    return '{}{}'.format(int(num), ['', 'K', 'M', 'G', 'T', 'P'][magnitude])
 
 languages = {
     "cpp"       : "C++",
