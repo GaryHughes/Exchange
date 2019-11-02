@@ -58,18 +58,18 @@ for input in input_files:
     results[input] = {}
     for solution in os.listdir(directory):
         print(solution + "\n")
-        if not os.path.isdir(solution):
+        if not os.path.isdir(os.path.join(directory, solution)):
             print(solution + ' is not dir')
             continue
         if not solution.startswith(prefix):
             print(solution + ' does not have the prefix ' + prefix)
             continue
         print(solution + "\n")
-        runner = os.path.join(solution, 'runner')
+        runner = os.path.join(directory, solution, 'runner')
         if not os.path.exists(runner):
             print('{} does not contain a runner script'.format(solution))
             continue
-        command = "subprocess.run(['./runner < ../{} > /dev/null'], shell=True, cwd='{}')".format(input, os.path.realpath(solution))
+        command = "subprocess.run(['./runner < ../{} > /dev/null'], shell=True, cwd='{}')".format(input, os.path.join(directory, solution))
         print(command)
         result = timeit.repeat(stmt = command, setup = "import subprocess", number = 1, repeat = iterations)
         print(result)
