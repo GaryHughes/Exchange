@@ -57,24 +57,21 @@ for input in input_files:
     order_count = line_count(input)
     results[input] = {}
     for solution in os.listdir(directory):
-        print(solution + "\n")
         if not os.path.isdir(os.path.join(directory, solution)):
-            print(solution + ' is not dir')
             continue
         if not solution.startswith(prefix):
-            print(solution + ' does not have the prefix ' + prefix)
             continue
-        print(solution + "\n")
         runner = os.path.join(directory, solution, 'runner')
         if not os.path.exists(runner):
-            print('{} does not contain a runner script'.format(solution))
             continue
         input_file = os.path.realpath(input)
         working_directory = os.path.join(directory, solution)
-        command = "subprocess.run(['./runner < {} > /dev/null'], shell=True, cwd='{}')".format(input_file, working_directory)
+        output_file = os.path.realpath('./trades')
+        command = "subprocess.run(['./runner < {} > {}'], shell=True, cwd='{}')".format(input_file, working_directory, output_file)
         print(command)
         result = timeit.repeat(stmt = command, setup = "import subprocess", number = 1, repeat = iterations)
         print(result)
+        print(line_count(output_file))
         results[input][solution] = min(result)
 
 print(results)
