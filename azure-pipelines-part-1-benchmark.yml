@@ -5,6 +5,9 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
+- checkout: self
+  clean: true
+  persistCredentials: true
 - task: DownloadPipelineArtifact@2
   # Download C++
   inputs:
