@@ -1,19 +1,22 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
-- master
-
+  none
+  
 pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- checkout: self
+  clean: true
+  persistCredentials: true
+
 
 - script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+    ./benchmark.py $(Pipeline.Workspace) part_2 2 orders-100K.txt.gz > part_2_results.md
+    git config --global user.email "benchmark@example.com"
+    git config --global user.name "benchmark.py"
+    git checkout master
+    git add part_2_results.md
+    git commit -m "updated part 2 results"
+    git -c http.extraheader="AUTHORIZATION: bearer $(System.AccessToken)" push
+  displayName: 'benchmark'
+
