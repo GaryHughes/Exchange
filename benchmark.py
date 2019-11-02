@@ -57,9 +57,12 @@ for input in input_files:
     order_count = line_count(input)
     results[input] = {}
     for solution in os.listdir(directory):
+        print(solution + "\n")
         if not os.path.isdir(solution):
+            print(solution + ' is not dir')
             continue
         if not solution.startswith(prefix):
+            print(solution + ' does not have the prefix ' + prefix)
             continue
         print(solution + "\n")
         runner = os.path.join(solution, 'runner')
