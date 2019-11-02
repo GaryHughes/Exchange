@@ -42,7 +42,7 @@ steps:
     buildVersionToDownload: 'latest'
     targetPath: '$(Pipeline.Workspace)'
 - script: |
-    ./benchmark.py $(Pipeline.Workspace) part_2 2 orders-100K.txt.gz > part_2_results.md
+    ./benchmark.py $(Pipeline.Workspace) part_2 10 orders-100K.txt.gz orders-10M.txt.gz > part_2_results.md
     git config --global user.email "benchmark@example.com"
     git config --global user.name "benchmark.py"
     git checkout master
