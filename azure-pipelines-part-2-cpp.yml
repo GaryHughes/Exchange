@@ -12,6 +12,8 @@ pool:
 
 steps:
 - script: |
+    sudo apt-get update
+    sudo apt autoremove
     sudo apt install -y libboost-all-dev
     make 
     make check
