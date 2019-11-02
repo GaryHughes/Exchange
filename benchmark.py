@@ -6,6 +6,7 @@ import timeit
 import gzip
 import shutil
 import glob
+import datetime
 
 # The Azure pipeline for each solution is required to publish a flattened artifact named like the following examples:
 #
@@ -100,7 +101,8 @@ for order_count, solutions in results.items():
     print('||{}|trades|'.format(human_format(order_count)))
     print('-|:-:|:-:|')
     for solution in solutions:
-        print('|{}|{}|{}|'.format(language(solution[0]), solution[1], solution[2]))
+        time = str(datetime.timedelta(seconds=solution[1]))
+        print('|{}|{}|{}|'.format(language(solution[0]), time, solution[2]))
 
 
 
