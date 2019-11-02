@@ -1,13 +1,6 @@
--rw-r--r-- 1 vsts docker 92412 Nov  2 06:01 /home/vsts/work/1/part_1_rust_solution/trades
--rw-r--r-- 1 vsts docker 92412 Nov  2 06:01 /home/vsts/work/1/part_1_rust_solution/trades
--rw-r--r-- 1 vsts docker 92412 Nov  2 06:02 /home/vsts/work/1/part_1_cpp_solution/trades
--rw-r--r-- 1 vsts docker 92412 Nov  2 06:02 /home/vsts/work/1/part_1_cpp_solution/trades
--rw-r--r-- 1 vsts docker 92412 Nov  2 06:02 /home/vsts/work/1/part_1_fsharp_solution/trades
--rw-r--r-- 1 vsts docker 92412 Nov  2 06:03 /home/vsts/work/1/part_1_fsharp_solution/trades
--rw-r--r-- 1 vsts docker 92412 Nov  2 06:03 /home/vsts/work/1/part_1_csharp_solution/trades
--rw-r--r-- 1 vsts docker 92412 Nov  2 06:03 /home/vsts/work/1/part_1_csharp_solution/trades
-3368
-3368
-3368
-3368
-{'orders-100K.txt': {'part_1_rust_solution': 1.5952183389999846, 'part_1_cpp_solution': 24.137932698999975, 'part_1_fsharp_solution': 7.108240196000224, 'part_1_csharp_solution': 0.5600515000005544}}
+||100.0K|trades|
+-|:-:|:-:|
+|C#|0.6002946129997326|3368|
+|Rust|1.7749471429997357|3368|
+|F#|7.904208424999979|3368|
+|C++|26.89427482400015|3368|
