@@ -50,10 +50,7 @@ def uncompress(input):
 
 results = {}
 
-print(os.path.curdir)
-
 for input in input_files:
-    print(input)
     input = uncompress(input)
     order_count = line_count(input)
     results[input] = {}
@@ -71,13 +68,10 @@ for input in input_files:
         for solution_file in glob.glob(os.path.join(working_directory, '*')):
             os.chmod(solution_file, 0o755)
         command = "subprocess.run(['{} < {} > {} && ls -l {}'], shell=True, cwd='{}')".format(runner, input_file, output_file, output_file, working_directory)
-        print(command)
         result = timeit.repeat(stmt = command, setup = "import subprocess", number = 1, repeat = iterations)
-        print(result)
         if not os.path.exists(output_file):
-            print(line_count(output_file))
-        else:
-            print('output file does not exist: ' + output_file)
+            continue
+        print(line_count(output_file))
         results[input][solution] = min(result)
 
 print(results)
