@@ -49,7 +49,7 @@ steps:
     git checkout master
     gti pull
     git add part_2_results.md
-    gti add README.md
+    git add README.md
     git commit -m "updated part 2 results"
     git -c http.extraheader="AUTHORIZATION: bearer $(System.AccessToken)" push
   displayName: 'benchmark'
