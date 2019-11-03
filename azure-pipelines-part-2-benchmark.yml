@@ -47,7 +47,7 @@ steps:
     git config --global user.email "benchmark@example.com"
     git config --global user.name "benchmark.py"
     git checkout master
-    gti pull
+    git pull
     git add part_2_results.md
     git add README.md
     git commit -m "updated part 2 results"
