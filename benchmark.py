@@ -98,7 +98,7 @@ def language(solution):
 
 for order_count, solutions in results.items():
     solutions.sort(key=lambda solution: solution[1])
-    print('||{}|trades|'.format(human_format(order_count)))
+    print('||{} orders|trades|'.format(human_format(order_count)))
     print('-|:-:|:-:|')
     for solution in solutions:
         time = str(datetime.timedelta(seconds=solution[1]))
