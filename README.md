@@ -6,6 +6,7 @@
 |  Go      | [![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%201%20-%20Go?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=8&branchName=master)              | [![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%202%20-%20Go?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=9&branchName=master) |
 |  Rust    | [![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%201%20-%20Rust?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=10&branchName=master)              | [![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%202%20-%20Rust?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=11&branchName=master)              |
 
+The following benchmarks are run in Microsoft hosted Azure Pipeline agents so the performance can and will vary between runs depending on what machine they end up running on. Each group, Part 1, Part 2, etc is run on a single agent so the performance of implementations within that group can be compared with some meaning. Performance in the Azure environment is significantly worse than will be seen on modern desktop hardware.
 
 ## Part 1 Performance
 ||100.0K|trades|
@@ -15,9 +16,19 @@
 |F#|0:00:07.875470|3368|
 |C++|0:00:28.975176|3368|
 ## Part 2 Performance
-||100.0K|trades|
+||100K|trades|
 -|:-:|:-:|
-|Rust|0:00:00.057195|3368|
-|C++|0:00:00.102651|3368|
-|F#|0:00:00.436145|3368|
-|C#|0:00:00.586657|3368|
+|Rust|0:00:00.056831|3368|
+|C++|0:00:00.107033|3368|
+|F#|0:00:00.430475|3368|
+|C#|0:00:00.591636|3368|
+
+
+||10M|trades|
+-|:-:|:-:|
+|Rust|0:00:06.362500|360131|
+|C++|0:00:11.406089|360131|
+|F#|0:00:41.102669|360131|
+|C#|0:01:08.420702|360131|
+
+
