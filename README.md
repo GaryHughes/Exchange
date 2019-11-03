@@ -9,16 +9,20 @@
 The following benchmarks are run in Microsoft hosted Azure Pipeline agents so the performance can and will vary between runs depending on what machine they end up running on. Each group, Part 1, Part 2, etc is run on a single agent so the performance of implementations within that group can be compared with some meaning. Performance in the Azure environment is significantly worse than will be seen on modern desktop hardware.
 
 ## Part 1 Performance
-[![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%201%20-%20Benchmark?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=13&branchName=master)||100K orders|trades|
+[![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%201%20-%20Benchmark?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=13&branchName=master)
+
+||100K orders|trades|
 -|:-:|:-:|
-|C#|0:00:00.538637|3368|
-|Rust|0:00:01.669990|3368|
-|F#|0:00:07.204388|3368|
-|C++|0:00:27.497506|3368|
+|C#|0:00:00.568636|3368|
+|Rust|0:00:01.620309|3368|
+|F#|0:00:07.257854|3368|
+|C++|0:00:27.001839|3368|
 
 
 ## Part 2 Performance
-[![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%202%20-%20Benchmark?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=14&branchName=master)||100K|trades|
+[![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%202%20-%20Benchmark?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=14&branchName=master)
+
+||100K|trades|
 -|:-:|:-:|
 |Rust|0:00:00.056831|3368|
 |C++|0:00:00.107033|3368|
