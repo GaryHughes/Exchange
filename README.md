@@ -9,12 +9,14 @@
 The following benchmarks are run in Microsoft hosted Azure Pipeline agents so the performance can and will vary between runs depending on what machine they end up running on. Each group, Part 1, Part 2, etc is run on a single agent so the performance of implementations within that group can be compared with some meaning. Performance in the Azure environment is significantly worse than will be seen on modern desktop hardware.
 
 ## Part 1 Performance
-||100.0K|trades|
+||100K orders|trades|
 -|:-:|:-:|
-|C#|0:00:00.591100|3368|
-|Rust|0:00:01.723135|3368|
-|F#|0:00:07.875470|3368|
-|C++|0:00:28.975176|3368|
+|C#|0:00:00.547872|3368|
+|Rust|0:00:01.599752|3368|
+|F#|0:00:07.151706|3368|
+|C++|0:00:26.340884|3368|
+
+
 ## Part 2 Performance
 ||100K|trades|
 -|:-:|:-:|
