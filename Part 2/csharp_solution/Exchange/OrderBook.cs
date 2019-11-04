@@ -1,19 +1,31 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NGenerics.DataStructures.Queues;
+using Medallion.Collections;
 
 namespace Exchange
 {
-    class BuyComparer : IComparer<(decimal, long)>
+    class BuyComparer : IComparer<Order>
     {
-        public int Compare((decimal, long) left, (decimal, long) right)
+        public int Compare(Order left, Order right)
         {
-            if (left.Item1 == right.Item1) {
-                return right.Item2.CompareTo(left.Item2);
+            if (left.Price == right.Price) {
+                return left.Generation.CompareTo(right.Generation);
             }
 
-            return left.Item1.CompareTo(right.Item1);
+            return right.Price.CompareTo(left.Price);
+        }
+    }
+
+    class SellComparer : IComparer<Order>
+    {
+        public int Compare(Order left, Order right)
+        {
+            if (left.Price == right.Price) {
+                return left.Generation.CompareTo(right.Generation);
+            }
+
+            return left.Price.CompareTo(right.Price);
         }
     }
 
@@ -22,10 +34,10 @@ namespace Exchange
         public Trade[] Execute(Order order)
         {
             if (order.Quantity > 0) {
-                BuyOrders.Add(order, (order.Price, order.Generation));
+                BuyOrders.Enqueue(order);
             }    
             else {
-                SellOrders.Add(order, (order.Price, order.Generation));
+                SellOrders.Enqueue(order);
             }
 
             var trades = new List<Trade>();
@@ -61,8 +73,8 @@ namespace Exchange
             return trades.ToArray();
         }
 
-        public PriorityQueue<Order, (decimal, long)> BuyOrders = new PriorityQueue<Order, (decimal, long)>(PriorityQueueType.Maximum, new BuyComparer());
-        public PriorityQueue<Order, (decimal, long)> SellOrders = new PriorityQueue<Order, (decimal, long)>(PriorityQueueType.Minimum);
-    
+        public PriorityQueue<Order> BuyOrders = new PriorityQueue<Order>(new BuyComparer());
+        public PriorityQueue<Order> SellOrders = new PriorityQueue<Order>(new SellComparer());
+
     }
 }
