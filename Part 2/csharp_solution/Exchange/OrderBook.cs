@@ -73,8 +73,8 @@ namespace Exchange
             return trades.ToArray();
         }
 
-        public PriorityQueue<Order> BuyOrders = new PriorityQueue<Order>(new BuyComparer());
-        public PriorityQueue<Order> SellOrders = new PriorityQueue<Order>(new SellComparer());
+        public PriorityQueue<Order> BuyOrders = new PriorityQueue<Order>(1000, new BuyComparer());
+        public PriorityQueue<Order> SellOrders = new PriorityQueue<Order>(1000, new SellComparer());
 
     }
 }
