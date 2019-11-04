@@ -9,11 +9,13 @@ namespace Exchange
     {
         public int Compare(Order left, Order right)
         {
-            if (left.Price == right.Price) {
+            var result = right.Price.CompareTo(left.Price);
+
+            if (result == 0) {
                 return left.Generation.CompareTo(right.Generation);
             }
 
-            return right.Price.CompareTo(left.Price);
+            return result;
         }
     }
 
@@ -21,11 +23,13 @@ namespace Exchange
     {
         public int Compare(Order left, Order right)
         {
-            if (left.Price == right.Price) {
+            var result = left.Price.CompareTo(right.Price);
+
+            if (result == 0) {
                 return left.Generation.CompareTo(right.Generation);
             }
 
-            return left.Price.CompareTo(right.Price);
+            return result;
         }
     }
 
