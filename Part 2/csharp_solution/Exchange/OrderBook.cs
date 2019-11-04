@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NGenerics.DataStructures.Queues;
 
 namespace Exchange
 {
@@ -9,10 +10,10 @@ namespace Exchange
         public int Compare((decimal, long) left, (decimal, long) right)
         {
             if (left.Item1 == right.Item1) {
-                return left.Item2.CompareTo(right.Item2);
+                return right.Item2.CompareTo(left.Item2);
             }
 
-            return right.Item1.CompareTo(left.Item1);
+            return left.Item1.CompareTo(right.Item1);
         }
     }
 
@@ -21,25 +22,25 @@ namespace Exchange
         public Trade[] Execute(Order order)
         {
             if (order.Quantity > 0) {
-                BuyOrders.Add((order.Price, order.Generation), order);
+                BuyOrders.Add(order, (order.Price, order.Generation));
             }    
             else {
-                SellOrders.Add((order.Price, order.Generation), order);
+                SellOrders.Add(order, (order.Price, order.Generation));
             }
 
             var trades = new List<Trade>();
 
             while (BuyOrders.Count > 0 && SellOrders.Count > 0) {
 
-                var ((buyPrice, buyGeneration), buy) = BuyOrders.First();
-                var ((sellPrice, sellGeneration), sell) = SellOrders.First();
-           
-                if (buyPrice < sellPrice) {
+                var buy = BuyOrders.Peek();
+                var sell = SellOrders.Peek();
+
+                if (buy.Price < sell.Price) {
                     break;
                 }
 
                 var quantity = Math.Min((buy.RemainingQuantity), sell.RemainingQuantity);
-                var price = buyGeneration < sellGeneration ? buyPrice : sellPrice;
+                var price = buy.Generation < sell.Generation ? buy.Price : sell.Price;
 
                 var trade = new Trade(buy.Participant, sell.Participant, buy.Instrument, quantity, price);
 
@@ -49,18 +50,19 @@ namespace Exchange
                 sell.Fill(quantity);
 
                 if (buy.RemainingQuantity == 0) {
-                    BuyOrders.Remove((buyPrice, buyGeneration));
+                    BuyOrders.Dequeue();
                 }
 
                 if (sell.RemainingQuantity == 0) {
-                    SellOrders.Remove((sellPrice, sellGeneration));
+                    SellOrders.Dequeue();
                 }
             }
-
+            
             return trades.ToArray();
         }
-  
-        public SortedDictionary<(decimal, long), Order> BuyOrders { get; } = new SortedDictionary<(decimal, long), Order>(new BuyComparer());
-        public SortedDictionary<(decimal, long), Order> SellOrders { get; } = new SortedDictionary<(decimal, long), Order>();         
+
+        public PriorityQueue<Order, (decimal, long)> BuyOrders = new PriorityQueue<Order, (decimal, long)>(PriorityQueueType.Maximum, new BuyComparer());
+        public PriorityQueue<Order, (decimal, long)> SellOrders = new PriorityQueue<Order, (decimal, long)>(PriorityQueueType.Minimum);
+    
     }
 }
