@@ -5,7 +5,7 @@ open System.IO
 open System.Text
 open System.Collections.Generic
 open FSharp.Data
-open C5
+open Medallion.Collections
 
 type Order =
     {   Participant:string
@@ -18,10 +18,10 @@ type Order =
 type BuyPriceGenerationComparer() =
     interface IComparer<Order> with
         member this.Compare(left, right) =
-            match left.Price.CompareTo(right.Price) with
+            match right.Price.CompareTo(left.Price) with
             | 1 -> 1
             | -1 -> -1
-            | _ -> right.Generation.CompareTo(left.Generation)
+            | _ -> left.Generation.CompareTo(right.Generation)
 
 type SellPriceGenerationComparer() =
     interface IComparer<Order> with
@@ -39,8 +39,8 @@ type Trade =
         Price:decimal }
 
 type OrderBook =
-    {   BuyOrders : IntervalHeap<Order>
-        SellOrders : IntervalHeap<Order>    }
+    {   BuyOrders : PriorityQueue<Order>
+        SellOrders : PriorityQueue<Order>    }
 
 
 let tokeniseOrderText text =
@@ -80,8 +80,8 @@ let getOrderBook instrument =
     | true -> orderBook
     | false -> 
         let orderBook = {
-            BuyOrders = new IntervalHeap<Order>(BuyPriceGenerationComparer())
-            SellOrders = new IntervalHeap<Order>(SellPriceGenerationComparer()) 
+            BuyOrders = new PriorityQueue<Order>(1000, BuyPriceGenerationComparer())
+            SellOrders = new PriorityQueue<Order>(1000, SellPriceGenerationComparer()) 
         }
         orderBooks.Add(instrument, orderBook)
         orderBook        
@@ -92,17 +92,15 @@ let insertOrder (order:Order) =
         match order.Quantity with
         | quantity when quantity < 0L -> orderBook.SellOrders
         | _ -> orderBook.BuyOrders
-    match side.Add(order) with
-    | true -> ()
-    | false -> failwith (sprintf "failed to add order %A" order)
+    side.Add(order)
     orderBook
     
 let matchingOrders orderBook =
-    if orderBook.BuyOrders.IsEmpty || orderBook.SellOrders.IsEmpty then
+    if orderBook.BuyOrders.Count = 0 || orderBook.SellOrders.Count = 0 then
         None
     else
-        let buyOrder = orderBook.BuyOrders.FindMax()
-        let sellOrder = orderBook.SellOrders.FindMin()
+        let buyOrder = orderBook.BuyOrders.Peek()
+        let sellOrder = orderBook.SellOrders.Peek()
         if buyOrder.Price >= sellOrder.Price then
             Some (buyOrder, sellOrder)
         else
@@ -118,8 +116,8 @@ let createTrade (buyOrder:Order,  sellOrder:Order) =
         Quantity = tradeQuantity }
 
 let trimOrderBook orderBook trade =
-    let buyOrder = orderBook.BuyOrders.DeleteMax()
-    let sellOrder = orderBook.SellOrders.DeleteMin()
+    let buyOrder = orderBook.BuyOrders.Dequeue()
+    let sellOrder = orderBook.SellOrders.Dequeue()
     let buyOrder = { buyOrder with Quantity = buyOrder.Quantity - trade.Quantity }
     let sellOrder = { sellOrder with Quantity = sellOrder.Quantity + trade.Quantity }
     if buyOrder.Quantity <> 0L then
