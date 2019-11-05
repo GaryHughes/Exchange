@@ -11,7 +11,7 @@ class exchange
 {
 public:
 
-	trade_collection execute(const order& order);
+	trade_collection execute(const std::string& instrument, const ae::order& order);
 
 private:
 

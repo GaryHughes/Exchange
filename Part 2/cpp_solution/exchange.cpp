@@ -3,11 +3,11 @@
 namespace ae
 {
 
-trade_collection exchange::execute(const order& order)
+trade_collection exchange::execute(const std::string& instrument, const ae::order& order)
 {
 	ae::trade_collection trades;
 
-	auto& book = order_book_for_instrument(order.instrument());
+	auto& book = order_book_for_instrument(instrument);
 
 	book.insert(order);
 	book.match(trades);
