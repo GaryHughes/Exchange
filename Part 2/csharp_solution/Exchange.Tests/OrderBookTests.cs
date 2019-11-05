@@ -4,7 +4,7 @@ using System.Linq;
 namespace Exchange.Tests
 {
     [TestClass]
-    public class UnitTest1
+    public class OrderBookTests
     {
         [TestMethod]
         public void TestBuyOrdering()

@@ -4,21 +4,56 @@ namespace Exchange
 {
     public class Order
     {
+        enum Token {
+            Participant,
+            Instrument,
+            Quantity,
+            Price
+            
+        };
+       
         public Order(string line)
         {
-            var components = line.Split(':');
-            if (components.Length != 4) {
-                throw new Exception($"Invalid line '{line}' expected 4 components and found {components.Length}");
+            Quantity = 0;
+            Participant = "";
+            Instrument = "";
+           
+            var input = line.AsSpan();
+            var token = Token.Participant;
+            int start = 0;
+            int end = 0;
+            for (start = 0; end < input.Length; ++end) {
+                if (input[end] != ':') {
+                    continue;
+                }
+                switch (token) {
+                    case Token.Participant:
+                        Participant = input.Slice(start, end - start).ToString();
+                        token = Token.Instrument;
+                        break;
+                    case Token.Instrument:
+                        Instrument = input.Slice(start, end - start).ToString();
+                        token = Token.Quantity;
+                        break;
+                    case Token.Quantity:
+                        Quantity = long.Parse(input.Slice(start, end - start));
+                        token = Token.Price;
+                        break;
+                }
+                start = end + 1;
             }
-            Participant = components[0];
-            Instrument = components[1];
-            Quantity = long.Parse(components[2]);
+
+            if (token != Token.Price) {
+                throw new ArgumentException($"Could not parse order '{line}'", nameof(line));
+            }
+
+            Price = decimal.Parse(input.Slice(start));
+
             RemainingQuantity = Math.Abs(Quantity);
-            Price = decimal.Parse(components[3]);
             Generation = NextGeneration++;
         }
 
-        public string Participant { get; }
+        public string Participant { get; } 
         public string Instrument { get; }
         public long Quantity { get; }
         public long RemainingQuantity { get; private set; }
@@ -31,5 +66,9 @@ namespace Exchange
         }
         
         private static int NextGeneration = 1;
+
+        public override string ToString() {
+            return $"{Participant}:{Instrument}:{Quantity}:{Price}";
+        }
     }    
 }
