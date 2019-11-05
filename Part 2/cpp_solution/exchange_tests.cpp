@@ -7,11 +7,11 @@ BOOST_AUTO_TEST_CASE( test_match_with_different_participants )
 {
 	ae::exchange exchange;
 
-	auto trades = exchange.execute(ae::order("A", "AUDUSD", 100, 10));
+	auto trades = exchange.execute("AUDUSD", ae::order("A", 100, 10));
 
 	BOOST_REQUIRE_EQUAL(0, trades.size());
 
-	trades = exchange.execute(ae::order("B", "AUDUSD", -100, 10));
+	trades = exchange.execute("AUDUSD", ae::order("B", -100, 10));
 
 	BOOST_REQUIRE_EQUAL(1, trades.size());
 
@@ -27,11 +27,11 @@ BOOST_AUTO_TEST_CASE( test_match_with_same_participant )
 {
 	ae::exchange exchange;
 
-	auto trades = exchange.execute(ae::order("A", "AUDUSD", 100, 10));
+	auto trades = exchange.execute("AUDUSD", ae::order("A", 100, 10));
 
 	BOOST_REQUIRE_EQUAL(0, trades.size());
 
-	trades = exchange.execute(ae::order("A", "AUDUSD", -100, 10));
+	trades = exchange.execute("AUDUSD", ae::order("A", -100, 10));
 
 	BOOST_REQUIRE_EQUAL(1, trades.size());
 
@@ -47,11 +47,11 @@ BOOST_AUTO_TEST_CASE( test_different_instruments_do_not_match )
 {
 	ae::exchange exchange;
 
-	auto trades = exchange.execute(ae::order("A", "AUDUSD", 100, 10));
+	auto trades = exchange.execute("AUDUSD", ae::order("A", 100, 10));
 
 	BOOST_REQUIRE_EQUAL(0, trades.size());
 
-	trades = exchange.execute(ae::order("B", "EURGBP", -100, 10));
+	trades = exchange.execute("EURGBP", ae::order("B", -100, 10));
 
 	BOOST_REQUIRE_EQUAL(0, trades.size());
 }
@@ -60,11 +60,11 @@ BOOST_AUTO_TEST_CASE( test_price_from_first_order_selected )
 {
 	ae::exchange exchange;
 
-	auto trades = exchange.execute(ae::order("A", "AUDUSD", 100, 10));
+	auto trades = exchange.execute("AUDUSD", ae::order("A", 100, 10));
 
 	BOOST_REQUIRE_EQUAL(0, trades.size());
 
-	trades = exchange.execute(ae::order("B", "AUDUSD", -100, 9));
+	trades = exchange.execute("AUDUSD", ae::order("B", -100, 9));
 
 	BOOST_REQUIRE_EQUAL(1, trades.size());
 
