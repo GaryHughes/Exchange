@@ -2,7 +2,7 @@
 CXX=g++
 CFLAGS=-I. -I/usr/local/include -std=c++14 -O3
 DEPS = 
-OBJS = order.o order_book.o trade.o trade_collection.o exchange.o
+OBJS = order.o order_book.o trade.o exchange.o
 LIBS = -lboost_unit_test_framework
 
 %.o: %.cpp $(DEPS)

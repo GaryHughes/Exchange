@@ -6,6 +6,7 @@
 #include <array>
 #include "exchange.h"
 
+static const std::string separator = ":";
 
 int main(int, char**)
 {
@@ -32,7 +33,15 @@ int main(int, char**)
 				throw std::runtime_error(msg.str());
 			}
 
-			std::cout << exchange.execute(instrument, ae::order(participant, quantity, price));
+			for(const auto& trade : exchange.execute(instrument, ae::order(participant, quantity, price)))
+			{
+				printf("%s:%s:%s:%ld:%g\n", 
+					   trade.buyer().c_str(), 
+					   trade.seller().c_str(), 
+					   trade.instrument().c_str(), 
+					   trade.match_quantity(), 
+					   trade.match_price());
+			}
 		}
 	}
 	catch(std::exception& ex)
