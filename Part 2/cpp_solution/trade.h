@@ -13,13 +13,11 @@ public:
 
 	trade(const std::string& buyer,
 		  const std::string& seller,
-		  const std::string& instrument,
 		  quantity_type match_quantity,
 		  price_type match_price);
 
 	const std::string& buyer() const { return m_buyer; }
 	const std::string& seller() const { return m_seller; }
-	const std::string& instrument() const { return m_instrument; }
 	quantity_type match_quantity() const { return m_match_quantity; }
 	price_type match_price() const { return m_match_price; }
 
@@ -27,7 +25,6 @@ private:
 
 	std::string m_buyer;
 	std::string m_seller;
-	std::string m_instrument;
 	quantity_type m_match_quantity;
 	price_type m_match_price;
 

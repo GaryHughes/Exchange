@@ -38,7 +38,7 @@ int main(int, char**)
 				printf("%s:%s:%s:%ld:%g\n", 
 					   trade.buyer().c_str(), 
 					   trade.seller().c_str(), 
-					   trade.instrument().c_str(), 
+					   instrument, 
 					   trade.match_quantity(), 
 					   trade.match_price());
 			}

@@ -48,7 +48,6 @@ void order_book::match(trade_collection& trades)
 
 		trades.emplace_back(buy_order.participant(),
 							sell_order.participant(),
-							instrument(),
 							match_quantity,
 							match_price);
 		
