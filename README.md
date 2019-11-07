@@ -13,10 +13,10 @@ The following benchmarks are run in Microsoft hosted Azure Pipeline agents so th
 
 ||100K orders|trades|
 -|:-:|:-:|
-|C#|0:00:00.568636|3368|
-|Rust|0:00:01.620309|3368|
-|F#|0:00:07.257854|3368|
-|C++|0:00:27.001839|3368|
+|C#|0:00:00.622017|3368|
+|Rust|0:00:01.803092|3368|
+|F#|0:00:08.330601|3368|
+|C++|0:00:33.365497|3368|
 
 
 ## Part 2 Performance
