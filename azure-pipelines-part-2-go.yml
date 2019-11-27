@@ -16,7 +16,7 @@ steps:
   displayName: 'go build'
 - task: CopyFiles@2
   inputs:
-    contents: 'Part 2/go_solution/geh-exchange-go'
+    contents: 'Part 2/go_solution/Exchange'
     targetFolder: $(Build.ArtifactStagingDirectory)
     flattenFolders: true
 - task: CopyFiles@2
