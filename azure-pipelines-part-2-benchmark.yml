@@ -1,0 +1,64 @@
+trigger:
+  none
+  
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- checkout: self
+  clean: true
+  persistCredentials: true
+
+- task: DownloadPipelineArtifact@2
+  # Download C#
+  inputs:
+    buildType: 'specific'
+    project: '030b6a1b-1f33-4e57-b63f-f03f0d399d8d'
+    definition: '6'
+    buildVersionToDownload: 'latest'
+    targetPath: '$(Pipeline.Workspace)'
+- task: DownloadPipelineArtifact@2
+  # Download C++
+  inputs:
+    buildType: 'specific'
+    project: '030b6a1b-1f33-4e57-b63f-f03f0d399d8d'
+    definition: '12'
+    buildVersionToDownload: 'latest'
+    targetPath: '$(Pipeline.Workspace)'
+- task: DownloadPipelineArtifact@2
+  # Download F#
+  inputs:
+    buildType: 'specific'
+    project: '030b6a1b-1f33-4e57-b63f-f03f0d399d8d'
+    definition: '7'
+    buildVersionToDownload: 'latest'
+    targetPath: '$(Pipeline.Workspace)'
+- task: DownloadPipelineArtifact@2
+  # Download Rust
+  inputs:
+    buildType: 'specific'
+    project: '030b6a1b-1f33-4e57-b63f-f03f0d399d8d'
+    definition: '11'
+    buildVersionToDownload: 'latest'
+    targetPath: '$(Pipeline.Workspace)'
+- task: DownloadPipelineArtifact@2
+  # Download Go
+  inputs:
+    buildType: 'specific'
+    project: '030b6a1b-1f33-4e57-b63f-f03f0d399d8d'
+    definition: '9'
+    buildVersionToDownload: 'latest'
+    targetPath: '$(Pipeline.Workspace)'
+- script: |
+    ./benchmark.py $(Pipeline.Workspace) part_2 5 orders-100K.txt.gz orders-10M.txt.gz > part_2_results.md
+    ./generate_README.sh
+    git config --global user.email "benchmark@example.com"
+    git config --global user.name "benchmark.py"
+    git checkout master
+    git pull
+    git add part_2_results.md
+    git add README.md
+    git commit -m "updated part 2 results"
+    git -c http.extraheader="AUTHORIZATION: bearer $(System.AccessToken)" push
+  displayName: 'benchmark'
+

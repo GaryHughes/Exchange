@@ -1,63 +1,43 @@
-# Exchange
+| Language |     Part 1    |     Part 2    | 
+|:--------:|:-------------:|:-------------:|
+|  C++     | [![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/3?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=3&branchName=master)              | [![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/12?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=12&branchName=master)              | 
+|  C#      | [![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%201%20-%20C%23?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=4&branchName=master)              | [![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%202%20-%20C%23?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=6&branchName=master) | 
+|  F#      | [![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%201%20-%20F%23?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=5&branchName=master)              | [![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%202%20-%20F%23?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=7&branchName=master) |
+|  Go      | [![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%201%20-%20Go?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=8&branchName=master)              | [![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%202%20-%20Go?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=9&branchName=master) |
+|  Rust    | [![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%201%20-%20Rust?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=10&branchName=master)              | [![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%202%20-%20Rust?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=11&branchName=master)              |
 
-Write a command line application in any language you like that acts as a basic exchange, or “order matcher”, taking limit order input from stdin, matching orders, and sending trade output to stdout. The application should adhere to the following requirements.
+The following benchmarks are run in Microsoft hosted Azure Pipeline agents so the performance can and will vary between runs depending on what machine they end up running on. Each group, Part 1, Part 2, etc is run on a single agent so the performance of implementations within that group can be compared with some meaning. Performance in the Azure environment is significantly worse than will be seen on modern desktop hardware.
 
-* A limit order is a directive to buy or sell a quantity of an instrument at or, better than, a specified price, called the limit price.
-A limit order is specified by the format, with a negative quantity indicating a sell:
+## Part 1 Performance
+[![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%201%20-%20Benchmark?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=13&branchName=master)
 
-        <buyer/sellerid>:<instrument>:<signed­quantity>:<limit­price>
-    
-    For example, an order to sell 100 AUD (against USD) at a price of 1.47 (or more) would be.
+||100K orders|trades|
+-|:-:|:-:|
+|C#|0:00:00.557987|3368|
+|Rust|0:00:01.619691|3368|
+|F#|0:00:07.335041|3368|
+|C++|0:00:27.423038|3368|
+|Go|0:00:46.684688|3368|
 
-        A:AUDUSD:­100:1.47
 
-* A match occurs between two limit orders when.
-    * both orders are for the same instrument 
-    * One order is a buy (+ve signed quantity) and the other is a sell (-ve signed quantity) 
-    * The “buy” limit price is equal to or higher than the “sell” limit price
+## Part 2 Performance
+[![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%202%20-%20Benchmark?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=14&branchName=master)
 
-* The result of a match is a trade at the match price and match quantity. The match price is the limit price of the first order input of the two orders. The match quantity is the minimum of the two unsigned order quantities. Both orders are then considered filled an amount equal to the match quantity. If the unsigned order quantities are not equal, one order will have a remaining unfilled quantity, which is then a candidate for further matching.
+||100K orders|trades|
+-|:-:|:-:|
+|Rust|0:00:00.051505|3368|
+|Go|0:00:00.077852|3368|
+|C++|0:00:00.084622|3368|
+|C#|0:00:00.202997|3368|
+|F#|0:00:00.359613|3368|
 
-    A trade is specified by the format:
 
-        <buyerid>:<sellerid>:<instrument>:<match­quantity>:<match­price>
+||10M orders|trades|
+-|:-:|:-:|
+|Rust|0:00:06.003881|360131|
+|C++|0:00:09.484619|360131|
+|Go|0:00:09.816135|360131|
+|C#|0:00:20.210627|360131|
+|F#|0:00:30.003059|360131|
 
-    For example, a trade of 50 AUD (against USD) at 1.47 with “A” the buyer and “B”the seller would be,
 
-        A:B:AUDUSD:50:1.47
-
-* Orders should be processed and matched in order of receipt.
-* When multiple orders are candidates for matching against a new order, matching should be against the most aggressively priced candidate (lowest price for sells, highest price for buys). If multiple candidates have the most aggressive price, matching should occur against the candidate first received. This should be repeated until either all match candidates or the new order are completely filled.
-* A buyer is allowed to trade with itself (ie. Orders do not need different buyer/seller ids to match)
-
-The usage of the application should be as per the following example:
-
-    cat orders.txt | ./Exchange > trades.txt
-
-Examples:
-
-Input
-
-    A:AUDUSD:100:1.47
-    B:AUDUSD:-50:1.45
-
-Output:
-
-    A:B:AUDUSD:50:1.47
-
-Input:
-
-    A:GBPUSD:100:1.66
-    B:EURUSD:-100:1.11
-    F:EURUSD:-50:1.1
-    C:GBPUSD:-10:1.5
-    C:GBPUSD:-20:1.6
-    C:GBPUSD:-20:1.7
-    D:EURUSD:100:1.11
-
-Output:
-
-    A:C:GBPUSD:10:1.66
-    A:C:GBPUSD:20:1.66
-    D:F:EURUSD:50:1.1
-    D:B:EURUSD:50:1.11

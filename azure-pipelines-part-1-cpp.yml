@@ -1,0 +1,36 @@
+trigger:
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - 'Part 1/cpp_solution'
+      - azure-pipelines-part-1-cpp.yml
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- script: |
+    sudo apt-get update
+    sudo apt autoremove
+    sudo apt install -y libboost-all-dev 
+    make
+    make check
+  workingDirectory: 'Part 1/cpp_solution'
+  displayName: 'make'
+- task: CopyFiles@2
+  inputs:
+    contents: 'Part 1/cpp_solution/Exchange'
+    targetFolder: $(Build.ArtifactStagingDirectory)
+    flattenFolders: true
+- task: CopyFiles@2
+  inputs:
+    contents: 'Part 1/cpp_solution/runner'
+    targetFolder: $(Build.ArtifactStagingDirectory)
+    flattenFolders: true
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: $(Build.ArtifactStagingDirectory)
+    artifactName: part_1_cpp_solution
+    publishLocation: 'Container'

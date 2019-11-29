@@ -3,3 +3,15 @@
 /Packages
 /*.xcodeproj
 Package.pins
+*.o
+Exchange
+exchange_tests
+order_book_tests
+order_tests
+trades
+.vscode
+bin
+obj
+target/
+.ionide
+trades.txt

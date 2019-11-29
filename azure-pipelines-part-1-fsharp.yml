@@ -1,0 +1,37 @@
+trigger:
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - 'Part 1/fsharp_solution'
+      - azure-pipelines-part-1-fsharp.yml
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  buildConfiguration: 'Release'
+
+steps:
+- script: dotnet publish --configuration $(buildConfiguration)
+  workingDirectory: 'Part 1/fsharp_solution'
+  displayName: 'dotnet pubish $(buildConfiguration)'
+- script: dotnet test --configuration $(buildConfiguration)
+  workingDirectory: 'Part 1/fsharp_solution'
+  displayName: 'dotnet test $(buildConfiguration)'
+- task: CopyFiles@2
+  inputs:
+    contents: 'Part 1/fsharp_solution/Exchange/bin/Release/netcoreapp3.0/publish/*'
+    targetFolder: $(Build.ArtifactStagingDirectory)
+    flattenFolders: true
+- task: CopyFiles@2
+  inputs:
+    contents: 'Part 1/fsharp_solution/runner'
+    targetFolder: $(Build.ArtifactStagingDirectory)
+    flattenFolders: true
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: $(Build.ArtifactStagingDirectory)
+    artifactName: part_1_fsharp_solution
+    publishLocation: 'Container'

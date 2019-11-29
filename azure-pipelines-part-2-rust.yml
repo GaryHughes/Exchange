@@ -1,0 +1,39 @@
+trigger:
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - 'Part 2/rust_solution'
+      - azure-pipelines-part-2-rust.yml
+
+pool:
+  vmImage: 'ubuntu-16.04'
+
+steps:
+  - script: |
+      curl https://sh.rustup.rs -sSf | sh -s -- -y
+      echo "##vso[task.setvariable variable=PATH;]$PATH:$HOME/.cargo/bin"
+    displayName: Install rust
+    workingDirectory: 'Part 2/rust_solution'
+  - script: cargo build --release
+    displayName: Cargo build
+    workingDirectory: 'Part 2/rust_solution'
+  - script: cargo test --all
+    displayName: Cargo test
+    workingDirectory: 'Part 2/rust_solution'
+  - task: CopyFiles@2
+    inputs:
+      contents: 'Part 2/rust_solution/target/release/exchange'
+      targetFolder: $(Build.ArtifactStagingDirectory)
+      flattenFolders: true
+  - task: CopyFiles@2
+    inputs:
+      contents: 'Part 2/rust_solution/runner'
+      targetFolder: $(Build.ArtifactStagingDirectory)
+      flattenFolders: true
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathToPublish: $(Build.ArtifactStagingDirectory)
+      artifactName: part_2_rust_solution
+      publishLocation: 'Container'
