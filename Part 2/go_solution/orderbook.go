@@ -61,13 +61,13 @@ func (ob *OrderBook) String() string {
 	return sb.String()
 }
 
-func (ob *OrderBook) Insert(o Order) {
+func (ob *OrderBook) Insert(o *Order) {
 	o.gen = ob.nextgen
 	ob.nextgen++
 	if o.IsBuy {
-		heap.Push(&ob.Buys, &o)
+		heap.Push(&ob.Buys, o)
 	} else {
-		heap.Push(&ob.Sells, &o)
+		heap.Push(&ob.Sells, o)
 	}
 }
 

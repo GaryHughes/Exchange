@@ -16,7 +16,7 @@ func TestOrderBookOrdering(t *testing.T) {
 		for i := 0; i < int(n); i++ {
 			px := Price(rand.Intn(100))
 			buy := rand.Uint32()%2 == 0
-			book.Insert(Order{
+			book.Insert(&Order{
 				Price: px,
 				IsBuy: buy,
 			})
@@ -69,7 +69,7 @@ func TestFirstPriceEnteredSelected(t *testing.T) {
 
 func BenchmarkOrderBookInsert(b *testing.B) {
 	book := NewOrderBook("")
-	orders := make([]Order, b.N)
+	orders := make([]*Order, b.N)
 	for i := 0; i < b.N; i++ {
 		orders[i] = makeOrder("A", "EURUSD", 100, 1)
 	}
@@ -96,11 +96,11 @@ func BenchmarkOrderBookMatch(b *testing.B) {
 	}
 }
 
-func makeOrder(party, inst string, qty int64, px float32) Order {
+func makeOrder(party, inst string, qty int64, px float32) *Order {
 	buy := true
 	if qty < 0 {
 		buy = false
 		qty = -qty
 	}
-	return Order{party, inst, Quantity(qty), Quantity(qty), Price(px), buy, 0}
+	return &Order{party, inst, Quantity(qty), Quantity(qty), Price(px), buy, 0}
 }

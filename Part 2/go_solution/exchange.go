@@ -24,7 +24,7 @@ func (ex *Exchange) Book(ins string) *OrderBook {
 	return ob
 }
 
-func (ex *Exchange) Execute(o Order) ([]Trade, error) {
+func (ex *Exchange) Execute(o *Order) ([]Trade, error) {
 	ob := ex.Book(o.Instrument)
 	ob.Insert(o)
 	return ob.Match()
@@ -53,7 +53,7 @@ func main() {
 		if verbose {
 			fmt.Println(o)
 		}
-		trades, err := exchange.Execute(*o)
+		trades, err := exchange.Execute(o)
 		if err != nil {
 			panic(err)
 		}
