@@ -1,0 +1,94 @@
+
+Environment
+-----------
+    
+    Ubuntu 16.04
+    Intel i7-4790K @ 4GHZ (8 cores)
+    16 GB RAM
+    SSD Disk
+    Optimized build 'swift build -c release'
+
+
+Results
+-------
+
+    real    0m10.358s
+    user    0m10.336s
+    sys     0m0.028s
+
+    real    0m10.125s
+    user    0m10.112s
+    sys     0m0.016s
+
+    real    0m9.943s
+    user    0m9.936s
+    sys     0m0.012s
+
+    real    0m9.991s
+    user    0m9.976s
+    sys     0m0.024s
+
+    real    0m10.119s
+    user    0m10.092s
+    sys     0m0.032s
+
+
+    Avg:    10.107s
+    Min:     9.943s  
+    Max:    10.358s
+
+
+
+After changing the program to perform input, processing and output on different queues:
+
+    real    0m13.714s
+    user    0m13.756s
+    sys     0m0.732s
+
+    real    0m14.518s
+    user    0m14.656s
+    sys     0m0.756s
+
+    real    0m13.216s
+    user    0m13.256s
+    sys     0m0.672s
+
+    real    0m13.801s
+    user    0m13.912s
+    sys     0m0.624s
+
+    real    0m14.442s
+    user    0m14.560s
+    sys     0m0.588s
+
+    Avg:    13.938s
+    Min:    13.216s
+    Max:    14.518s
+
+
+After changing the program to process each order book on different queues:
+
+    real    0m3.908s
+    user    0m20.416s
+    sys     0m0.272s
+
+    real    0m3.664s
+    user    0m20.404s
+    sys    0m0.304s
+
+    real    0m3.518s
+    user    0m20.200s
+    sys     0m0.264s
+
+    real    0m3.812s
+    user    0m21.520s
+    sys     0m0.376s
+
+    real    0m3.873s
+    user    0m21.304s
+    sys     0m0.320s
+
+    Avg:    3.755s
+    Min:    3.518s
+    Max:    3.908s
+
