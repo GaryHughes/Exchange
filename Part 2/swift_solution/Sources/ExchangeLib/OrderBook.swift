@@ -46,7 +46,7 @@ class OrderBook
 
     private func insert(_ order: Order, inSide side: inout [Order], where condition: (Order) -> Bool)
     {
-        if let index = side.index(where: condition)
+        if let index = side.firstIndex(where: condition)
         {
             side.insert(order, at: index)
         }

@@ -1,4 +1,4 @@
-// swift-tools-version:3.1
+// swift-tools-version:5.1
 
 import PackageDescription
 
@@ -6,7 +6,7 @@ let package = Package(
     name: "Exchange",
     targets:
     [
-        Target(name: "Exchange", dependencies: ["ExchangeLib"]),
-        Target(name: "ExchangeLib")
+        .target(name: "Exchange", dependencies: ["ExchangeLib"]),
+        .target(name: "ExchangeLib")
     ]
 )
