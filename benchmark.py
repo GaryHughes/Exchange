@@ -86,7 +86,8 @@ languages = {
     "csharp"    : "C#",
     "fsharp"    : "F#",
     "rust"      : "Rust",
-    "go"        : "Go"
+    "go"        : "Go",
+    "swift"     : "Swift"
 }
 
 def language(solution):
