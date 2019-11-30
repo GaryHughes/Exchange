@@ -8,13 +8,12 @@ trigger:
       - azure-pipelines-part-2-cpp.yml
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'ubuntu-18.04'
+
+container: garyedwardhughes/exchange:latest
 
 steps:
 - script: |
-    sudo apt-get update
-    sudo apt autoremove
-    sudo apt install -y libboost-all-dev
     make 
     make check
   workingDirectory: 'Part 2/cpp_solution'
