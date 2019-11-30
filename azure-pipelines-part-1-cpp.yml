@@ -8,7 +8,9 @@ trigger:
       - azure-pipelines-part-1-cpp.yml
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'ubuntu-18.04'
+
+container: ubuntu:18.04
 
 steps:
 - script: |
