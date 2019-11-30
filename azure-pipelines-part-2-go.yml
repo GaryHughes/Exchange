@@ -8,7 +8,9 @@ trigger:
       - azure-pipelines-part-2-go.yml
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'ubuntu-18.04'
+
+container: garyedwardhughes/exchange:latest
 
 steps:
 - script: go build -v .
