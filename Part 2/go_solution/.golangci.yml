@@ -1,0 +1,4 @@
+issues:
+  exclude:
+    # exclude range scope lint for test cases
+    - Using the variable on range scope `tc` in function literal

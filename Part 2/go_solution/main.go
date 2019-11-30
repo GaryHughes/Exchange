@@ -1,30 +1,21 @@
 package main
 
 import (
-	"encoding/csv"
 	"fmt"
-	"io"
 	"os"
 )
 
 func main() {
 	verbose := false
 	exchange := NewExchange()
-	reader := csv.NewReader(os.Stdin)
-	reader.FieldsPerRecord = 4
-	reader.Comma = ':'
-	reader.ReuseRecord = true
+	reader := NewOrderReader(os.Stdin)
 	for {
-		rec, err := reader.Read()
-		if err == io.EOF {
+		o, err := reader.Read()
+		if err != nil {
+			panic(err)
+		}
+		if o == nil {
 			break
-		}
-		if err != nil {
-			panic(err)
-		}
-		o, err := ScanOrder(rec)
-		if err != nil {
-			panic(err)
 		}
 
 		if verbose {
