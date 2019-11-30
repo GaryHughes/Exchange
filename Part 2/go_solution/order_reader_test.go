@@ -24,8 +24,8 @@ func TestReadOrder(t *testing.T) {
 		price      Price
 		isBuy      bool
 	}{
-		{"A:COWBEL:1000:2", "A", "COWBEL", 1000, 2, true},
-		{"A:COWBEL:-1000:2", "A", "COWBEL", 1000, 2, false},
+		{"A:COWBEL:1000:2\n", "A", "COWBEL", 1000, 2, true},
+		{"A:COWBEL:-1000:2\n", "A", "COWBEL", 1000, 2, false},
 	}
 	for _, tc := range tests {
 		t.Run(tc.in, func(t *testing.T) {
@@ -69,13 +69,17 @@ func (e *endless) Read(b []byte) (n int, err error) {
 	return bl, nil
 }
 
+// ensure endless implements io.Reader
 var _ io.Reader = &endless{}
 
 func BenchmarkReadOrder(b *testing.B) {
-	sr := &endless{s: []byte("A:COWBELL:1000:2\n")}
+	sr := &endless{s: []byte("A:COWBELL:1000:2\nB:COWBELL:-1000:1\n")}
 	reader := NewOrderReader(sr)
 	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
-		_, _ = reader.Read()
+		_, err := reader.Read()
+		if err != nil {
+			b.Error(err)
+		}
 	}
 }

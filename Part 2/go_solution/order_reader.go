@@ -1,39 +1,43 @@
 package main
 
 import (
-	"encoding/csv"
+	"bufio"
 	"io"
 	"strconv"
+	"strings"
 
 	"github.com/pkg/errors"
 )
 
 type OrderReader struct {
-	reader *csv.Reader
+	reader *bufio.Reader
+	rec    []string
 }
 
 func NewOrderReader(in io.Reader) *OrderReader {
-	r := csv.NewReader(in)
-	r.FieldsPerRecord = 4
-	r.Comma = ':'
-	r.ReuseRecord = true
-
-	return &OrderReader{reader: r}
+	r := bufio.NewReader(in)
+	rec := make([]string, 4)
+	return &OrderReader{reader: r, rec: rec}
 }
 
 func (s *OrderReader) Read() (*Order, error) {
-	rec, err := s.reader.Read()
+	sline, err := s.reader.ReadSlice('\n')
 	if err == io.EOF {
 		return nil, nil
 	}
 	if err != nil {
 		return nil, err
 	}
-	o, err := buildOrder(rec)
-	if err != nil {
-		return nil, err
-	}
-	return o, nil
+	line := string(sline)
+	d0 := strings.IndexRune(line, ':')
+	d1 := d0 + 1 + strings.IndexRune(line[d0+1:], ':')
+	d2 := d1 + 1 + strings.IndexRune(line[d1+1:], ':')
+	s.rec[0] = line[0:d0]
+	s.rec[1] = line[d0+1 : d1]
+	s.rec[2] = line[d1+1 : d2]
+	s.rec[3] = line[d2+1 : len(line)-1]
+
+	return buildOrder(s.rec)
 }
 
 func buildOrder(r []string) (*Order, error) {
