@@ -13,7 +13,9 @@ trigger:
       - azure-pipelines-part-2-fsharp.yml
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'ubuntu-18.04'
+
+container: garyedwardhughes/exchange:latest
 
 variables:
   buildConfiguration: 'Release'
