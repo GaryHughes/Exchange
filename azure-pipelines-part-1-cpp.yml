@@ -10,7 +10,7 @@ trigger:
 pool:
   vmImage: 'ubuntu-18.04'
 
-container: garyedwardhughes:exchange
+container: garyedwardhughes/exchange:latest
 
 steps:
 - script: |
