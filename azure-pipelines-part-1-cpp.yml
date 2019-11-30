@@ -10,13 +10,10 @@ trigger:
 pool:
   vmImage: 'ubuntu-18.04'
 
-container: ubuntu:18.04
+container: garyedwardhughes:exchange
 
 steps:
 - script: |
-    sudo apt-get update
-    sudo apt autoremove
-    sudo apt install -y libboost-all-dev 
     make
     make check
   workingDirectory: 'Part 1/cpp_solution'
