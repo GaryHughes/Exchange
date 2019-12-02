@@ -10,7 +10,7 @@ trigger:
 pool:
   vmImage: 'ubuntu-18.04'
 
-container: swift
+container: swift:latest
 
 steps:
 - script: 
