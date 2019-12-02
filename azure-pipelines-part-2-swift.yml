@@ -1,0 +1,34 @@
+trigger:
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - 'Part 2/swift_solution'
+      - azure-pipelines-part-2-swift.yml
+
+pool:
+  vmImage: 'ubuntu-18.04'
+
+container: swift
+
+steps:
+- script: 
+    swift build -c release .
+  workingDirectory: 'Part 2/swift_solution'
+  displayName: 'swift build'
+- task: CopyFiles@2
+  inputs:
+    contents: 'Part 2/swift_solution/.build/release/Exchange'
+    targetFolder: $(Build.ArtifactStagingDirectory)
+    flattenFolders: true
+- task: CopyFiles@2
+  inputs:
+    contents: 'Part 2/swift_solution/runner'
+    targetFolder: $(Build.ArtifactStagingDirectory)
+    flattenFolders: true
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: $(Build.ArtifactStagingDirectory)
+    artifactName: part_2_swift_solution
+    publishLocation: 'Container'
