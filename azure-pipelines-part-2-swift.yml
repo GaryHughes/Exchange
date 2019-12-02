@@ -14,7 +14,7 @@ container: swift:latest
 
 steps:
 - script: 
-    swift build -c release .
+    swift build -c release
   workingDirectory: 'Part 2/swift_solution'
   displayName: 'swift build'
 - task: CopyFiles@2
