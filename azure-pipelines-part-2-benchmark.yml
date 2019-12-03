@@ -2,7 +2,9 @@ trigger:
   none
   
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'ubuntu-18.04'
+
+container: garyedwardhughes/exchange:latest
 
 steps:
 - checkout: self
@@ -49,14 +51,14 @@ steps:
     definition: '9'
     buildVersionToDownload: 'latest'
     targetPath: '$(Pipeline.Workspace)'
-# - task: DownloadPipelineArtifact@2
+- task: DownloadPipelineArtifact@2
   # Download Swift
-#   inputs:
-#     buildType: 'specific'
-#     project: '030b6a1b-1f33-4e57-b63f-f03f0d399d8d'
-#     definition: '15'
-#     buildVersionToDownload: 'latest'
-#     targetPath: '$(Pipeline.Workspace)'
+  inputs:
+     buildType: 'specific'
+     project: '030b6a1b-1f33-4e57-b63f-f03f0d399d8d'
+     definition: '15'
+     buildVersionToDownload: 'latest'
+     targetPath: '$(Pipeline.Workspace)'
 - script: |
     ./benchmark.py $(Pipeline.Workspace) part_2 5 orders-100K.txt.gz orders-10M.txt.gz > part_2_results.md
     ./generate_README.sh
