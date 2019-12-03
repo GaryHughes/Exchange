@@ -25,3 +25,21 @@ The following benchmarks are run in Microsoft hosted Azure Pipeline agents so th
 ## Part 2 Performance
 [![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%202%20-%20Benchmark?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=14&branchName=master)
 
+||100K orders|trades|
+-|:-:|:-:|
+|Rust|0:00:00.049986|3368|
+|Go|0:00:00.064921|3368|
+|C++|0:00:00.071538|3368|
+|C#|0:00:00.164357|3368|
+|F#|0:00:00.349224|3368|
+
+
+||10M orders|trades|
+-|:-:|:-:|
+|Rust|0:00:05.250296|360131|
+|C++|0:00:08.232363|360131|
+|Go|0:00:09.527635|360131|
+|C#|0:00:24.411420|360131|
+|F#|0:00:29.999807|360131|
+
+
