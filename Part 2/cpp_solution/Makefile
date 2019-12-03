@@ -1,5 +1,5 @@
 
-CXX=clang++-7
+CXX=g++
 CFLAGS=-I. -I/usr/local/include -std=c++14 -O3
 DEPS = 
 OBJS = order.o order_book.o trade.o exchange.o
