@@ -69,10 +69,14 @@ for input in input_files:
         for solution_file in glob.glob(os.path.join(working_directory, '*')):
             os.chmod(solution_file, 0o755)
         command = "subprocess.run(['./runner < {} > {}'], shell=True, cwd='{}')".format(input_file, output_file, working_directory)
-        result = timeit.repeat(stmt = command, setup = "import subprocess", number = 1, repeat = iterations)
-        if not os.path.exists(output_file):
+        try:
+            result = timeit.repeat(stmt = command, setup = "import subprocess", number = 1, repeat = iterations)
+            if not os.path.exists(output_file):
+                continue
+            results[order_count].append((solution, min(result), line_count(output_file)))
+        except Exception as ex:
+            print(str(ex))
             continue
-        results[order_count].append((solution, min(result), line_count(output_file)))
 
 def human_format(num):
     magnitude = 0
