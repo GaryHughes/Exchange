@@ -4,8 +4,8 @@ trigger:
       - master
   paths:
     include:
-      - 'Part 2/swift_solution'
-      - azure-pipelines-part-2-swift.yml
+      - 'Part 1/swift_solution'
+      - azure-pipelines-part-1-swift.yml
 
 pool:
   vmImage: 'ubuntu-18.04'
@@ -15,20 +15,20 @@ container: garyedwardhughes/exchange:latest
 steps:
 - script: 
     swift build -c release
-  workingDirectory: 'Part 2/swift_solution'
+  workingDirectory: 'Part 1/swift_solution'
   displayName: 'swift build'
 - task: CopyFiles@2
   inputs:
-    contents: 'Part 2/swift_solution/.build/release/Exchange'
+    contents: 'Part 1/swift_solution/.build/release/Exchange'
     targetFolder: $(Build.ArtifactStagingDirectory)
     flattenFolders: true
 - task: CopyFiles@2
   inputs:
-    contents: 'Part 2/swift_solution/runner'
+    contents: 'Part 1/swift_solution/runner'
     targetFolder: $(Build.ArtifactStagingDirectory)
     flattenFolders: true
 - task: PublishBuildArtifacts@1
   inputs:
     pathToPublish: $(Build.ArtifactStagingDirectory)
-    artifactName: part_2_swift_solution
+    artifactName: part_1_swift_solution
     publishLocation: 'Container'
