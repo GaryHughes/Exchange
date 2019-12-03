@@ -41,11 +41,19 @@ steps:
     buildVersionToDownload: 'latest'
     targetPath: '$(Pipeline.Workspace)'
 - task: DownloadPipelineArtifact@2
-# Download Go
+  # Download Go
   inputs:
     buildType: 'specific'
     project: '030b6a1b-1f33-4e57-b63f-f03f0d399d8d'
     definition: '8'
+    buildVersionToDownload: 'latest'
+    targetPath: '$(Pipeline.Workspace)'
+- task: DownloadPipelineArtifact@2
+  # Download Swift
+  inputs:
+    buildType: 'specific'
+    project: '030b6a1b-1f33-4e57-b63f-f03f0d399d8d'
+    definition: '15'
     buildVersionToDownload: 'latest'
     targetPath: '$(Pipeline.Workspace)'
 - script: |
