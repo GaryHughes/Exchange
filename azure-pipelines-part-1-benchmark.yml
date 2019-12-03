@@ -48,15 +48,14 @@ steps:
     definition: '8'
     buildVersionToDownload: 'latest'
     targetPath: '$(Pipeline.Workspace)'
-- task: DownloadBuildArtifacts@0
+- task: DownloadPipelineArtifact@2
   # Download Swift
   inputs:
     buildType: 'specific'
     project: '030b6a1b-1f33-4e57-b63f-f03f0d399d8d'
-    pipeline: '15'
+    definition: '15'
     buildVersionToDownload: 'latest'
-    downloadType: 'single'
-    downloadPath: '$(System.ArtifactsDirectory)'
+    targetPath: '$(Pipeline.Workspace)'
 - script: |
     ./benchmark.py $(Pipeline.Workspace) part_1 5 orders-100K.txt.gz > part_1_results.md
     ./generate_README.sh
