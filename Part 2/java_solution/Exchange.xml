@@ -152,7 +152,7 @@
   <target name="artifact.exchange:jar" depends="init.artifacts, compile.module.java_solution" description="Build &#39;Exchange:jar&#39; artifact">
     <property name="artifact.temp.output.exchange:jar" value="${artifacts.temp.dir}/Exchange_jar"/>
     <mkdir dir="${artifact.temp.output.exchange:jar}"/>
-    <jar destfile="${temp.jar.path.Exchange.jar}" duplicate="preserve" filesetmanifest="mergewithoutmain">
+    <jar destfile="${temp.jar.path.Exchange.jar}" duplicate="preserve" filesetmanifest="mergewithoutmain" manifest="src/META-INF/MANIFEST.MF>
       <zipfileset dir="${java_solution.output.dir}"/>
     </jar>
     <copy file="${temp.jar.path.Exchange.jar}" tofile="${artifact.temp.output.exchange:jar}/Exchange.jar"/>
