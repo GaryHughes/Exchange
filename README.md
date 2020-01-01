@@ -6,7 +6,7 @@
 |  Go      | [![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%201%20-%20Go?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=8&branchName=master)              | [![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%202%20-%20Go?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=9&branchName=master) |
 |  Rust    | [![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%201%20-%20Rust?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=10&branchName=master)              | [![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%202%20-%20Rust?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=11&branchName=master)              |
 |  Swift   |  [![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%202%20-%20Swift?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=15&branchName=master) |   |
-| Java     | [![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%201%20-%20Java?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=18&branchName=master) | |
+| Java     | [![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%201%20-%20Java?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=18&branchName=master) | [![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%202%20-%20Java?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=19&branchName=master) |
 
 The following benchmarks are run in Microsoft hosted Azure Pipeline agents so the performance can and will vary between runs depending on what machine they end up running on. Each group, Part 1, Part 2, etc is run on a single agent so the performance of implementations within that group can be compared with some meaning. Performance in the Azure environment is significantly worse than will be seen on modern desktop hardware.
 
@@ -29,19 +29,21 @@ The following benchmarks are run in Microsoft hosted Azure Pipeline agents so th
 
 ||100K orders|trades|
 -|:-:|:-:|
-|Rust|0:00:00.049986|3368|
-|Go|0:00:00.064921|3368|
-|C++|0:00:00.071538|3368|
-|C#|0:00:00.164357|3368|
-|F#|0:00:00.349224|3368|
+|Rust|0:00:00.047831|3368|
+|Go|0:00:00.059813|3368|
+|C++|0:00:00.068448|3368|
+|C#|0:00:00.155929|3368|
+|F#|0:00:00.292110|3368|
+|Java|0:00:00.684715|3368|
 
 
 ||10M orders|trades|
 -|:-:|:-:|
-|Rust|0:00:05.250296|360131|
-|C++|0:00:08.232363|360131|
-|Go|0:00:09.527635|360131|
-|C#|0:00:24.411420|360131|
-|F#|0:00:29.999807|360131|
+|Rust|0:00:05.098960|360131|
+|C++|0:00:07.817987|360131|
+|Go|0:00:08.343361|360131|
+|C#|0:00:20.390039|360131|
+|F#|0:00:29.562006|360131|
+|Java|0:02:48.703299|358632|
 
 
