@@ -1,0 +1,36 @@
+trigger:
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - 'Part 2/java_solution'
+      - azure-pipelines-part-2-java.yml
+
+pool:
+  vmImage: 'ubuntu-18.04'
+
+container: garyedwardhughes/exchange:latest
+
+variables:
+  buildConfiguration: 'Release'
+
+steps:
+- script: ant -f Exchange.xml
+  workingDirectory: 'Part 2/java_solution'
+  displayName: 'Build'
+- task: CopyFiles@2
+  inputs:
+    contents: 'Part 2/java_solution/out/artifacts/Exchange_jar/*'
+    targetFolder: $(Build.ArtifactStagingDirectory)
+    flattenFolders: true
+- task: CopyFiles@2
+  inputs:
+    contents: 'Part 2/java_solution/runner'
+    targetFolder: $(Build.ArtifactStagingDirectory)
+    flattenFolders: true
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: $(Build.ArtifactStagingDirectory)
+    artifactName: part_2_java_solution
+    publishLocation: 'Container'
