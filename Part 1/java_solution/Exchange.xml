@@ -4,9 +4,7 @@
   
   <property file="Exchange.properties"/>
   <!-- Uncomment the following property if no tests compilation is needed -->
-  <!-- 
   <property name="skip.tests" value="true"/>
-   -->
   
   <!-- Compiler options -->
   
@@ -132,12 +130,6 @@
   
   <!-- Project Libraries -->
   
-  <path id="library.org.junit.jupiter:junit-jupiter-api:5.0.2.classpath">
-    <pathelement location="${path.variable.maven_repository}/org/junit/jupiter/junit-jupiter-api/5.0.2/junit-jupiter-api-5.0.2.jar"/>
-    <pathelement location="${path.variable.maven_repository}/org/junit/platform/junit-platform-commons/1.0.2/junit-platform-commons-1.0.2.jar"/>
-    <pathelement location="${path.variable.maven_repository}/org/opentest4j/opentest4j/1.0.0/opentest4j-1.0.0.jar"/>
-  </path>
-  
   <!-- Modules -->
   
   <import file="${basedir}/module_java_solution.xml"/>
@@ -162,9 +154,6 @@
     <mkdir dir="${artifact.temp.output.exchange:jar}"/>
     <jar destfile="${temp.jar.path.Exchange.jar}" duplicate="preserve" filesetmanifest="mergewithoutmain">
       <zipfileset dir="${java_solution.output.dir}"/>
-      <zipfileset src="${path.variable.maven_repository}/org/junit/jupiter/junit-jupiter-api/5.0.2/junit-jupiter-api-5.0.2.jar"/>
-      <zipfileset src="${path.variable.maven_repository}/org/opentest4j/opentest4j/1.0.0/opentest4j-1.0.0.jar"/>
-      <zipfileset src="${path.variable.maven_repository}/org/junit/platform/junit-platform-commons/1.0.2/junit-platform-commons-1.0.2.jar"/>
     </jar>
     <copy file="${temp.jar.path.Exchange.jar}" tofile="${artifact.temp.output.exchange:jar}/Exchange.jar"/>
   </target>
