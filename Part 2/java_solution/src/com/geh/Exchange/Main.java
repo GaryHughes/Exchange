@@ -1,5 +1,6 @@
 package com.geh.Exchange;
 
+import java.io.*;
 import java.util.*;
 
 public class Main {
@@ -7,9 +8,9 @@ public class Main {
     public static void main(String[] args) {
         try {
             var exchange = new Exchange();
-            var scanner = new Scanner(System.in);
-            while (scanner.hasNextLine()) {
-                var line = scanner.nextLine();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            while (reader.ready()) {
+                var line = reader.readLine();
                 if (line.isEmpty()) {
                     continue;
                 }
