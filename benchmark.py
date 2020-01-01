@@ -70,6 +70,7 @@ for input in input_files:
             os.chmod(solution_file, 0o755)
         command = "subprocess.run(['./runner < {} > {}'], shell=True, cwd='{}')".format(input_file, output_file, working_directory)
         try:
+            print('Benchmarking {}'.format(solution))
             result = timeit.repeat(stmt = command, setup = "import subprocess", number = 1, repeat = iterations)
             if not os.path.exists(output_file):
                 continue
