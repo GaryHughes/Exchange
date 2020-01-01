@@ -13,15 +13,15 @@ The following benchmarks are run in Microsoft hosted Azure Pipeline agents so th
 ## Part 1 Performance
 [![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%201%20-%20Benchmark?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=13&branchName=master)
 
-local variable 'i' referenced before assignment
 ||100K orders|trades|
 -|:-:|:-:|
-|C#|0:00:00.533800|3368|
-|Rust|0:00:01.533253|3368|
-|F#|0:00:07.304170|3368|
-|Swift|0:00:09.432960|3368|
-|C++|0:00:24.709263|3368|
-|Go|0:00:50.500608|3368|
+|C#|0:00:00.536289|3368|
+|Java|0:00:00.764282|3368|
+|Rust|0:00:01.554716|3368|
+|F#|0:00:07.407460|3368|
+|Swift|0:00:09.601305|3368|
+|C++|0:00:24.949211|3368|
+|Go|0:00:50.697709|3368|
 
 
 ## Part 2 Performance
