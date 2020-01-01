@@ -91,7 +91,8 @@ languages = {
     "fsharp"    : "F#",
     "rust"      : "Rust",
     "go"        : "Go",
-    "swift"     : "Swift"
+    "swift"     : "Swift",
+    "java"      : "Java"
 }
 
 def language(solution):
