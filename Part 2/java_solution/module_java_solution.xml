@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_java_solution" default="compile.module.java_solution">
+  <dirname property="module.java_solution.basedir" file="${ant.file.module_java_solution}"/>
+  
+  <property name="module.jdk.home.java_solution" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.java_solution" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.java_solution" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.java_solution" value="-encoding UTF-8 -source 11 -target 11 ${compiler.args}"/>
+  
+  <property name="java_solution.output.dir" value="${module.java_solution.basedir}/out/production/java_solution"/>
+  <property name="java_solution.testoutput.dir" value="${module.java_solution.basedir}/out/test/java_solution"/>
+  
+  <path id="java_solution.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="java_solution.module.production.classpath">
+    <path refid="${module.jdk.classpath.java_solution}"/>
+  </path>
+  
+  <path id="java_solution.runtime.production.module.classpath">
+    <pathelement location="${java_solution.output.dir}"/>
+  </path>
+  
+  <path id="java_solution.module.classpath">
+    <path refid="${module.jdk.classpath.java_solution}"/>
+    <pathelement location="${java_solution.output.dir}"/>
+  </path>
+  
+  <path id="java_solution.runtime.module.classpath">
+    <pathelement location="${java_solution.testoutput.dir}"/>
+    <pathelement location="${java_solution.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.java_solution">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.java_solution">
+    <patternset refid="excluded.from.module.java_solution"/>
+  </patternset>
+  
+  <path id="java_solution.module.sourcepath">
+    <dirset dir="${module.java_solution.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  <path id="java_solution.module.test.sourcepath">
+    <dirset dir="${module.java_solution.basedir}">
+      <include name="Test"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.java_solution" depends="compile.module.java_solution.production,compile.module.java_solution.tests" description="Compile module java_solution"/>
+  
+  <target name="compile.module.java_solution.production" description="Compile module java_solution; production classes">
+    <mkdir dir="${java_solution.output.dir}"/>
+    <javac destdir="${java_solution.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.java_solution}/javac">
+      <compilerarg line="${compiler.args.java_solution}"/>
+      <bootclasspath refid="java_solution.module.bootclasspath"/>
+      <classpath refid="java_solution.module.production.classpath"/>
+      <src refid="java_solution.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.java_solution"/>
+    </javac>
+    
+    <copy todir="${java_solution.output.dir}">
+      <fileset dir="${module.java_solution.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.java_solution.tests" depends="compile.module.java_solution.production" description="compile module java_solution; test classes" unless="skip.tests">
+    <mkdir dir="${java_solution.testoutput.dir}"/>
+    <javac destdir="${java_solution.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.java_solution}/javac">
+      <compilerarg line="${compiler.args.java_solution}"/>
+      <bootclasspath refid="java_solution.module.bootclasspath"/>
+      <classpath refid="java_solution.module.classpath"/>
+      <src refid="java_solution.module.test.sourcepath"/>
+      <patternset refid="excluded.from.compilation.java_solution"/>
+    </javac>
+    
+    <copy todir="${java_solution.testoutput.dir}">
+      <fileset dir="${module.java_solution.basedir}/Test">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="clean.module.java_solution" description="cleanup module">
+    <delete dir="${java_solution.output.dir}"/>
+    <delete dir="${java_solution.testoutput.dir}"/>
+  </target>
+</project>
