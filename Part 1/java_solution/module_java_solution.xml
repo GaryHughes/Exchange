@@ -17,24 +17,20 @@
   
   <path id="java_solution.module.production.classpath">
     <path refid="${module.jdk.classpath.java_solution}"/>
-    <path refid="library.org.junit.jupiter:junit-jupiter-api:5.0.2.classpath"/>
   </path>
   
   <path id="java_solution.runtime.production.module.classpath">
     <pathelement location="${java_solution.output.dir}"/>
-    <path refid="library.org.junit.jupiter:junit-jupiter-api:5.0.2.classpath"/>
   </path>
   
   <path id="java_solution.module.classpath">
     <path refid="${module.jdk.classpath.java_solution}"/>
     <pathelement location="${java_solution.output.dir}"/>
-    <path refid="library.org.junit.jupiter:junit-jupiter-api:5.0.2.classpath"/>
   </path>
   
   <path id="java_solution.runtime.module.classpath">
     <pathelement location="${java_solution.testoutput.dir}"/>
     <pathelement location="${java_solution.output.dir}"/>
-    <path refid="library.org.junit.jupiter:junit-jupiter-api:5.0.2.classpath"/>
   </path>
   
   
