@@ -37,10 +37,12 @@ public class OrderBook {
 
             if (buyOrder.getRemainingQuantity() == 0) {
                 buyOrders.remove(buyOrder);
+                Order.retire(buyOrder);
             }
 
             if (sellOrder.getRemainingQuantity() == 0) {
                 sellOrders.remove(sellOrder);
+                Order.retire(sellOrder);
             }
         }
 

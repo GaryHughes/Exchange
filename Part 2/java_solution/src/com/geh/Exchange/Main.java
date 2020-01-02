@@ -14,7 +14,7 @@ public class Main {
                 if (line.isEmpty()) {
                     continue;
                 }
-                var order = new Order(line);
+                var order = Order.get(line);
                 for (var trade : exchange.execute(order)) {
                     System.out.printf("%s:%s:%s:%d:%g\n", trade.getBuyer(), trade.getSeller(), trade.getInstrument(), trade.getQuantity(), trade.getPrice());
                 }

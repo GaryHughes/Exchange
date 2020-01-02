@@ -1,6 +1,7 @@
 package com.geh.Exchange;
 
 import java.math.BigDecimal;
+import java.util.LinkedList;
 
 public class Order {
 
@@ -11,17 +12,44 @@ public class Order {
     private BigDecimal price;
     private int generation;
 
-    public Order(String line) throws Exception {
-        var components = line.split(":");
-        if (components.length != 4) {
-            throw new Exception("Invalid line '" + line + "' expected 4 components and found " + String.valueOf(components.length));
+    private enum Token {
+        Participant,
+        Instrument,
+        Quantity,
+        Price
+    };
+
+    public void Initialise(String line) throws Exception {
+
+        var token = Token.Participant;
+        int start = 0;
+        for (int i = start; (i = line.indexOf(":", start)) != -1; ) {
+            switch (token) {
+                case Participant:
+                    this.participant = line.substring(start, i);
+                    token = Token.Instrument;
+                    break;
+                case Instrument:
+                    this.instrument = line.substring(start, i);
+                    token = Token.Quantity;
+                    break;
+                case Quantity:
+                    this.quantity = Long.parseLong(line.subSequence(start, i), 0, i - start, 10);
+                    this.remainingQuantity = Math.abs(quantity);
+                    token = Token.Price;
+                    break;
+                default:
+                    break;
+            }
+
+            start = i + 1;
         }
 
-        this.participant = components[0];
-        this.instrument = components[1];
-        this.quantity = Long.parseLong(components[2]);
-        this.remainingQuantity = Math.abs(quantity);
-        this.price = new BigDecimal(components[3]);
+        if (token != Token.Price) {
+            throw new Exception("cannot parse: " + line);
+        }
+
+        this.price = new BigDecimal(line.substring(start));
         this.generation = nextGeneration++;
     }
 
@@ -38,6 +66,26 @@ public class Order {
     }
 
     private static int nextGeneration = 1;
+
+    private static LinkedList<Order> retiredOrders = new LinkedList<>();
+
+    public static Order get(String line) throws Exception
+    {
+        Order order;
+        if (retiredOrders.isEmpty()) {
+            order = new Order();
+        }
+        else {
+            order = retiredOrders.pop();
+        }
+        order.Initialise(line);
+        return order;
+    }
+
+    public static void retire(Order order)
+    {
+        retiredOrders.add(order);
+    }
 
 }
 
