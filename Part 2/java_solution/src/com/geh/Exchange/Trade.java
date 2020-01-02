@@ -8,9 +8,9 @@ public class Trade {
     private String seller;
     private String instrument;
     private long quantity;
-    private BigDecimal price;
+    private double price;
 
-    public Trade(String buyer, String seller, String instrument, long quantity, BigDecimal price)
+    public Trade(String buyer, String seller, String instrument, long quantity, double price)
     {
         this.buyer = buyer;
         this.seller = seller;
@@ -23,6 +23,6 @@ public class Trade {
     public String getSeller() { return seller; }
     public String getInstrument() { return instrument; }
     public long getQuantity() { return quantity; }
-    public BigDecimal getPrice() { return price; }
+    public double getPrice() { return price; }
 
 }

@@ -9,7 +9,7 @@ public class Order {
     private String instrument;
     private long quantity;
     private long remainingQuantity;
-    private BigDecimal price;
+    private double price;
     private int generation;
 
     private enum Token {
@@ -49,7 +49,7 @@ public class Order {
             throw new Exception("cannot parse: " + line);
         }
 
-        this.price = new BigDecimal(line.substring(start));
+        this.price = Double.parseDouble(line.substring(start));
         this.generation = nextGeneration++;
     }
 
@@ -57,7 +57,7 @@ public class Order {
     public String getInstrument() { return instrument; }
     public long getQuantity() { return quantity; }
     public long getRemainingQuantity() { return remainingQuantity; }
-    public BigDecimal getPrice() { return price; }
+    public double getPrice() { return price; }
     public int getGeneration() { return generation; }
 
     public void fill(long quantity)

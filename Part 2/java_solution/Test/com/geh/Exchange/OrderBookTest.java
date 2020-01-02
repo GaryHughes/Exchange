@@ -12,17 +12,17 @@ class OrderBookTest {
     {
     var book = new OrderBook();
 
-        book.execute(new Order("A:AUDUSD:100:10"));
-        book.execute(new Order("A:AUDUSD:100:7"));
-        book.execute(new Order("A:AUDUSD:100:11"));
-        book.execute(new Order("A:AUDUSD:100:9"));
+        book.execute(Order.get("A:AUDUSD:100:10"));
+        book.execute(Order.get("A:AUDUSD:100:7"));
+        book.execute(Order.get("A:AUDUSD:100:11"));
+        book.execute(Order.get("A:AUDUSD:100:9"));
 
         var buys = book.getBuyOrders();
 
-        assertEquals(BigDecimal.valueOf(11), buys.poll().getPrice());
-        assertEquals(BigDecimal.valueOf(10), buys.poll().getPrice());
-        assertEquals(BigDecimal.valueOf(9), buys.poll().getPrice());
-        assertEquals(BigDecimal.valueOf(7), buys.poll().getPrice());
+        assertEquals(11, buys.poll().getPrice());
+        assertEquals(10, buys.poll().getPrice());
+        assertEquals(9, buys.poll().getPrice());
+        assertEquals(7, buys.poll().getPrice());
     }
 
     @Test
@@ -30,10 +30,10 @@ class OrderBookTest {
     {
         var book = new OrderBook();
 
-        book.execute(new Order("A:AUDUSD:100:10"));
-        book.execute(new Order("A:AUDUSD:101:10"));
-        book.execute(new Order("A:AUDUSD:102:10"));
-        book.execute(new Order("A:AUDUSD:103:10"));
+        book.execute(Order.get("A:AUDUSD:100:10"));
+        book.execute(Order.get("A:AUDUSD:101:10"));
+        book.execute(Order.get("A:AUDUSD:102:10"));
+        book.execute(Order.get("A:AUDUSD:103:10"));
 
         var buys = book.getBuyOrders();
 
@@ -48,17 +48,17 @@ class OrderBookTest {
     {
         var book = new OrderBook();
 
-        book.execute(new Order("A:AUDUSD:-100:10"));
-        book.execute(new Order("A:AUDUSD:-100:7"));
-        book.execute(new Order("A:AUDUSD:-100:11"));
-        book.execute(new Order("A:AUDUSD:-100:9"));
+        book.execute(Order.get("A:AUDUSD:-100:10"));
+        book.execute(Order.get("A:AUDUSD:-100:7"));
+        book.execute(Order.get("A:AUDUSD:-100:11"));
+        book.execute(Order.get("A:AUDUSD:-100:9"));
 
         var sells = book.getSellOrders();
 
-        assertEquals(BigDecimal.valueOf(7), sells.poll().getPrice());
-        assertEquals(BigDecimal.valueOf(9), sells.poll().getPrice());
-        assertEquals(BigDecimal.valueOf(10), sells.poll().getPrice());
-        assertEquals(BigDecimal.valueOf(11), sells.poll().getPrice());
+        assertEquals(7, sells.poll().getPrice());
+        assertEquals(9, sells.poll().getPrice());
+        assertEquals(10, sells.poll().getPrice());
+        assertEquals(11, sells.poll().getPrice());
     }
 
     @Test
@@ -66,10 +66,10 @@ class OrderBookTest {
     {
         var book = new OrderBook();
 
-        book.execute(new Order("A:AUDUSD:-100:10"));
-        book.execute(new Order("A:AUDUSD:-101:10"));
-        book.execute(new Order("A:AUDUSD:-102:10"));
-        book.execute(new Order("A:AUDUSD:-103:10"));
+        book.execute(Order.get("A:AUDUSD:-100:10"));
+        book.execute(Order.get("A:AUDUSD:-101:10"));
+        book.execute(Order.get("A:AUDUSD:-102:10"));
+        book.execute(Order.get("A:AUDUSD:-103:10"));
 
         var sells = book.getSellOrders();
 

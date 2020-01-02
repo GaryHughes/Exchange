@@ -26,7 +26,7 @@ public class Main {
                     writer.write(':');
                     writer.write(Long.toString(trade.getQuantity()));
                     writer.write(':');
-                    writer.write(trade.getPrice().toString());
+                    writer.write(Double.toString(trade.getPrice()));
                     writer.write('\n');
                 }
             }
