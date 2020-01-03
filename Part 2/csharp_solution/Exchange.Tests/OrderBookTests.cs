@@ -16,10 +16,10 @@ namespace Exchange.Tests
             book.Execute(new Order("A:AUDUSD:100:11"));
             book.Execute(new Order("A:AUDUSD:100:9"));
 
-            Assert.AreEqual(11m, book.BuyOrders.Dequeue().Price);
-            Assert.AreEqual(10m, book.BuyOrders.Dequeue().Price);
-            Assert.AreEqual(9m, book.BuyOrders.Dequeue().Price);
-            Assert.AreEqual(7m, book.BuyOrders.Dequeue().Price);
+            Assert.AreEqual(11, book.BuyOrders.Dequeue().Price);
+            Assert.AreEqual(10, book.BuyOrders.Dequeue().Price);
+            Assert.AreEqual(9, book.BuyOrders.Dequeue().Price);
+            Assert.AreEqual(7, book.BuyOrders.Dequeue().Price);
         }
 
         [TestMethod]
@@ -32,10 +32,10 @@ namespace Exchange.Tests
             book.Execute(new Order("A:AUDUSD:102:10"));
             book.Execute(new Order("A:AUDUSD:103:10"));
 
-            Assert.AreEqual(100m, book.BuyOrders.Dequeue().Quantity);
-            Assert.AreEqual(101m, book.BuyOrders.Dequeue().Quantity);
-            Assert.AreEqual(102m, book.BuyOrders.Dequeue().Quantity);
-            Assert.AreEqual(103m, book.BuyOrders.Dequeue().Quantity);
+            Assert.AreEqual(100, book.BuyOrders.Dequeue().Quantity);
+            Assert.AreEqual(101, book.BuyOrders.Dequeue().Quantity);
+            Assert.AreEqual(102, book.BuyOrders.Dequeue().Quantity);
+            Assert.AreEqual(103, book.BuyOrders.Dequeue().Quantity);
         }
 
         [TestMethod]
@@ -48,10 +48,10 @@ namespace Exchange.Tests
             book.Execute(new Order("A:AUDUSD:-100:11"));
             book.Execute(new Order("A:AUDUSD:-100:9"));
 
-            Assert.AreEqual(7m, book.SellOrders.Dequeue().Price);
-            Assert.AreEqual(9m, book.SellOrders.Dequeue().Price);
-            Assert.AreEqual(10m, book.SellOrders.Dequeue().Price);
-            Assert.AreEqual(11m, book.SellOrders.Dequeue().Price);
+            Assert.AreEqual(7, book.SellOrders.Dequeue().Price);
+            Assert.AreEqual(9, book.SellOrders.Dequeue().Price);
+            Assert.AreEqual(10, book.SellOrders.Dequeue().Price);
+            Assert.AreEqual(11, book.SellOrders.Dequeue().Price);
         }
 
         [TestMethod]

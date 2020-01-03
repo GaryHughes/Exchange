@@ -14,7 +14,7 @@ namespace Exchange.Tests
             Assert.AreEqual("AUDUSD", order.Instrument.ToString());
             Assert.AreEqual(100, order.Quantity);
             Assert.AreEqual(100, order.RemainingQuantity);
-            Assert.AreEqual(1.47m, order.Price);
+            Assert.AreEqual(1.47, order.Price);
         }
     }
 }
