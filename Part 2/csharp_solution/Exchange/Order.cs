@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Exchange
 {
@@ -11,6 +12,19 @@ namespace Exchange
             Price
             
         };
+
+        static readonly Dictionary<int, string> _strings = new Dictionary<int, string>();
+
+        static string GetString(ReadOnlySpan<char> span)
+        {
+            var hash = string.GetHashCode(span);
+            if (!_strings.TryGetValue(hash, out var value))
+            {
+                value = span.ToString();
+                _strings[hash] = value;
+            }
+            return value;
+        }
        
         public Order(string line)
         {
@@ -28,11 +42,11 @@ namespace Exchange
                 }
                 switch (token) {
                     case Token.Participant:
-                        Participant = input.Slice(start, end - start).ToString();
+                        Participant = GetString(input.Slice(start, end - start));
                         token = Token.Instrument;
                         break;
                     case Token.Instrument:
-                        Instrument = input.Slice(start, end - start).ToString();
+                        Instrument = GetString(input.Slice(start, end - start));
                         token = Token.Quantity;
                         break;
                     case Token.Quantity:
