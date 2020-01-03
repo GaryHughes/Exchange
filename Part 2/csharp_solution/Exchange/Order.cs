@@ -47,7 +47,7 @@ namespace Exchange
                 throw new ArgumentException($"Could not parse order '{line}'", nameof(line));
             }
 
-            Price = decimal.Parse(input.Slice(start));
+            Price = double.Parse(input.Slice(start));
 
             RemainingQuantity = Math.Abs(Quantity);
             Generation = NextGeneration++;
@@ -57,7 +57,7 @@ namespace Exchange
         public string Instrument { get; }
         public long Quantity { get; }
         public long RemainingQuantity { get; private set; }
-        public decimal Price { get; }
+        public double Price { get; }
         public int Generation { get; }
 
         public void Fill(long quantity)
