@@ -13,15 +13,15 @@ namespace Exchange
             
         };
 
-        static readonly Dictionary<int, string> _strings = new Dictionary<int, string>();
+        static readonly Dictionary<int, string> Strings = new Dictionary<int, string>();
 
-        static string GetString(ReadOnlySpan<char> span)
+        static string GetString(ref ReadOnlySpan<char> span)
         {
             var hash = string.GetHashCode(span);
-            if (!_strings.TryGetValue(hash, out var value))
+            if (!Strings.TryGetValue(hash, out var value))
             {
                 value = span.ToString();
-                _strings[hash] = value;
+                Strings[hash] = value;
             }
             return value;
         }
@@ -42,12 +42,18 @@ namespace Exchange
                 }
                 switch (token) {
                     case Token.Participant:
-                        Participant = GetString(input.Slice(start, end - start));
+                        {
+                        var span = input.Slice(start, end - start);
+                        Participant = GetString(ref span);
                         token = Token.Instrument;
+                        }
                         break;
                     case Token.Instrument:
-                        Instrument = GetString(input.Slice(start, end - start));
+                        {
+                        var span = input.Slice(start, end - start);
+                        Instrument = GetString(ref span);
                         token = Token.Quantity;
+                        }
                         break;
                     case Token.Quantity:
                         Quantity = long.Parse(input.Slice(start, end - start));
