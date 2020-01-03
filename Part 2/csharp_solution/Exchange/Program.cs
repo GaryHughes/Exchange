@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 
 namespace Exchange
 {
@@ -9,8 +10,10 @@ namespace Exchange
         {
             try {
                 var exchange = new Exchange();
+                using var stream = Console.OpenStandardInput();
+                using var reader = new StreamReader(stream, encoding: Encoding.ASCII, bufferSize: 1024 * 4);
                 while (true) {
-                    var line = Console.ReadLine();
+                    var line = reader.ReadLine();
                     if (string.IsNullOrEmpty(line)) {
                         break;
                     }
