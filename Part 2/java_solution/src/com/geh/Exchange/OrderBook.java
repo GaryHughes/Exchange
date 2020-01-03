@@ -21,7 +21,7 @@ public class OrderBook {
             var buyOrder = buyOrders.peek();
             var sellOrder = sellOrders.peek();
 
-            if (buyOrder.getPrice().compareTo(sellOrder.getPrice()) < 0) {
+            if (Double.compare(buyOrder.getPrice(), sellOrder.getPrice()) < 0) {
                 break;
             }
 
@@ -58,7 +58,7 @@ public class OrderBook {
     }
 
     private PriorityQueue<Order> buyOrders = new PriorityQueue<>(1000, (left, right) -> {
-        var comparison = right.getPrice().compareTo(left.getPrice());
+        var comparison = Double.compare(right.getPrice(), left.getPrice());
         if (comparison == 0) {
             return Integer.compare(left.getGeneration(), right.getGeneration());
         }
@@ -66,7 +66,7 @@ public class OrderBook {
     });
 
     private PriorityQueue<Order> sellOrders = new PriorityQueue<>(1000, (left, right) -> {
-        var comparison = left.getPrice().compareTo(right.getPrice());
+        var comparison = Double.compare(left.getPrice(), right.getPrice());
         if (comparison == 0) {
             return Integer.compare(left.getGeneration(), right.getGeneration());
         }
