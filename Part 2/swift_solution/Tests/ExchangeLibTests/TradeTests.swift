@@ -20,9 +20,4 @@ class TradeTests : XCTestCase
         XCTAssertEqual(trade.toString(), "A:B:AUDUSD:50:1.47")
     }
 
-    static var allTests =
-    [
-        ("testDefaultInit", testDefaultInit),
-        ("testToString", testToString),
-    ]
 }
