@@ -19,4 +19,10 @@ class TradeTests : XCTestCase
         let trade = Trade(buyer: "A", seller: "B", instrument: "AUDUSD", quantity: 50, price: 1.47)
         XCTAssertEqual(trade.toString(), "A:B:AUDUSD:50:1.47")
     }
+
+    static var allTests =
+    [
+        ("testDefaultInit", testDefaultInit),
+        ("testToString", testToString),
+    ]
 }

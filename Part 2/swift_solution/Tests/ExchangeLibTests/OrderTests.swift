@@ -34,4 +34,12 @@ class OrderTests : XCTestCase
         XCTAssertEqual(order.quantity, 100)
         XCTAssertEqual(order.price, 1.47)
     }
+
+    static var allTests =
+    [
+        ("testStringInit", testStringInit),
+        ("testEmptyInit", testEmptyInit),
+        ("testInvalidInit", testInvalidInit),
+        ("testWhitespaceInit", testWhitespaceInit),
+    ]
 }

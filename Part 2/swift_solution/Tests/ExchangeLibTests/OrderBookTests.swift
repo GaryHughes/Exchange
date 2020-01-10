@@ -350,5 +350,22 @@ class OrderBookTests : XCTestCase
         XCTAssertEqual(sell.price, 1.48)
     }
     
+    static var allTests =
+    [
+        ("testInit", testInit),
+        ("testInsertBid", testInsertBid),
+        ("testInsertAsk", testInsertAsk),
+        ("testInsertBidsAtDifferentPrices", testInsertBidsAtDifferentPrices),
+        ("testInsertAsksAtDifferentPrices", testInsertAsksAtDifferentPrices),
+        ("testInsertBidsAtTheSamePrice", testInsertBidsAtTheSamePrice),
+        ("testInsertAsksAtTheSamePrice", testInsertAsksAtTheSamePrice),
+        ("testMatchNothing", testMatchNothing),
+        ("testMatchBidExactly", testMatchBidExactly),
+        ("testMatchAskExactly", testMatchAskExactly),
+        ("testMatchBidPartial", testMatchBidPartial),
+        ("testMatchAskPartial", testMatchAskPartial),
+        ("testMatchBidMultiple", testMatchBidMultiple),
+        ("testMatchAskMultiple", testMatchAskMultiple),
+    ]
 }
 

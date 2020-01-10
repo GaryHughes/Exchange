@@ -83,4 +83,13 @@ class ExchangeTests : XCTestCase
         XCTAssertEqual(trades[3].toString(), "D:B:EURUSD:50:1.11")
     }
    
+    static var allTests =
+    [
+        ("testDefaultInit", testDefaultInit),
+        ("testInsert", testInsert),
+        ("testInsertMultiple", testInsertMultiple),
+        ("testTrade", testTrade),
+        ("testScenario1", testScenario1),
+        ("testScenario2", testScenario2),
+    ]
 }
