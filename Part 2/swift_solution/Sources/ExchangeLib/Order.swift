@@ -10,18 +10,17 @@ public class Order
     let generation: Int
     private static var nextGeneration: Int = 1
     
-    public init(fromString string: String) throws
+    public init?(fromString string: String) throws
     {
         // <buyer/sellerid>:<instrument>:<signed quantity>:<limit price>
         // eg. A:AUDUSD:100:1.47
 
-        var elements =  string.components(separatedBy: ":")
+        let elements = string.components(separatedBy: ":")
+       
         if elements.count < 4
         {
-            throw OrderError.UnableToParse(string)
+            return nil
         }
-
-        elements = elements.map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
 
         guard let parsedQuantity = Int(elements[2]) else
         {

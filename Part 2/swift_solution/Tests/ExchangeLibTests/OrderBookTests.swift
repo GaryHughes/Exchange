@@ -15,7 +15,7 @@ class OrderBookTests : XCTestCase
     {
         let orderBook = OrderBook()
 
-        let trades = orderBook.execute(order: try Order(fromString: "A:AUDUSD:100:1.47"))
+        let trades = orderBook.execute(order: try Order(fromString: "A:AUDUSD:100:1.47")!)
 
         XCTAssertEqual(orderBook.buyOrders.count, 1)
         XCTAssertEqual(orderBook.sellOrders.count, 0)
@@ -32,7 +32,7 @@ class OrderBookTests : XCTestCase
     {
         let orderBook = OrderBook()
 
-        let trades = orderBook.execute(order: try Order(fromString: "B:AUDUSD:-100:1.47"))
+        let trades = orderBook.execute(order: try Order(fromString: "B:AUDUSD:-100:1.47")!)
 
         XCTAssertEqual(orderBook.buyOrders.count, 0)
         XCTAssertEqual(orderBook.sellOrders.count, 1)
@@ -50,9 +50,9 @@ class OrderBookTests : XCTestCase
         let orderBook = OrderBook()
 
         var trades : [Trade] = []
-        trades += orderBook.execute(order: try Order(fromString: "A:AUDUSD:100:1.47"))
-        trades += orderBook.execute(order: try Order(fromString: "B:AUDUSD:200:1.48"))
-        trades += orderBook.execute(order: try Order(fromString: "C:AUDUSD:300:1.49"))
+        trades += orderBook.execute(order: try Order(fromString: "A:AUDUSD:100:1.47")!)
+        trades += orderBook.execute(order: try Order(fromString: "B:AUDUSD:200:1.48")!)
+        trades += orderBook.execute(order: try Order(fromString: "C:AUDUSD:300:1.49")!)
 
         XCTAssertEqual(orderBook.buyOrders.count, 3)
         XCTAssertEqual(orderBook.sellOrders.count, 0)
@@ -82,9 +82,9 @@ class OrderBookTests : XCTestCase
         let orderBook = OrderBook()
 
         var trades : [Trade] = []
-        trades += orderBook.execute(order: try Order(fromString: "A:AUDUSD:-100:1.49"))
-        trades += orderBook.execute(order: try Order(fromString: "B:AUDUSD:-200:1.48"))
-        trades += orderBook.execute(order: try Order(fromString: "C:AUDUSD:-300:1.47"))
+        trades += orderBook.execute(order: try Order(fromString: "A:AUDUSD:-100:1.49")!)
+        trades += orderBook.execute(order: try Order(fromString: "B:AUDUSD:-200:1.48")!)
+        trades += orderBook.execute(order: try Order(fromString: "C:AUDUSD:-300:1.47")!)
 
         XCTAssertEqual(orderBook.buyOrders.count, 0)
         XCTAssertEqual(orderBook.sellOrders.count, 3)
@@ -114,9 +114,9 @@ class OrderBookTests : XCTestCase
         let orderBook = OrderBook()
 
         var trades : [Trade] = []
-        trades += orderBook.execute(order: try Order(fromString: "A:AUDUSD:100:1.47"))
-        trades += orderBook.execute(order: try Order(fromString: "B:AUDUSD:200:1.47"))
-        trades += orderBook.execute(order: try Order(fromString: "C:AUDUSD:300:1.47"))
+        trades += orderBook.execute(order: try Order(fromString: "A:AUDUSD:100:1.47")!)
+        trades += orderBook.execute(order: try Order(fromString: "B:AUDUSD:200:1.47")!)
+        trades += orderBook.execute(order: try Order(fromString: "C:AUDUSD:300:1.47")!)
 
         XCTAssertEqual(orderBook.buyOrders.count, 3)
         XCTAssertEqual(orderBook.sellOrders.count, 0)
@@ -146,9 +146,9 @@ class OrderBookTests : XCTestCase
         let orderBook = OrderBook()
 
         var trades : [Trade] = []
-        trades += orderBook.execute(order: try Order(fromString: "A:AUDUSD:-100:1.47"))
-        trades += orderBook.execute(order: try Order(fromString: "B:AUDUSD:-200:1.47"))
-        trades += orderBook.execute(order: try Order(fromString: "C:AUDUSD:-300:1.47"))
+        trades += orderBook.execute(order: try Order(fromString: "A:AUDUSD:-100:1.47")!)
+        trades += orderBook.execute(order: try Order(fromString: "B:AUDUSD:-200:1.47")!)
+        trades += orderBook.execute(order: try Order(fromString: "C:AUDUSD:-300:1.47")!)
 
         XCTAssertEqual(orderBook.buyOrders.count, 0)
         XCTAssertEqual(orderBook.sellOrders.count, 3)
@@ -178,8 +178,8 @@ class OrderBookTests : XCTestCase
         let orderBook = OrderBook()
 
         var trades : [Trade] = []
-        trades += orderBook.execute(order: try Order(fromString: "A:AUDUSD:100:1.47"))
-        trades += orderBook.execute(order: try Order(fromString: "B:AUDUSD:-100:1.48"))
+        trades += orderBook.execute(order: try Order(fromString: "A:AUDUSD:100:1.47")!)
+        trades += orderBook.execute(order: try Order(fromString: "B:AUDUSD:-100:1.48")!)
 
         XCTAssertEqual(orderBook.buyOrders.count, 1)
         XCTAssertEqual(orderBook.sellOrders.count, 1)
@@ -203,8 +203,8 @@ class OrderBookTests : XCTestCase
         let orderBook = OrderBook()
 
         var trades : [Trade] = []
-        trades += orderBook.execute(order: try Order(fromString: "A:AUDUSD:100:1.47"))
-        trades += orderBook.execute(order: try Order(fromString: "B:AUDUSD:-100:1.47"))
+        trades += orderBook.execute(order: try Order(fromString: "A:AUDUSD:100:1.47")!)
+        trades += orderBook.execute(order: try Order(fromString: "B:AUDUSD:-100:1.47")!)
 
         XCTAssertEqual(orderBook.buyOrders.count, 0)
         XCTAssertEqual(orderBook.sellOrders.count, 0)
@@ -222,8 +222,8 @@ class OrderBookTests : XCTestCase
         let orderBook = OrderBook()
 
         var trades : [Trade] = []
-        trades += orderBook.execute(order: try Order(fromString: "A:AUDUSD:-100:1.47"))
-        trades += orderBook.execute(order: try Order(fromString: "B:AUDUSD:100:1.47"))
+        trades += orderBook.execute(order: try Order(fromString: "A:AUDUSD:-100:1.47")!)
+        trades += orderBook.execute(order: try Order(fromString: "B:AUDUSD:100:1.47")!)
 
         XCTAssertEqual(orderBook.buyOrders.count, 0)
         XCTAssertEqual(orderBook.sellOrders.count, 0)
@@ -241,8 +241,8 @@ class OrderBookTests : XCTestCase
         let orderBook = OrderBook()
 
         var trades : [Trade] = []
-        trades += orderBook.execute(order: try Order(fromString: "A:AUDUSD:250:1.47"))
-        trades += orderBook.execute(order: try Order(fromString: "B:AUDUSD:-100:1.47"))
+        trades += orderBook.execute(order: try Order(fromString: "A:AUDUSD:250:1.47")!)
+        trades += orderBook.execute(order: try Order(fromString: "B:AUDUSD:-100:1.47")!)
 
         XCTAssertEqual(orderBook.buyOrders.count, 1)
         XCTAssertEqual(orderBook.sellOrders.count, 0)
@@ -266,8 +266,8 @@ class OrderBookTests : XCTestCase
         let orderBook = OrderBook()
 
         var trades : [Trade] = []
-        trades += orderBook.execute(order: try Order(fromString: "A:AUDUSD:-250:1.47"))
-        trades += orderBook.execute(order: try Order(fromString: "B:AUDUSD:100:1.47"))
+        trades += orderBook.execute(order: try Order(fromString: "A:AUDUSD:-250:1.47")!)
+        trades += orderBook.execute(order: try Order(fromString: "B:AUDUSD:100:1.47")!)
 
         XCTAssertEqual(orderBook.buyOrders.count, 0)
         XCTAssertEqual(orderBook.sellOrders.count, 1)
@@ -291,9 +291,9 @@ class OrderBookTests : XCTestCase
         let orderBook = OrderBook()
 
         var trades : [Trade] = []
-        trades += orderBook.execute(order: try Order(fromString: "A:AUDUSD:100:1.47"))
-        trades += orderBook.execute(order: try Order(fromString: "B:AUDUSD:200:1.46"))
-        trades += orderBook.execute(order: try Order(fromString: "C:AUDUSD:-150:1.46"))
+        trades += orderBook.execute(order: try Order(fromString: "A:AUDUSD:100:1.47")!)
+        trades += orderBook.execute(order: try Order(fromString: "B:AUDUSD:200:1.46")!)
+        trades += orderBook.execute(order: try Order(fromString: "C:AUDUSD:-150:1.46")!)
 
         XCTAssertEqual(orderBook.buyOrders.count, 1)
         XCTAssertEqual(orderBook.sellOrders.count, 0)
@@ -323,9 +323,9 @@ class OrderBookTests : XCTestCase
         let orderBook = OrderBook()
 
         var trades : [Trade] = []
-        trades += orderBook.execute(order: try Order(fromString: "A:AUDUSD:-100:1.47"))
-        trades += orderBook.execute(order: try Order(fromString: "B:AUDUSD:-200:1.48"))
-        trades += orderBook.execute(order: try Order(fromString: "C:AUDUSD:150:1.48"))
+        trades += orderBook.execute(order: try Order(fromString: "A:AUDUSD:-100:1.47")!)
+        trades += orderBook.execute(order: try Order(fromString: "B:AUDUSD:-200:1.48")!)
+        trades += orderBook.execute(order: try Order(fromString: "C:AUDUSD:150:1.48")!)
 
         XCTAssertEqual(orderBook.buyOrders.count, 0)
         XCTAssertEqual(orderBook.sellOrders.count, 1)
