@@ -11,11 +11,11 @@ class exchange
 {
 public:
 
-	trade_collection execute(const std::string& instrument, const ae::order& order);
+	trade_collection execute(std::string&& instrument, const ae::order& order);
 
 private:
 
-	order_book& order_book_for_instrument(const std::string& instrument);
+	order_book& order_book_for_instrument(std::string&& instrument);
 
 	std::unordered_map<std::string, order_book> m_order_books;
 
