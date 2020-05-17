@@ -11,7 +11,7 @@ A limit order is specified by the format, with a negative quantity indicating a 
     
     For example, an order to sell 100 AUD (against USD) at a price of 1.47 (or more) would be.
 
-        A:AUDUSD:­100:1.47
+        A:AUDUSD:­-100:1.47
 
 * A match occurs between two limit orders when.
     * both orders are for the same instrument 
