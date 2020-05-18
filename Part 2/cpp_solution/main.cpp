@@ -5,6 +5,7 @@
 #include <sstream>
 #include <array>
 #include <charconv>
+#include <cstring>
 #include "exchange.h"
 
 static const std::string separator = ":";
