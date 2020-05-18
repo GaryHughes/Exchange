@@ -111,9 +111,7 @@ BOOST_AUTO_TEST_CASE( test_first_price_entered_selected )
 	book.insert(ae::order("F", -50, 1.1));
 	book.insert(ae::order("D", 100, 1.11));
 
-	ae::trade_collection trades;
-
-	book.match(trades);
+	auto trades = book.match();
 
 	BOOST_REQUIRE_EQUAL(2, trades.size());
 
