@@ -61,6 +61,7 @@ int main(int, char**)
 			}
 			*end = 0;
 
+			// The double overload of from_chars is deleted on macOS.
 			price = std::stod(begin);
 
 			for (const auto& trade : exchange.execute(instrument, ae::order(participant, quantity, price)))
