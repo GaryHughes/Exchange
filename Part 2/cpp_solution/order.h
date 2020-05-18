@@ -13,7 +13,7 @@ public:
 
 	order() {}
 
-	order(std::string&& participant,
+	order(std::string_view participant,
 		  quantity_type quantity,
 		  price_type price);
 
