@@ -19,7 +19,7 @@ order_book& exchange::order_book_for_instrument(const std::string& instrument)
 	if(existing != m_order_books.end())
 		return existing->second;
 
-	return m_order_books.emplace(instrument, order_book(instrument)).first->second;
+	return m_order_books.emplace(instrument, order_book()).first->second;
 }
 
 }

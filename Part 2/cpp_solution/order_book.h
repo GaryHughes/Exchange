@@ -46,9 +46,7 @@ private:
 
 public:
 
-	order_book(const std::string& instrument);
-
-	const std::string& instrument() const;
+	order_book();
 
 	void insert(const order& order);
 	trade_collection match();

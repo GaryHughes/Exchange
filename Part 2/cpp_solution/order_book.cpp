@@ -3,16 +3,10 @@
 namespace ae
 {
 
-order_book::order_book(const std::string& instrument)
-:	m_instrument(instrument)
-,	m_buy_orders(buy_ordering)
+order_book::order_book()
+:	m_buy_orders(buy_ordering)
 ,	m_sell_orders(sell_ordering)
 {
-}
-
-const std::string& order_book::instrument() const
-{
-	return m_instrument;
 }
 
 void order_book::insert(const order& order)
