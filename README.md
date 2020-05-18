@@ -27,25 +27,25 @@ The following benchmarks are run in Microsoft hosted Azure Pipeline agents so th
 ## Part 2 Performance
 [![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%202%20-%20Benchmark?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=14&branchName=master)
 
-local variable 'i' referenced before assignment
-local variable 'i' referenced before assignment
 ||100K orders|trades|
 -|:-:|:-:|
-|Rust|0:00:00.050518|3368|
-|Go|0:00:00.073084|3368|
-|C#|0:00:00.144241|3368|
-|Java|0:00:00.291647|3368|
-|F#|0:00:00.342763|3368|
-|Swift|0:00:01.670836|3368|
+|Rust|0:00:00.062512|3368|
+|C++|0:00:00.069964|3368|
+|Go|0:00:00.085225|3368|
+|C#|0:00:00.184621|3368|
+|Java|0:00:00.358652|3368|
+|F#|0:00:00.435563|3368|
+|Swift|0:00:02.038636|3368|
 
 
 ||10M orders|trades|
 -|:-:|:-:|
-|Rust|0:00:05.372683|360131|
-|Go|0:00:09.991486|360131|
-|Java|0:00:12.081319|360131|
-|C#|0:00:12.081363|360131|
-|F#|0:00:24.631608|360131|
-|Swift|0:02:37.714472|360131|
+|Rust|0:00:06.500450|360131|
+|C++|0:00:08.111186|360131|
+|Go|0:00:10.754285|360131|
+|Java|0:00:13.482997|360131|
+|C#|0:00:16.102392|360131|
+|F#|0:00:32.784440|360131|
+|Swift|0:03:24.659624|360131|
 
 
