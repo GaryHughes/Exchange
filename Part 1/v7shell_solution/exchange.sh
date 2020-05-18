@@ -1,6 +1,4 @@
-: <<!
-
-!
+:
 
 set -e 
 
@@ -8,7 +6,7 @@ dir=book.$$
 mkdir $dir
 trap 'rm -r $dir' 0
 
-ssort="sort -n +0 -2"
+ssort="sort -n +0 -1 +1 -2"
 bsort="sort -n +0r -1 +1 -2"
 
 : Main loop
@@ -42,14 +40,7 @@ awk -F: 'NF > 3 {print NR, $1, $2, $3, $4}' | sed -e 's/\//~/g' | \
 
     
     while test -s $bfname -a -s $sfname ; do
-        if false; then #test $gen -eq 232 ; then
-            echo Order $gen $user $symbol $qty $price $fname
-            echo Buys
-            head -5 $bfname
-            echo Sells
-            head -5 $sfname
-        fi
-
+    
         read bprice bgen buser bqty < $bfname
         read sprice sgen suser sqty < $sfname 
 
@@ -60,7 +51,7 @@ awk -F: 'NF > 3 {print NR, $1, $2, $3, $4}' | sed -e 's/\//~/g' | \
         less) break;;
         esac
 
-        : "have ovelap $bprice $sprice so print a trade.  
+        : "have overlap $bprice $sprice so print a trade.  
         Price is the price of the first order (lower gen number)... 
         which is the side opposite to the current record! "
         case "$side" in 
