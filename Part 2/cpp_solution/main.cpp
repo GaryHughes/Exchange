@@ -61,14 +61,7 @@ int main(int, char**)
 			}
 			*end = 0;
 
-			auto result = sscanf(begin, "%lf", &price);
-
-			if (result != 1)
-			{
-				std::ostringstream msg;
-				msg << "could not parse line '" << buffer << "' result = " << result; 
-				throw std::runtime_error(msg.str());
-			}
+			price = std::stod(begin);
 
 			for (const auto& trade : exchange.execute(instrument, ae::order(participant, quantity, price)))
 			{
