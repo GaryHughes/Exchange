@@ -29,8 +29,10 @@ void order_book::insert(const order& order)
 	}
 }
 
-void order_book::match(trade_collection& trades)
+trade_collection order_book::match()
 {
+	trade_collection trades;
+
 	while(!m_buy_orders.empty() && !m_sell_orders.empty())
 	{
 		const auto& buy_order = m_buy_orders.top();
@@ -63,6 +65,8 @@ void order_book::match(trade_collection& trades)
 		if (sell_remainder.remaining_quantity() > 0)
 			m_sell_orders.push(sell_remainder);
 	}
+
+	return trades;
 }
 
 } // namespace ae

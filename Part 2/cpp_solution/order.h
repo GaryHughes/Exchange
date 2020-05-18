@@ -31,8 +31,6 @@ public:
 
 	order fill(quantity_type quantity) const;
 
-	//static std::tuple<std::string, order> parse(const char* buffer);
-
 private:
 
 	void participant(const std::string& value) { m_participant = value; }
