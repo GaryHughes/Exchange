@@ -4,6 +4,7 @@ RUN apt-get -y update && apt-get install -y \
     make \
     libboost-all-dev \
     golang \
+    g++ \
     libicu-dev \
     wget \
     libtinfo5 \
