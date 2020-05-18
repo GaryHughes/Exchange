@@ -57,7 +57,7 @@ int main(int, char**)
 			begin = ++end;
 			end = std::strpbrk(begin, ":\n\r");
 			if (!end) {
-				throw std::runtime_error("no third token");
+				throw std::runtime_error("no fourth token");
 			}
 			*end = 0;
 
