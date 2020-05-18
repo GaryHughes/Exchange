@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1-bionic
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1-focal
 
 RUN apt-get -y update && apt-get install -y \
     make \
@@ -10,7 +10,8 @@ RUN apt-get -y update && apt-get install -y \
     libtinfo5 \
     libncurses5 \
     ant \
-    openjdk-11-jdk
+    openjdk-11-jdk \
+    vim
 
 #
 # Clang
