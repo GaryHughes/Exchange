@@ -7,6 +7,9 @@
 |  Rust    | [![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%201%20-%20Rust?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=10&branchName=master)              | [![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%202%20-%20Rust?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=11&branchName=master)              |
 |  Swift   |  [![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%202%20-%20Swift?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=15&branchName=master) | [![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%202%20-%20Swift?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=20&branchName=master) |
 | Java     | [![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%201%20-%20Java?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=18&branchName=master) | [![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%202%20-%20Java?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=19&branchName=master) |
+| Shell    | NA* | NA* |
+
+1. There is nothing to build for the shell variants and because these implementations are relatively slow they are not included in the benchmarks so we don't need to produce anything runnable by those pipelines.
 
 The following benchmarks are run in Microsoft hosted Azure Pipeline agents so the performance can and will vary between runs depending on what machine they end up running on. Each group, Part 1, Part 2, etc is run on a single agent so the performance of implementations within that group can be compared with some meaning. Performance in the Azure environment is significantly worse than will be seen on modern desktop hardware.
 
@@ -29,23 +32,23 @@ The following benchmarks are run in Microsoft hosted Azure Pipeline agents so th
 
 ||100K orders|trades|
 -|:-:|:-:|
-|Rust|0:00:00.042669|3368|
-|C++|0:00:00.045386|3368|
-|Go|0:00:00.066354|3368|
-|C#|0:00:00.130327|3368|
-|F#|0:00:00.295428|3368|
-|Java|0:00:00.301712|3368|
-|Swift|0:00:01.508609|3368|
+|Rust|0:00:00.050771|3368|
+|C++|0:00:00.055047|3368|
+|Go|0:00:00.079617|3368|
+|C#|0:00:00.172738|3368|
+|Java|0:00:00.345430|3368|
+|F#|0:00:00.364269|3368|
+|Swift|0:00:01.841387|3368|
 
 
 ||10M orders|trades|
 -|:-:|:-:|
-|Rust|0:00:05.007127|360131|
-|C++|0:00:05.454560|360131|
-|Go|0:00:08.546247|360131|
-|Java|0:00:10.770194|360131|
-|C#|0:00:12.294104|360131|
-|F#|0:00:25.224155|360131|
-|Swift|0:02:33.038112|360131|
+|Rust|0:00:05.939049|360131|
+|C++|0:00:06.246839|360131|
+|Go|0:00:09.120261|360131|
+|Java|0:00:12.585136|360131|
+|C#|0:00:14.721430|360131|
+|F#|0:00:29.515693|360131|
+|Swift|0:03:05.397072|360131|
 
 
