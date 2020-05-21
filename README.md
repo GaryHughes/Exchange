@@ -8,6 +8,7 @@
 |  Swift   |  [![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%202%20-%20Swift?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=15&branchName=master) | [![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%202%20-%20Swift?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=20&branchName=master) |
 | Java     | [![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%201%20-%20Java?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=18&branchName=master) | [![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%202%20-%20Java?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=19&branchName=master) |
 | Shell    | NA* | NA* |
+| Python   | [![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%201%20-%20Python?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=21&branchName=master) | [![Build Status](https://dev.azure.com/garyedwardhughes/Exchange/_apis/build/status/Part%202%20-%20Python?branchName=master)](https://dev.azure.com/garyedwardhughes/Exchange/_build/latest?definitionId=22&branchName=master) |
 
 1. There is nothing to build for the shell variants and because these implementations are relatively slow they are not included in the benchmarks so we don't need to produce anything runnable by those pipelines.
 
@@ -18,13 +19,14 @@ The following benchmarks are run in Microsoft hosted Azure Pipeline agents so th
 
 ||100K orders|trades|
 -|:-:|:-:|
-|C#|0:00:00.510236|3368|
-|Java|0:00:00.708698|3368|
-|Rust|0:00:01.394826|3368|
-|F#|0:00:06.418295|3368|
-|Swift|0:00:08.220741|3368|
-|C++|0:00:22.024449|3368|
-|Go|0:00:45.831311|3368|
+|C#|0:00:00.586240|3368|
+|Java|0:00:00.858132|3368|
+|Rust|0:00:01.601338|3368|
+|F#|0:00:07.634864|3368|
+|Swift|0:00:10.198899|3368|
+|C++|0:00:25.864191|3368|
+|Go|0:00:52.484356|3368|
+|python|0:02:17.607472|3368|
 
 
 ## Part 2 Performance
