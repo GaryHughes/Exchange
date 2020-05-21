@@ -70,7 +70,7 @@ for input in input_files:
             os.chmod(solution_file, 0o755)
         command = "subprocess.run(['./runner < {} > {}'], shell=True, cwd='{}')".format(input_file, output_file, working_directory)
         try:
-            if solution.find('python') >= 0:
+            if solution.find('python') >= 0 or solution.find('swift') >= 0:
                 actual_iterations = 1
             else:
                 actual_iterations = iterations
