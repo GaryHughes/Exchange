@@ -67,15 +67,14 @@ steps:
     definition: '19'
     buildVersionToDownload: 'latest'
     targetPath: '$(Pipeline.Workspace)'
-- task: DownloadBuildArtifacts@0
+- task: DownloadPipelineArtifact@2
   # Download Python
   inputs:
     buildType: 'specific'
     project: '030b6a1b-1f33-4e57-b63f-f03f0d399d8d'
-    pipeline: '22'
+    definition: '22'
     buildVersionToDownload: 'latest'
-    downloadType: 'single'
-    downloadPath: '$(System.ArtifactsDirectory)'
+    targetPath: '$(Pipeline.Workspace)'
 - script: |
     ./benchmark.py $(Pipeline.Workspace) part_2 5 orders-100K.txt.gz orders-10M.txt.gz > part_2_results.md
     ./generate_README.sh
