@@ -14,9 +14,9 @@ container: garyedwardhughes/exchange:latest
 
 steps:
 - script: |
-     python -m py_compile *.py
+     python3 -m py_compile *.py
   workingDirectory: 'Part 1/python_solution'
-  displayName: 'make'
+  displayName: 'complie'
 - task: CopyFiles@2
   inputs:
     contents: 'Part 1/python_solution/*.py'
