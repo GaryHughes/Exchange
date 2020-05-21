@@ -63,6 +63,7 @@ for input in input_files:
         runner = os.path.relpath(os.path.join(directory, solution, 'runner'))
         if not os.path.exists(runner):
             continue
+        if 
         input_file = os.path.realpath(input)
         working_directory = os.path.realpath(os.path.join(directory, solution))
         output_file = os.path.realpath(os.path.join(working_directory, 'trades'))
@@ -92,7 +93,8 @@ languages = {
     "rust"      : "Rust",
     "go"        : "Go",
     "swift"     : "Swift",
-    "java"      : "Java"
+    "java"      : "Java",
+    "python"    : "Python"
 }
 
 def language(solution):
