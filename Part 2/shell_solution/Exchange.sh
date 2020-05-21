@@ -13,10 +13,10 @@ cd $dir
 trap 'cd /tmp; rm -r $dir' 0
 
 # Two sort commands, depending on buy vs sell.  Comparisons
-# are numeric, price then generation  For buys, the 
-# price comparison is reversed so the highest price is first.
-ssort="sort -n +0 -1 +1 -2"
-bsort="sort -n +0r -1 +1 -2"
+# are numeric on price.  For buys, the price comparison is 
+# reversed so the highest price is first.
+ssort="sort +0n -1"
+bsort="sort +0nr -1"
 
 
 # Main loop
@@ -24,8 +24,8 @@ bsort="sort -n +0r -1 +1 -2"
 # - converts from colon-separated to space-separated
 # - drops the blank line at the end of some input files
 
-awk -F: 'NF > 3 {print NR, $1, $2, $3, $4}' | \
- while read gen user symbol qty price; do
+awk -F: 'NF > 3 {print $1, $2, $3, $4}' | \
+ while read user symbol qty price; do
     if [ $qty -lt 0 ]; then
         side=S
         qty=$(( 0 - $qty ))
@@ -43,15 +43,15 @@ awk -F: 'NF > 3 {print NR, $1, $2, $3, $4}' | \
     sfname=$basename.S
 
     : Add to file and sort appropriately
-    echo $price $gen $user $qty >> $fname
+    echo $price $user $qty >> $fname
     $sort $fname > $fname.new
     move $fname.new $fname
 
     
     while [ -s $bfname -a -s $sfname ] ; do
     
-        read bprice bgen buser bqty < $bfname
-        read sprice sgen suser sqty < $sfname 
+        read bprice buser bqty < $bfname
+        read sprice suser sqty < $sfname 
 
         less_than $bprice $sprice && break
 
@@ -66,11 +66,11 @@ awk -F: 'NF > 3 {print NR, $1, $2, $3, $4}' | \
         if [ $bqty -gt $sqty ]; then
             tqty=$sqty
             remove_first_line $sfname
-            replace_first_line $bfname "$bprice $bgen $buser $(($bqty - $sqty))"
+            replace_first_line $bfname $bprice $buser $(($bqty - $sqty))
         elif [ $sqty -gt $bqty ]; then
             tqty=$bqty
             remove_first_line $bfname
-            replace_first_line $sfname "$sprice $sgen $suser $(($sqty - $bqty))"
+            replace_first_line $sfname $sprice $suser $(($sqty - $bqty))
         else
             # same size
             tqty=$bqty

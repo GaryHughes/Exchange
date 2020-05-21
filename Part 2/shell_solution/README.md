@@ -100,6 +100,17 @@ It's not necessary to remove empty orderbook files, as the test `[ -s filename ]
 
 When processing a trade, it is sometimes required to reduce the quantity of the top order in the book rather than remove it.  This can be done with a simple sed rather than sorting every time.  Savings are minimal because this operation happens only rarely, and`sed` is only marginally faster than `sort`. But we include this optimization because it make it possible to eliminate the generation number.
 
+## Omit the generation number
+
+ The `sort` utility is stable so there is no need to carry around a generation number and use that in the sort to provide stability.  3 elements to implementing this:
+  - ensure all new orders are appended to the end of the book file
+  - sort numeric by the first field in the file (price).  Sorting by 1 field instead of two is probably makes the sort a bit faster.
+  - when processing a trade that part-fills an order, amend the first line in-place (rather than at appending to the back and re-sorting, as the initial implementation did).
+
+This would reduce the amount of data by maybe 20%, which should improve general performance. It's worth about 2 seconds:
+
+       26.10 real         9.56 user        12.54 sys
+
 # Current state
 
 With the above optimizations, running on the 100k test orders, run time is now
@@ -133,15 +144,6 @@ It turns out in practice that forking a plain `mv` process is a fair bit faster 
 # Possible further optimizations
 
 These look like they would be beneficial, but have not yet been investigated and implemented.
-
-## Omit the generation number
-
- The `sort` utility is stable so there is no need to carry around a generation number and use that in the sort to provide stability.  3 elements to implementing this:
-  - ensure all new orders are appended to the end of the book file
-  - sort numeric by the first field in the file (price).  Numeric sorting implictly ignores anything after the first space, so there is no need to use the sort field selection (`+0 -1 +1 -2`), which probably makes the sort a bit faster.
-  - when processing a trade that part-fills an order, amend the first line in-place (rather than at appending to the back and re-sorting, as the initial implementation did).
-
-This would reduce the amount of data by maybe 20%, which should improve general performance. 
 
 ## Lazy sort
 
