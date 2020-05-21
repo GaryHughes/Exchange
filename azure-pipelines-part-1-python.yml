@@ -1,0 +1,35 @@
+trigger:
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - 'Part 1/python_solution'
+      - azure-pipelines-part-1-python.yml
+
+pool:
+  vmImage: 'ubuntu-18.04'
+
+container: garyedwardhughes/exchange:latest
+
+steps:
+- script: |
+    make
+    make check
+  workingDirectory: 'Part 1/python_solution'
+  displayName: 'make'
+- task: CopyFiles@2
+  inputs:
+    contents: 'Part 1/python_solution/*.py'
+    targetFolder: $(Build.ArtifactStagingDirectory)
+    flattenFolders: true
+- task: CopyFiles@2
+  inputs:
+    contents: 'Part 1/python_solution/runner'
+    targetFolder: $(Build.ArtifactStagingDirectory)
+    flattenFolders: true
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: $(Build.ArtifactStagingDirectory)
+    artifactName: part_1_python_solution
+    publishLocation: 'Container'
