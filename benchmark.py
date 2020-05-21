@@ -70,7 +70,11 @@ for input in input_files:
             os.chmod(solution_file, 0o755)
         command = "subprocess.run(['./runner < {} > {}'], shell=True, cwd='{}')".format(input_file, output_file, working_directory)
         try:
-            result = timeit.repeat(stmt = command, setup = "import subprocess", number = 1, repeat = iterations)
+            if solution.find('python') >= 0:
+                actual_iterations = 1
+            else:
+                actual_iterations = iterations
+            result = timeit.repeat(stmt = command, setup = "import subprocess", number = 1, repeat = actual_iterations)
             if not os.path.exists(output_file):
                 continue
             results[order_count].append((solution, min(result), line_count(output_file)))
