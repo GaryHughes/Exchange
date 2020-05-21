@@ -14,8 +14,7 @@ container: garyedwardhughes/exchange:latest
 
 steps:
 - script: |
-    make
-    make check
+     python -m py_compile *.py
   workingDirectory: 'Part 1/python_solution'
   displayName: 'make'
 - task: CopyFiles@2
