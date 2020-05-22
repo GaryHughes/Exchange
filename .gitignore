@@ -17,3 +17,4 @@ target/
 trades.txt
 *.pyc
 __pycache__/
+*.out

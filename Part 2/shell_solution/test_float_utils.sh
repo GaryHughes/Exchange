@@ -27,6 +27,8 @@ test_split_int 1.0 1 0
 test_split_int 1.001 1 1000
 test_split_int 99.9999 99 999900
 test_split_int 999.9999 999 999900
+test_split_int 9999.9999 9999 999900
+test_split_int 99999.9999 99999 999900
 
 ensure_exits_fail split_int foo
 ensure_exits_fail split_int 23b

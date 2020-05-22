@@ -4,6 +4,7 @@ set -e # Exit if there are any errors
 
 . float_utils.sh
 . file_utils.sh
+. array_utils.sh
 
 # Where we put the temorary data
 dir=/tmp/book.$$
@@ -19,6 +20,7 @@ trap 'cd /tmp; rm -r $dir' 0
 ssort="sort -s  -n "
 bsort="sort -s -nr "
 
+maxprice=9999.9999
 
 # Main loop
 # awk command does 2 things:
@@ -27,33 +29,43 @@ bsort="sort -s -nr "
 
 awk -F: 'NF > 3 {print $1, $2, $3, $4}' | \
  while read user symbol qty price; do
+    # remove the "/" from some symbols into something that
+    # is both a valid filename and a valid shell variable name
+    basename=${symbol/\//_}
+    bfname=$basename.B 
+    sfname=$basename.S
+
+    set_array_key bestbid $basename 0
+    set_array_key bestoffer $basename $maxprice
+
     if [ $qty -lt 0 ]; then
         side=S
         qty=$(( 0 - $qty ))
         sort=$ssort
+        less_than $price ${!bestoffer} && set_array_value bestoffer $price
     else 
         side=B
         sort=$bsort
+        less_than ${!bestbid} $price && set_array_value bestbid $price
     fi
 
-    # remove the "/" from some symbols into something that
-    # is both a valid filename and a valid shell variable name
-    basename=${symbol/\//_}
-    fname=$basename.$side
-    bfname=$basename.B 
-    sfname=$basename.S
+    # Add to file
+    echo $price $user $qty >> $basename.$side
 
-    : Add to file and sort appropriately
-    echo $price $user $qty >> $fname
-    $sort $fname > $fname.new
-    move $fname.new $fname
-
+    less_than ${!bestbid} ${!bestoffer} && continue
     
+    # have overlap, so sort the file then process any trades
+
+    $bsort $bfname > $bfname.new
+    mv $bfname.new $bfname
+    
+    $ssort $sfname > $sfname.new
+    mv $sfname.new $sfname
+
+    read bprice buser bqty < $bfname
+    read sprice suser sqty < $sfname 
+
     while [ -s $bfname -a -s $sfname ] ; do
-    
-        read bprice buser bqty < $bfname
-        read sprice suser sqty < $sfname 
-
         less_than $bprice $sprice && break
 
         # have overlap $bprice $sprice so print a trade.  
@@ -66,20 +78,30 @@ awk -F: 'NF > 3 {print $1, $2, $3, $4}' | \
 
         if [ $bqty -gt $sqty ]; then
             tqty=$sqty
+            echo "$buser:$suser:$symbol:$tqty:$tprice"
+            bqty=$(($bqty - $sqty))
             remove_first_line $sfname
-            replace_first_line $bfname $bprice $buser $(($bqty - $sqty))
+            [ -s $sfname ] && read sprice suser sqty < $sfname
+            replace_first_line $bfname $bprice $buser $bqty
         elif [ $sqty -gt $bqty ]; then
             tqty=$bqty
+            echo "$buser:$suser:$symbol:$tqty:$tprice"
+            sqty=$(($sqty - $bqty))
             remove_first_line $bfname
-            replace_first_line $sfname $sprice $suser $(($sqty - $bqty))
+            [ -s $bfname ] && read bprice buser bqty < $bfname
+            replace_first_line $sfname $sprice $suser $sqty
         else
             # same size
             tqty=$bqty
+            echo "$buser:$suser:$symbol:$tqty:$tprice"
             remove_first_line $sfname
             remove_first_line $bfname
+            read bprice buser bqty < $bfname
+            read sprice suser sqty < $sfname
         fi
 
-        echo "$buser:$suser:$symbol:$tqty:$tprice"
 
     done
+    set_array_value bestbid $bprice
+    set_array_value bestoffer $sprice
 done
