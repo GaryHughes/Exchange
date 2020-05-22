@@ -15,8 +15,9 @@ trap 'cd /tmp; rm -r $dir' 0
 # Two sort commands, depending on buy vs sell.  Comparisons
 # are numeric on price.  For buys, the price comparison is 
 # reversed so the highest price is first.
-ssort="sort +0n -1"
-bsort="sort +0nr -1"
+# -s says stable sort (should be the default!)
+ssort="sort -s  -n "
+bsort="sort -s -nr "
 
 
 # Main loop
@@ -34,7 +35,7 @@ awk -F: 'NF > 3 {print $1, $2, $3, $4}' | \
         side=B
         sort=$bsort
     fi
-    
+
     # remove the "/" from some symbols into something that
     # is both a valid filename and a valid shell variable name
     basename=${symbol/\//_}

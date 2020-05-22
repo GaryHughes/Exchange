@@ -102,7 +102,7 @@ When processing a trade, it is sometimes required to reduce the quantity of the 
 
 ## Omit the generation number
 
- The `sort` utility is stable so there is no need to carry around a generation number and use that in the sort to provide stability.  3 elements to implementing this:
+ The `sort -s` utility is stable so there is no need to carry around a generation number and use that in the sort to provide stability.  3 elements to implementing this:
   - ensure all new orders are appended to the end of the book file
   - sort numeric by the first field in the file (price).  Sorting by 1 field instead of two is probably makes the sort a bit faster.
   - when processing a trade that part-fills an order, amend the first line in-place (rather than at appending to the back and re-sorting, as the initial implementation did).
@@ -115,9 +115,9 @@ This would reduce the amount of data by maybe 20%, which should improve general 
 
 With the above optimizations, running on the 100k test orders, run time is now
 
-     5892.47 real      4543.88 user       949.41 sys
+     2407.82 real      1278.93 user       840.38 sys
 
-or approximately 1hr 40m elapsed time.  This is an impressive 64% reduction in elapsed time, and about 15% reduction in total CPU time.  Output from this run matches the C++ reference implementation.
+or approximately 40m elapsed time.  This is an impressive 64% reduction in elapsed time, and about 15% reduction in total CPU time.  Output from this run matches the C++ reference implementation.
 
 # Failed optimizations
 
