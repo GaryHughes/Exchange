@@ -17,3 +17,7 @@ target/
 trades.txt
 *.pyc
 __pycache__/
+*.out
+*.so
+Part 1/cython_version/build/
+Part 1/cython_version/Exchange.c
