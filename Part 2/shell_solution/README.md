@@ -100,13 +100,32 @@ It's not necessary to remove empty orderbook files, as the test `[ -s filename ]
 
 When processing a trade, it is sometimes required to reduce the quantity of the top order in the book rather than remove it.  This can be done with a simple sed rather than sorting every time.  Savings are minimal because this operation happens only rarely, and`sed` is only marginally faster than `sort`. But we include this optimization because it make it possible to eliminate the generation number.
 
+## Omit the generation number
+
+ The `sort -s` utility is stable so there is no need to carry around a generation number and use that in the sort to provide stability.  3 elements to implementing this:
+  - ensure all new orders are appended to the end of the book file
+  - sort numeric by the first field in the file (price).  Sorting by 1 field instead of two is probably makes the sort a bit faster.
+  - when processing a trade that part-fills an order, amend the first line in-place (rather than at appending to the back and re-sorting, as the initial implementation did).
+
+This would reduce the amount of data by maybe 20%, which should improve general performance. It's worth about 2 seconds:
+
+       26.10 real         9.56 user        12.54 sys
+
+## Lazy sort
+
+Given the staility of the `sort` utility, and the fact that only 5% of the orders create an overlapped market and change the best bid/offer, we could store the best bid/offer value in the script and only go to the file when the BBO changes.  This means the main new-order path would append only and not need to sort 95% of the time.  This is complex to implement in shell,  The chosen approach is to use the bash indirect variables `${!varname}` to simulate a dictionary with many specially-named shell variables.  See `array_utils.sh`.
+
+Saving is quite material, around 75%, so much so that the benchmarking on 2000 lines is no longer very precise.
+
+        4.81 real         3.89 user         0.76 sys
+
 # Current state
 
 With the above optimizations, running on the 100k test orders, run time is now
 
-     5892.47 real      4543.88 user       949.41 sys
+       417.84 real       279.51 user       104.04 sys
 
-or approximately 1hr 40m elapsed time.  This is an impressive 64% reduction in elapsed time, and about 15% reduction in total CPU time.  Output from this run matches the C++ reference implementation.
+or a touch under 7 minutes.  This is an impressive 97% reduction in elapsed time, and similar reduction in total CPU time.  Output from this run matches the C++ reference implementation.
 
 # Failed optimizations
 
@@ -134,20 +153,6 @@ It turns out in practice that forking a plain `mv` process is a fair bit faster 
 
 These look like they would be beneficial, but have not yet been investigated and implemented.
 
-## Omit the generation number
-
- The `sort` utility is stable so there is no need to carry around a generation number and use that in the sort to provide stability.  3 elements to implementing this:
-  - ensure all new orders are appended to the end of the book file
-  - sort numeric by the first field in the file (price).  Numeric sorting implictly ignores anything after the first space, so there is no need to use the sort field selection (`+0 -1 +1 -2`), which probably makes the sort a bit faster.
-  - when processing a trade that part-fills an order, amend the first line in-place (rather than at appending to the back and re-sorting, as the initial implementation did).
-
-This would reduce the amount of data by maybe 20%, which should improve general performance. 
-
-## Lazy sort
-
-Given the staility of the `sort` utility, and the fact that only 5% of the orders create an overlapped market and change the best bid/offer, we could store the best bid/offer value in the script and only go to the file when the BBO changes.  This means the main new-order path would append only and not need to sort 95% of the time.  This is complex to implement in shell, as you would need to keep a price per symbol/side.  A possible approach is to use the bash indirect variables `${!varname}` to simulate a dictionary with many specially-named shell variables (or possibly some arrays).  
-
-Potential saving here is quite large, possibly 90% or more, as the common path of new order and no trade would involve only appending a line to a file and require no sub-processes.
 
 ## Pingpong filenames
 
