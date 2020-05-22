@@ -19,5 +19,5 @@ trades.txt
 __pycache__/
 *.out
 *.so
-Part 1/cython_version/build/
-Part 1/cython_version/Exchange.c
+Part 1/cython_solution/build/
+Part 1/cython_solution/Exchange.c
