@@ -3,16 +3,10 @@
 namespace ae
 {
 
-order_book::order_book(const std::string& instrument)
-:	m_instrument(instrument)
-,	m_buy_orders(buy_ordering)
+order_book::order_book()
+:	m_buy_orders(buy_ordering)
 ,	m_sell_orders(sell_ordering)
 {
-}
-
-const std::string& order_book::instrument() const
-{
-	return m_instrument;
 }
 
 void order_book::insert(const order& order)
@@ -29,8 +23,10 @@ void order_book::insert(const order& order)
 	}
 }
 
-void order_book::match(trade_collection& trades)
+trade_collection order_book::match()
 {
+	trade_collection trades;
+
 	while(!m_buy_orders.empty() && !m_sell_orders.empty())
 	{
 		const auto& buy_order = m_buy_orders.top();
@@ -63,6 +59,8 @@ void order_book::match(trade_collection& trades)
 		if (sell_remainder.remaining_quantity() > 0)
 			m_sell_orders.push(sell_remainder);
 	}
+
+	return trades;
 }
 
 } // namespace ae

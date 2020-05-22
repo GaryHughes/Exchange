@@ -12,11 +12,11 @@ namespace ae
 
 size_t order::s_next_generation = 0;
 
-order::order(const std::string& part,
+order::order(std::string_view part,
 			 quantity_type qty,
 			 price_type prc)
 {
-	participant(part);
+	participant(std::string(part));
 	quantity(qty);
 	price(prc);
 }

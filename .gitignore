@@ -15,3 +15,5 @@ obj
 target/
 .ionide
 trades.txt
+*.pyc
+__pycache__/

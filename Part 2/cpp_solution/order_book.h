@@ -46,12 +46,10 @@ private:
 
 public:
 
-	order_book(const std::string& instrument);
-
-	const std::string& instrument() const;
+	order_book();
 
 	void insert(const order& order);
-	void match(trade_collection& trades);
+	trade_collection match();
 
 	const buy_order_collection& buy_orders() const { return m_buy_orders; }
 	const sell_order_collection& sell_orders() const { return m_sell_orders; }

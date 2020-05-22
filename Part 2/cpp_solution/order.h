@@ -13,7 +13,7 @@ public:
 
 	order() {}
 
-	order(const std::string& participant,
+	order(std::string_view participant,
 		  quantity_type quantity,
 		  price_type price);
 
@@ -30,8 +30,6 @@ public:
 	}
 
 	order fill(quantity_type quantity) const;
-
-	//static std::tuple<std::string, order> parse(const char* buffer);
 
 private:
 

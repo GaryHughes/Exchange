@@ -5,7 +5,7 @@
 
 BOOST_AUTO_TEST_CASE( test_buy_ordering )
 {
-	ae::order_book book("AUDUSD");
+	ae::order_book book;
 
     book.insert(ae::order("A", 100, 10));
     book.insert(ae::order("A", 100, 7));
@@ -30,7 +30,7 @@ BOOST_AUTO_TEST_CASE( test_buy_ordering )
 
 BOOST_AUTO_TEST_CASE( test_buy_ordering_same_price )
 {
-	ae::order_book book("AUDUSD");
+	ae::order_book book;
 
     book.insert(ae::order("A", 100, 10));
     book.insert(ae::order("A", 101, 10));
@@ -55,7 +55,7 @@ BOOST_AUTO_TEST_CASE( test_buy_ordering_same_price )
 
 BOOST_AUTO_TEST_CASE( test_sell_ordering )
 {
-	ae::order_book book("AUDUSD");
+	ae::order_book book;
 
     book.insert(ae::order("A", -100, 10));
     book.insert(ae::order("A", -100, 7));
@@ -80,7 +80,7 @@ BOOST_AUTO_TEST_CASE( test_sell_ordering )
 
 BOOST_AUTO_TEST_CASE( test_sell_ordering_same_price )
 {
-	ae::order_book book("AUDUSD");
+	ae::order_book book;
 
     book.insert(ae::order("A", -100, 10));
     book.insert(ae::order("A", -101, 10));
@@ -105,15 +105,13 @@ BOOST_AUTO_TEST_CASE( test_sell_ordering_same_price )
 
 BOOST_AUTO_TEST_CASE( test_first_price_entered_selected )
 {
-	ae::order_book book("AUDUSD");
+	ae::order_book book;
 
 	book.insert(ae::order("B", -100, 1.11));
 	book.insert(ae::order("F", -50, 1.1));
 	book.insert(ae::order("D", 100, 1.11));
 
-	ae::trade_collection trades;
-
-	book.match(trades);
+	auto trades = book.match();
 
 	BOOST_REQUIRE_EQUAL(2, trades.size());
 
