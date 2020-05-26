@@ -83,7 +83,8 @@ class OrderBook:
             
         return ret
 
-if __name__ == "__main__":
+
+def main():
     import sys
     books = {}
     for l in sys.stdin:
@@ -96,3 +97,6 @@ if __name__ == "__main__":
         b.append(o)
         for t in b.match():
             print(t)
+
+if __name__ == "__main__":
+    main()
