@@ -26,12 +26,6 @@ This is easy, using setup.py:
 
     python3 setup.py build_ext --inplace
 
-This creates a `.so` module file called something like `Exchange.cpython-36m-darwin.so`.  *Sometimes* it also creates a symlink to `Exchange.so` but if not, you will need to create this yourself:
-
-    ln -s Exchange.cpython-36m-darwin.so Exchange.so
-
-Haven't worked out why this is not always working.
-
 ### Running unit tests
 
 This is simple:
