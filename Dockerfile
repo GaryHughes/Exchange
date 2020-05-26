@@ -11,7 +11,13 @@ RUN apt-get -y update && apt-get install -y \
     libncurses5 \
     ant \
     openjdk-11-jdk \
-    vim
+    vim \
+    python3-pip
+    
+#
+# These are for the Cython builds
+#
+RUN pip3 install cython setuptools
 
 #
 # Clang
