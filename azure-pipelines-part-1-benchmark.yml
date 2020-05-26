@@ -74,6 +74,14 @@ steps:
     definition: '21'
     buildVersionToDownload: 'latest'
     targetPath: '$(Pipeline.Workspace)'
+- task: DownloadPipelineArtifact@2
+  # Download Cython
+  inputs:
+    buildType: 'specific'
+    project: '030b6a1b-1f33-4e57-b63f-f03f0d399d8d'
+    definition: '23'
+    buildVersionToDownload: 'latest'
+    targetPath: '$(Pipeline.Workspace)'
 - script: |
     ./benchmark.py $(Pipeline.Workspace) part_1 5 orders-100K.txt.gz > part_1_results.md
     ./generate_README.sh

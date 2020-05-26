@@ -4,8 +4,8 @@ trigger:
       - master
   paths:
     include:
-      - 'Part 1/cython_solution'
-      - azure-pipelines-part-1-cython.yml
+      - 'Part 2/cython_solution'
+      - azure-pipelines-part-2-cython.yml
 
 pool:
   vmImage: 'ubuntu-18.04'
