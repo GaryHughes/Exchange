@@ -2,7 +2,7 @@
 
 This version starts with the optimized Python implementation from [Part 2/python_solution](../python_solution/README.md), not the Part 1 cython solution.
 
-First step is to run the Python code as a compiled Cytthon extension, then proceed to use the various cython facilities (typing, C structs &c) to improve performance.
+First step is to run the Python code as a compiled Cython extension, then proceed to use the various cython facilities (typing, C structs &c) to improve performance.
 
 # Building
 
@@ -71,6 +71,26 @@ Cython-ising the `match()` function and declaring the local variables with C typ
     user	0m3.547s
     sys	    0m0.059s
 
+# Remove Python list type
+
+The current version uses Python wrappers around the Order struct, stored in Python list objects.   This makes it easy to manipulate list contents, use existing Python stable `sort()`, and write the unit tests in Python.  However this code is in the critical path and executed for every input line.There is potentially a big gain in hiding the Order type inside the OrderBook and making it a `cdef struct` stored in a C array.  However, this is much more complex code, as the Cython code will have to manage memory, implement a stable sort, and expose the C struct for unit testing.  And the code is a bit ugly as the C code is not object-oriented so you have to write stand-alone functions not member functions.
+
+The standard `qsort()` routine in libc is not stable, so we have to re-add the generation number to the `Order` object to get stable sorting.  Unit-testing is enabled by some special member functions on the OrderBook object that can access the C structs and return to Python for the unittests.  These extra functions have no performance impact.
+
+The hardest bit is to extract the buyer/seller IDs from Python into the C struct, in a manner that allows the Order objects to be copied around while sorting, and then converting the IDs back into Python string types when required.  This takes a bit of Unicode encoding/decoding, and in order to make the Order struct small, we only allow max 8 characters in the buyer ID.
+
+This is a good win, about 30%:
+
+    real	0m2.133s
+    user	0m2.032s
+    sys	    0m0.052s
+
 # Possible further optimizations
 
-The current version uses Python wrappers around the Order struct, stored in Python list objects.   This makes it easy to manipulate list contents, use existing Python stable `sort()`, and write the unit tests in Python.  However this code is in the critical path and executed for every input line.There is potentially a big gain in hiding the Order type inside the OrderBook and making it a `cdef struct` stored in a C array.  However, this is much more complex code, as the Cython code will have to manage memory, implement a stable insertion sort, and consider how to do any unit testing.
+## Omit generation again
+We could hand-craft a stable sort function in Cython and omit the generation altogether.  Again, this is more code and more complext code.
+
+MacOS libc has a stable `mergesort()` function which would be useful, but that is not available on Linux.
+
+## Investigate Unicode IDs
+A fair bit of the effort reading each input line is convedrting the Python unicode string pbjkects for buyer/seller IDs into char array in the Order object.  There may be a better/faster way to do this 
