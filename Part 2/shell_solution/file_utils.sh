@@ -8,10 +8,12 @@ remove_first_line () {
 }
 
 replace_first_line () {
-    # replace the first line of filr $1 with the value of $2
-    echo $2 > $1.new
-    sed 1d $1 >> $1.new
-    mv $1.new $1
+    # replace the first line of file $1 with the value of $2...
+    fn=$1
+    shift
+    echo "$@" > $fn.new
+    sed 1d $fn >> $fn.new
+    mv $fn.new $fn
 }
 
 shell_copy () {

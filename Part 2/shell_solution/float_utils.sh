@@ -13,6 +13,8 @@ split_int () {
     ?.*) intpart=${1:0:1}; fracpart=${1:2};;
     ??.*) intpart=${1:0:2}; fracpart=${1:3};;
     ???.*) intpart=${1:0:3}; fracpart=${1:4};;
+    ????.*) intpart=${1:0:4}; fracpart=${1:5};;
+    ?????.*) intpart=${1:0:5}; fracpart=${1:6};;
     *.*) echo "Cant parse real $1" 1>&2; exit 1;;
     [0-9]) intpart=$1; fracpart=0;;
     [0-9]*[0-9]) intpart=$1; fracpart=0;;
