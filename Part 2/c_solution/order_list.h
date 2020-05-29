@@ -22,7 +22,7 @@ Order *OrderList_append(OrderList *ol, const Order *o);
 /* Remove the top element of the OrderList */
 void OrderList_remove_first(OrderList *ol);
 
-/* Two sort functions. Key is price (ascending/decending) then generation ascending */
+/* Two stable sort functions. Key is price (ascending/decending) */
 void OrderList_sort_ascending(OrderList *ol);
 void OrderList_sort_descending(OrderList *ol);
 

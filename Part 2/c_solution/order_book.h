@@ -14,6 +14,7 @@ typedef struct {
     OrderList buys, sells;
     char instrument[INSTRUMENT_SIZE];
     float best_bid, best_offer;
+    bool last_order_buy;
 } OrderBook;
 
 OrderBook *OrderBook_init(OrderBook *ob, const char *instrument); /* NULL if an error from malloc() */
@@ -27,8 +28,5 @@ void OrderBook_sort(OrderBook *);
 
 /* See if there is a trade to match.  If so, fill in t and return true */
 bool OrderBook_match(OrderBook *, Trade *);
-
-/* Helper function for unit testing */
-Order *Order_init(Order *, const char *id, int qty, double price);
 
 #endif /* ORDER_BOOK_H */

@@ -9,11 +9,6 @@
 
 #include "order_book.h"
 
-static int next_generation() {
-    static int gen = 0;
-    return ++gen;
-}
-
 OrderBook *OrderBook_init(OrderBook *ob, const char *instrument) {
     if (OrderList_init(&ob->buys) && OrderList_init(&ob->sells)) {
         strlcpy(ob->instrument, instrument, INSTRUMENT_SIZE);
@@ -35,18 +30,19 @@ OrderBook *OrderBook_append(OrderBook *ob, const char *id, int qty, double price
 
     strcpy(o.id, id);
     o.price = price;
-    o.generation = next_generation();
 
     if (qty > 0) {
         o.qty = qty;
         ret = OrderList_append(&ob->buys, &o);
         if (o.price > ob->best_bid)
             ob->best_bid = o.price;
+        ob->last_order_buy = true;
     } else {
         o.qty = -qty;
         ret = OrderList_append(&ob->sells, &o);
         if (o.price < ob->best_offer)
             ob->best_offer = o.price;
+        ob->last_order_buy = false;
     }
     return ret ? ob : NULL;
 }
@@ -73,7 +69,7 @@ bool OrderBook_match(OrderBook *ob, Trade *t) {
     /* Have an actual trade */
     strcpy(t->buyer, bp->id);
     strcpy(t->seller, sp->id);
-    t->price = bp->generation < sp->generation ? bp->price : sp->price;
+    t->price = ob->last_order_buy ? sp->price : bp->price;
     if (bp->qty > sp->qty) {
         t->qty = sp->qty;
         bp->qty -= sp->qty;
@@ -92,13 +88,4 @@ bool OrderBook_match(OrderBook *ob, Trade *t) {
         ob->best_bid = ob->buys.orders[0].price;
     }
     return true;
-}
-
-/* Helper function for unit testing */
-Order * Order_init(Order *o, const char *id, int qty, double price) {
-    strcpy(o->id, id);
-    o->qty = qty;
-    o->price = price;
-    o->generation = next_generation();
-    return o;
 }

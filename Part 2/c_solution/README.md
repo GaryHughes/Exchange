@@ -48,11 +48,9 @@ This is a much bigger win than I expected (20%), and also prepares for some of t
     user	0m1.459s
     sys 	0m0.020s
 
-# Possible future optimizations
-
 ## Hand-craft a stable insertion sort
 
-The requirements for soring the OrderList are fairly constrained:
+The requirements for sorting the OrderList are fairly constrained:
 - Sort must be stable, on price (ascending or descending)
 - New elements are appended to the array,
 - Elements are only ever popped off the front
@@ -63,4 +61,29 @@ These constraints mean once a set of Orders has been sorted, they don't need to 
 - It is not stable by default, so we have to synthesise a generation number and include it in a compound sort key to ensure stability.  This increases the size of the Order object and leads to more data being moved around during the sort, as well as making the comparison function a bit slower.
 - As a library routine, it is coded in terms of `void *` pointers and incurs a function call for each comparison.
 
-These factors indicate that we can hand-code a stable insertion-sort, using inline comparisons and concrete types instead of function calls and `void *` pointers.  Then we can remove all knowledge of generation numbers. This should be a big win.
+These factors indicate that we can hand-code a stable insertion-sort, using inline comparisons and concrete types instead of function calls and `void *` pointers.  This is (as expedted) a big win, around 40%:
+
+    real	0m0.832s
+    user	0m0.793s
+    sys 	0m0.020s
+
+## Remove generation
+
+Now that the sort is stable, we can remove all knowledge of generation numbers.  OrderBook needs to remember whther the last order was buy or sell so it can pick the correct price.  
+
+This is a good win, more than I expected:
+
+    real	0m0.556s
+    user	0m0.528s
+    sys 	0m0.015s
+
+
+# Possible future optimizations
+
+## Add Binary search to the insertion sort
+
+The hand-crafted insertion sort uses a linear search to find the insertion point in the already-sorted list.   This makes the whole sort more or less equivalent to bubblesort, O(n^2). This can be improved to a binary search, at the cost of some code complexity, to make it O(n log n).  
+
+## PriceStep object
+
+Instead of maintaining a single OrderList per instrument/side (sorted by price), we can add another level.  The OrderBook would store lists of PriceStep objects, each of which contains a list of Orders for a given price, in time priority.  New orders added to the back, traded orders popped from the front of the PriceStep.  So there would be no need to sort the Orders at all, only the PriceStep objects, which should cut the sorting down another factor of 10 or more.

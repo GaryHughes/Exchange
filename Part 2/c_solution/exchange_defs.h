@@ -14,7 +14,6 @@ typedef struct {
     char id[ID_SIZE]; /* buyer/seller ID */
     int qty;
     double price;
-    int generation;
 } Order;
 
 typedef struct {
