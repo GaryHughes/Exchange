@@ -11,7 +11,8 @@
 
 OrderBook *OrderBook_init(OrderBook *ob, const char *instrument) {
     if (OrderList_init(&ob->buys) && OrderList_init(&ob->sells)) {
-        strlcpy(ob->instrument, instrument, INSTRUMENT_SIZE);
+        strncpy(ob->instrument, instrument, INSTRUMENT_SIZE - 1);
+        ob->instrument[INSTRUMENT_SIZE - 1] = 0;
         return ob;
     }
     return NULL;
