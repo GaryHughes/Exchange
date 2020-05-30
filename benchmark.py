@@ -104,7 +104,8 @@ languages = {
     "swift"     : "Swift",
     "java"      : "Java",
     "python"    : "Python",
-    "cython"    : "Cython"
+    "cython"    : "Cython",
+    "c"         : "C"
 }
 
 def language(solution):
