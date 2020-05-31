@@ -22,6 +22,7 @@ void OrderList_destroy(OrderList *ol) {
 
 Order *OrderList_append(OrderList *ol, const char *id, int qty, double price) {
     Order *op;
+
     // assert(ol->size <= ol->capacity && ol->size >= 0);
     if (ol->size == ol->capacity) {
         /* increase by 1.5x */
