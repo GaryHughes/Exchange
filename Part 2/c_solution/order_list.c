@@ -1,7 +1,7 @@
 /*
- * Implement the Order type.  Not much here!
+ * A list of orders, kept in sorted order. 
+ * Toop of order book is orders[0]
  */
-
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,7 +12,7 @@
 OrderList *OrderList_init(OrderList *ol) {
     ol->capacity = 10;
     ol->size = 0;
-    ol->last_sorted_size = 0;
+    ol->sorted_size = 0;
     ol->orders = (Order *)malloc(ol->capacity * sizeof(Order));
     return ol->orders ? ol : NULL;
 }
@@ -22,7 +22,7 @@ void OrderList_destroy(OrderList *ol) {
 }
 
 Order *OrderList_append(OrderList *ol, const Order *o) {
-    assert(ol->size <= ol->capacity && ol->size >= 0);
+    // assert(ol->size <= ol->capacity && ol->size >= 0);
     if (ol->size == ol->capacity) {
         /* increase by 1.5x */
         ol->capacity += ol->capacity >> 1;
@@ -37,115 +37,126 @@ Order *OrderList_append(OrderList *ol, const Order *o) {
 /*
  * Hand-crafted stable insertion sort.
  * Requirements:
- * Entries from 0 .. (last_sorted_size -1) are already sorted and do not need to be re-ordered
- * Entries from last_sorted_size .. (size - 1) need to be "bubbled down" into the correct position
+ * Entries from 0 .. (sorted_size -1) are already sorted and do not need to be re-ordered
+ * Entries from sorted_size .. (size - 1) need to be "bubbled down" into the correct position
  * Sort must be stable so bubble-down must insert *after* all entries that compare equal
- * We can binary-search the already-sorted entries to find the place to inseet.
+ * We can binary-search the already-sorted entries to find the place to insert.
  *   (and we can shortcut a few of the common cases to make this faster)
  */
 
 void OrderList_sort_ascending(OrderList *ol) {
     Order otmp;
     double price;
-    int ni;
+    int ni, lo, hi;
 
-    if (!ol->size || ol->size == ol->last_sorted_size) 
+    if (!ol->size || ol->size == ol->sorted_size) 
         return;
-    if (!ol->last_sorted_size)
-        ol->last_sorted_size = 1; /* List of 1 element is already sorted! */
-    while (ol->last_sorted_size < ol->size) {
-        /* 0 .. last_sorted_size-1 are in ascending order */
-        price = ol->orders[ol->last_sorted_size].price;
+    if (!ol->sorted_size)
+        ol->sorted_size = 1; /* List of 1 element is already sorted! */
+    while (ol->sorted_size < ol->size) {
+        /* 0 .. sorted_size-1 are in ascending order */
+        price = ol->orders[ol->sorted_size].price;
         /* special-case some edge cases */
         if (price < ol->orders[0].price) {
             /* Insert at head, is smaller than all existing */
-            /* move 0..last_sorted_size-1 to 1..last_sorted_size */
-            /* need to move last_sorted_size elements, element at last_sorted_size is already in otmp */
-            otmp = ol->orders[ol->last_sorted_size];
-            memmove(ol->orders + 1, ol->orders, ol->last_sorted_size * sizeof(Order));
+            /* move 0..sorted_size-1 to 1..sorted_size */
+            /* need to move sorted_size elements, & save element at sorted_size */
+            otmp = ol->orders[ol->sorted_size];
+            memmove(ol->orders + 1, ol->orders, ol->sorted_size * sizeof(Order));
             ol->orders[0] = otmp;
-            ol->last_sorted_size++;
+            ol->sorted_size++;
             continue;
         }
-        if (price >= ol->orders[ol->last_sorted_size -1].price) {
+        if (price >= ol->orders[ol->sorted_size - 1].price) {
             /* already bigger/equal than all the previous, so already in the right place, no move / insert required */
-            ol->last_sorted_size++;
+            ol->sorted_size++;
             continue;
         }
         /* 
          * Need to find ni, the index 1..last_sorded_size-1 *before* which
-         * the new element gets inserted.
+         * the new element gets inserted.  This is the lowest index ni such that 
+         *      orders[ni].price > price
+         * We use a binary search for that to get O(n log n)
          */
-        for (ni = ol->last_sorted_size - 1; ni > 0; --ni)
-            if (ol->orders[ni-1].price <= price)
-                break;
-        // printf("Sort %lx asc size %d last_sorted %d new %d newprice %g\n", 
-        //     (unsigned long)ol, ol->size, ol->last_sorted_size, ni, otmp.price);
-        // for (int i = 0; i <= ol->last_sorted_size; ++i)
-        //     printf("%2d %g\n", i, ol->orders[i].price);
-        /* ni=0 and ni=last_sorted_size are special-cased above */
-        assert(ni > 0 && ni < ol->last_sorted_size);
-        /* move ni .. last_sorted_size-1 up to ni+1 .. last_sorted_size */
-        otmp = ol->orders[ol->last_sorted_size];
-        memmove(ol->orders + ni + 1, ol->orders + ni, (ol->last_sorted_size - ni) * sizeof(Order));
+        for (lo = 1, hi = ol->sorted_size - 1, ni = (lo + hi) >> 1;
+            hi > lo;
+            ni = (lo + hi) >> 1) {
+                if (ol->orders[ni].price <= price)
+                    lo = ni + 1;
+                else
+                    /* cant use -1 here as might need to insert just before ni */
+                    hi = ni;
+        }
+        // assert(price < ol->orders[ni].price && price >= ol->orders[ni - 1].price);
+
+        /* ni=0 and ni=sorted_size are special-cased above */
+        // assert(ni > 0 && ni < ol->sorted_size);
+        /* move ni .. sorted_size-1 up to ni+1 .. sorted_size */
+        otmp = ol->orders[ol->sorted_size];
+        memmove(ol->orders + ni + 1, ol->orders + ni, (ol->sorted_size - ni) * sizeof(Order));
         /* Insert new element at ni */
         ol->orders[ni] = otmp;
-        ol->last_sorted_size++;
+        ol->sorted_size++;
     }
 }
+
 
 void OrderList_sort_descending(OrderList *ol) {
     Order otmp;
     double price;
-    int ni;
+    int ni, lo, hi;
 
-    if (!ol->size || ol->size == ol->last_sorted_size) 
+    if (!ol->size || ol->size == ol->sorted_size) 
         return;
-    if (!ol->last_sorted_size)
-        ol->last_sorted_size = 1; /* List of 1 element is already sorted! */
-    while (ol->last_sorted_size < ol->size) {
-        /* 0 .. last_sorted_size-1 are in descending order */
-        price = ol->orders[ol->last_sorted_size].price;
+    if (!ol->sorted_size)
+        ol->sorted_size = 1; /* List of 1 element is already sorted! */
+    while (ol->sorted_size < ol->size) {
+        /* 0 .. sorted_size-1 are in ascending order */
+        price = ol->orders[ol->sorted_size].price;
         /* special-case some edge cases */
         if (price > ol->orders[0].price) {
             /* Insert at head, is larger than all existing */
-            /* move 0..last_sorted_size-1 to 1..last_sorted_size */
-            /* need to move last_sorted_size elements, element at last_sorted_size is already in otmp */
-            otmp = ol->orders[ol->last_sorted_size];
-            memmove(ol->orders + 1, ol->orders, ol->last_sorted_size * sizeof(Order));
+            /* move 0..sorted_size-1 to 1..sorted_size */
+            /* need to move sorted_size elements, & save element at sorted_size */
+            otmp = ol->orders[ol->sorted_size];
+            memmove(ol->orders + 1, ol->orders, ol->sorted_size * sizeof(Order));
             ol->orders[0] = otmp;
-            ol->last_sorted_size++;
+            ol->sorted_size++;
             continue;
         }
-        if (price <= ol->orders[ol->last_sorted_size -1].price) {
-            /* already smaller/equal than all the previous, so already in the right place, no move / insert required */
-            ol->last_sorted_size++;
+        if (price <= ol->orders[ol->sorted_size - 1].price) {
+            /* already bigger/equal than all the previous, so already in the right place, no move / insert required */
+            ol->sorted_size++;
             continue;
         }
         /* 
          * Need to find ni, the index 1..last_sorded_size-1 *before* which
-         * the new element gets inserted.
+         * the new element gets inserted.  This is the lowest index ni such that 
+         *      orders[ni].price < price
          */
-        for (ni = ol->last_sorted_size - 1; ni > 0; --ni)
-            if (ol->orders[ni-1].price >= price)
-                break;
-        // printf("Sort %lx desc size %d last_sorted %d new %d newprice %g\n", 
-        //     (unsigned long)ol, ol->size, ol->last_sorted_size, ni, otmp.price);
-        // for (int i = 0; i <= ol->last_sorted_size; ++i)
-        //     printf("%2d %g\n", i, ol->orders[i].price);
-        /* ni=0 and ni=last_sorted_size are special-cased above */
-        assert(ni > 0 && ni < ol->last_sorted_size);
-        /* move ni .. last_sorted_size-1 up to ni+1 .. last_sorted_size */
-        otmp = ol->orders[ol->last_sorted_size];
-        memmove(ol->orders + ni + 1, ol->orders + ni, (ol->last_sorted_size - ni) * sizeof(Order));
+        for (lo = 1, hi = ol->sorted_size - 1, ni = (lo + hi) >> 1;
+            hi > lo;
+            ni = (lo + hi) >> 1) {
+                if (ol->orders[ni].price >= price)
+                    lo = ni + 1;
+                else
+                    /* cant use -1 here as might need to insert just before ni */
+                    hi = ni;
+        }
+        // assert(price > ol->orders[ni].price && price <= ol->orders[ni - 1].price);
+        /* ni=0 and ni=sorted_size are special-cased above */
+        // assert(ni > 0 && ni < ol->sorted_size);
+        /* move ni .. sorted_size-1 up to ni+1 .. sorted_size */
+        otmp = ol->orders[ol->sorted_size];
+        memmove(ol->orders + ni + 1, ol->orders + ni, (ol->sorted_size - ni) * sizeof(Order));
         /* Insert new element at ni */
         ol->orders[ni] = otmp;
-        ol->last_sorted_size++;
+        ol->sorted_size++;
     }
 }
 
 void OrderList_remove_first(OrderList *ol) {
     ol->size--;
-    ol->last_sorted_size--;
+    ol->sorted_size--;
     memmove(ol->orders, ol->orders + 1, ol->size * sizeof(Order));
 }
