@@ -57,7 +57,7 @@ The requirements for sorting the OrderList are fairly constrained:
 - Elements are not modified (except the qty of the top of book, which does not affect the sorting)
 
 These constraints mean once a set of Orders has been sorted, they don't need to be re-arranged, the only operation is new elements may be inserted in the middle.  Thus we don't need the full generality of `qsort()`, which has the following disadvantages for this purpose:
-- It does not gain any benefit from the array being mostly-sorted (cf. the [Timsort](https://en.wikipedia.org/wiki/Timsort) used in Python which can sort nearly-sorted lists in O(n) time).  
+- It does not gain any benefit from the array being mostly-sorted, so runs in O(n log n) even on already-sorted input. (cf. the [Timsort](https://en.wikipedia.org/wiki/Timsort) used in Python which can sort nearly-sorted lists in O(n) time).  
 - It is not stable by default, so we have to synthesise a generation number and include it in a compound sort key to ensure stability.  This increases the size of the Order object and leads to more data being moved around during the sort, as well as making the comparison function a bit slower.
 - As a library routine, it is coded in terms of `void *` pointers and incurs a function call for each comparison.
 
@@ -69,7 +69,7 @@ These factors indicate that we can hand-code a stable insertion-sort, using inli
 
 ## Remove generation
 
-Now that the sort is stable, we can remove all knowledge of generation numbers.  OrderBook needs to remember whther the last order was buy or sell so it can pick the correct price.  
+Now that the sort is stable, we can remove all knowledge of generation numbers.  OrderBook needs to remember whether the last order was buy or sell so it can pick the correct price.  
 
 This is a good win, more than I expected:
 
@@ -77,12 +77,26 @@ This is a good win, more than I expected:
     user	0m0.528s
     sys 	0m0.015s
 
+## Add Binary search to the insertion sort
+
+The hand-crafted insertion sort uses a linear search to find the insertion point in the already-sorted list.   This makes the whole sort more or less equivalent to bubblesort, O(n^2). This can be improved to a binary search, at the cost of some code complexity, to make it O(n log n).   This is a bit complex to code, and corner cases hard to get right, but with some unit testing and deep thought this can work.
+
+This is quite a win for the 100k case:
+
+    real	0m0.331s
+    user	0m0.309s
+    sys 	0m0.014s
+
+but there is still some O(n^2) behaviour somewhere:
+
+    100k    0.34 real
+    200k    1.17 real
+    500k    6.91 real
+    1m      31.57 real
+    2m      125.32 real 
 
 # Possible future optimizations
 
-## Add Binary search to the insertion sort
-
-The hand-crafted insertion sort uses a linear search to find the insertion point in the already-sorted list.   This makes the whole sort more or less equivalent to bubblesort, O(n^2). This can be improved to a binary search, at the cost of some code complexity, to make it O(n log n).  
 
 ## PriceStep object
 

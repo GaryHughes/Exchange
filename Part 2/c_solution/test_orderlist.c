@@ -81,7 +81,7 @@ void test_sort_inorder(void) {
     TEST_ASSERT_EQUAL_STRING("B", ol.orders[1].id);
 
     /* Force a re-sort */
-    ol.last_sorted_size = 0;
+    ol.sorted_size = 0;
     OrderList_sort_ascending(&ol);
 
     TEST_ASSERT_EQUAL_INT(2, ol.size);
@@ -108,7 +108,7 @@ void test_sort_reversed(void) {
     TEST_ASSERT_EQUAL_STRING("A", ol.orders[1].id);
 
     /* Force a re-sort */
-    ol.last_sorted_size = 0;
+    ol.sorted_size = 0;
     OrderList_sort_descending(&ol);
 
     TEST_ASSERT_EQUAL_INT(2, ol.size);
@@ -138,6 +138,7 @@ void test_sort_desc_5(void){
     TEST_ASSERT_EQUAL_INT(300, ol.orders[3].qty);
     TEST_ASSERT_EQUAL_INT(500, ol.orders[4].qty);
 }
+
 void test_sort_asc_5(void){
     OrderList ol;
     Order o;
@@ -157,6 +158,25 @@ void test_sort_asc_5(void){
     TEST_ASSERT_EQUAL_INT(200, ol.orders[2].qty);
     TEST_ASSERT_EQUAL_INT(300, ol.orders[3].qty);
     TEST_ASSERT_EQUAL_INT(500, ol.orders[4].qty);
+}
+
+void test_sort_asc_4_again(void){
+    OrderList ol;
+    Order o;
+
+    OrderList_init(&ol);
+    OrderList_append(&ol, Order_init(&o, "A", 100, 1.06801));
+    OrderList_append(&ol, Order_init(&o, "B", 200, 1.06805));
+    OrderList_append(&ol, Order_init(&o, "C", 300, 1.06809));
+    OrderList_append(&ol, Order_init(&o, "D", 400, 1.06807));
+    
+    OrderList_sort_ascending(&ol);
+
+    TEST_ASSERT_EQUAL_INT(4, ol.size);
+    TEST_ASSERT_EQUAL_INT(100, ol.orders[0].qty);
+    TEST_ASSERT_EQUAL_INT(200, ol.orders[1].qty);
+    TEST_ASSERT_EQUAL_INT(400, ol.orders[2].qty);
+    TEST_ASSERT_EQUAL_INT(300, ol.orders[3].qty);
 }
 
 void test_sort_stable(void) {
@@ -212,6 +232,7 @@ int main(void) {
     RUN_TEST(test_sort_reversed);
     RUN_TEST(test_sort_desc_5);
     RUN_TEST(test_sort_asc_5);
+    RUN_TEST(test_sort_asc_4_again);
     RUN_TEST(test_sort_stable);
 
     RUN_TEST(test_remove_first);

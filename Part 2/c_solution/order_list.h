@@ -9,7 +9,7 @@
 
 typedef struct {
     Order *orders;
-    int size, capacity, last_sorted_size;
+    int size, capacity, sorted_size;
 } OrderList;
 
 OrderList *OrderList_init(OrderList *ol); /* NULL if it fails due to malloc() */
