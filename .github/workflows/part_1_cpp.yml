@@ -1,0 +1,35 @@
+name: Part 1 - C++
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+    
+jobs:
+  build:
+
+    runs-on: ubuntu-18.04
+    container: garyedwardhughes/exchange
+
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2
+    - name: setup path
+      run: ln -s 'Part 1' part_1
+    - name: make
+      working-directory: './part_1/cpp_solution'
+      run: make
+    - name: make check
+      working-directory: './part_1/cpp_solution'
+      run: make check
+    - name: upload Exchange
+      uses: actions/upload-artifact@v2
+      with:
+        name: part_1_cpp	
+        path: ./part_1/cpp_solution/Exchange 
+    - name: upload runner
+      uses: actions/upload-artifact@v2
+      with:
+        name: part_1_cpp	
+        path: ./part_1/cpp_solution/runner 
