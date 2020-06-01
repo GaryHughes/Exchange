@@ -3,21 +3,16 @@ name: Part 2 - C++
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
-
+    paths:
+    - 'Part 2/cpp_solution'
+ 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
-
+    runs-on: ubuntu-18.04
+    container: garyedwardhughes/exchange:latest
     steps:
     - uses: actions/checkout@v2
-    - name: configure
-      run: ./configure
     - name: make
       run: make
     - name: make check
       run: make check
-    - name: make distcheck
-      run: make distcheck
