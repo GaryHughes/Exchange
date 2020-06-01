@@ -15,9 +15,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: make
-      working-directory: 'Part 1/cpp_solution'
+      working-directory: './Part 2/cpp_solution'
       run: make
     - name: make check
-      working-directory: 'Part 1/cpp_solution'
+      working-directory: './Part 2/cpp_solution'
       run: make check
    
