@@ -17,8 +17,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: setup path
-      # working-directory can't handle spaces. Once we've cutover to actions from azure just rename
-      # the directories and use defaults to specify the path so we don't have to repeat it.
       run: ln -s 'Part 2' part_2
     - name: make
       working-directory: 'part_2/cpp_solution'
