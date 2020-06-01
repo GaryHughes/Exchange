@@ -5,11 +5,7 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
-
-defaults:
-  run:
-    working-directory: 'Part 1/cpp_solution'
-        
+       
 jobs:
   build:
 
@@ -19,7 +15,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: make
+      working-directory: 'Part 1/cpp_solution'
       run: make
     - name: make check
+      working-directory: 'Part 1/cpp_solution'
       run: make check
    
