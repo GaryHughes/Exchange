@@ -13,7 +13,8 @@ jobs:
     container: garyedwardhughes/exchange
 
     steps:
-    - uses: actions/checkout@v2
+    - name: checkout
+      uses: actions/checkout@v2
     - name: setup path
       run: ln -s 'Part 2' part_2
     - name: make
@@ -22,10 +23,11 @@ jobs:
     - name: make check
       working-directory: './part_2/cpp_solution'
       run: make check
-    - uses: actions/upload-artifact@v2
+    - name: upload
+      uses: actions/upload-artifact@v2
       with:
         name: part_2_cpp	
-        path: ./part_2/cpp_solution/Exchange ./part_2/cpp_solution/runner
+        path: ./part_2/cpp_solution/Exchange
   
         
     
