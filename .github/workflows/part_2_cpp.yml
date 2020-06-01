@@ -21,9 +21,9 @@ jobs:
       # the directories and use defaults to specify the path so we don't have to repeat it.
       run: ln -s 'Part 2' part_2
     - name: make
-      working-directory: part_2/cpp_solution
+      working-directory: 'part_2/cpp_solution'
       run: make
     - name: make check
-      working-directory: part_2/cpp_solution
+      working-directory: 'part_2/cpp_solution'
       run: make check
    
