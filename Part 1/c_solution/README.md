@@ -39,3 +39,25 @@ Dynamic allocation is minimised if possible, as is structure passing/return, for
     git subtree add --prefix  Part\ 1/c_solution/unity https://github.com/ThrowTheSwitch/Unity.git master --squash
  
 This is a new one for me, and I have no real feel how this will work out in practice in a GitHub project.  It's also probably more expensive on resources compared to just copying 3 files (plus a LICENCE.txt) into the project.
+
+## On the wisdom of floating point equality
+
+Conventional wisdom says never compare floating point values for equality, as rounding may cause things that *ought* to be equal to not be so:
+
+    $ python -c 'print float("1.1") * float("1.1") == float("1.21")'
+    False
+    $ python -c 'print float("1.1") * float("1.1") - float("1.21")'
+    2.22044604925e-16
+
+So the usual advice is that instead of:
+
+    if (a == b) { ... }
+
+you should do something like:
+
+    if (fabs(a - b) < *epsilon*) { ... }
+
+In general, this is very wise advice.  But it is cumbersome, somewhat expensive, and leaves the difficult and subtle open question of exactly what you should use for *epsilon* .... and a wrong choice may be worse than the original compare problem.
+
+ For this project, we don't do any floating point *arithmetic*, all we do is convert from string to double (in `sscanf()`), copy the double values around for a bit, then print out (in `printf()`).  So there is no place where any precision loss can occur.   So long as `sscanf()` converts the same string representation  into the same double value (and it bloody well should!), we are OK to compare for equal.
+ 
