@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: garyedwardhughes/exchange
+    container: garyedwardhughes/exchange:latest
     steps:
     - uses: actions/checkout@v2
     - name: make
