@@ -23,11 +23,16 @@ jobs:
     - name: make check
       working-directory: './part_2/cpp_solution'
       run: make check
-    - name: upload
+    - name: upload Exchange
       uses: actions/upload-artifact@v2
       with:
         name: part_2_cpp	
-        path: ./part_2/cpp_solution/Exchange
+        path: ./part_2/cpp_solution/Exchange 
+    - name: upload runner
+      uses: actions/upload-artifact@v2
+      with:
+        name: part_2_cpp	
+        path: ./part_2/cpp_solution/runner 
   
         
     
