@@ -5,7 +5,11 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
-       
+    
+defaults:
+  run:
+    working-directory: 'Part 2/cpp_solution'
+    
 jobs:
   build:
 
@@ -17,9 +21,7 @@ jobs:
     - name: setup path
       run: ln -s 'Part 2' part_2
     - name: make
-      working-directory: './part_2/cpp_solution'
       run: make
     - name: make check
-      working-directory: './part_2/cpp_solution'
       run: make check
    
