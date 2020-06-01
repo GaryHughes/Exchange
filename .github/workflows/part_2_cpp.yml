@@ -5,15 +5,10 @@ on:
     branches: [ master ]
     paths:
     - 'Part 2/cpp_solution'
-  pull_request:
-    branches: [ master ]
-    paths:
-    - 'Part 2/cpp_solution'
- 
+   
 jobs:
   build:
     runs-on: ubuntu-18.04
-    container: garyedwardhughes/exchange
     steps:
     - uses: actions/checkout@v2
     - name: make
