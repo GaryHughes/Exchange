@@ -8,7 +8,7 @@
 #include "order_book.h"
 #include "book_list.h"
 
-#define S(type) printf("Sizeof %-12s is %3lu\n", #type, sizeof(type))
+#define S(type) printf("Sizeof %-12s is %3lu\n", #type, (unsigned long)sizeof(type))
 
 int main() {
     S(OrderList);

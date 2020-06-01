@@ -10,10 +10,16 @@
 #include "exchange_defs.h"
 #include "order_list.h"
 
+/* 
+ * The top of the order book is pointed to by best_bid / best_offer, the 
+ * price is cached in buy_price/sell_price.  The OrderList contains the 
+ * order book, in time priority order.  Good news is no memmove and no sorting.
+ */
 typedef struct {
     OrderList buys, sells;
     char instrument[INSTRUMENT_SIZE];
-    float best_bid, best_offer;
+    int best_bid, best_offer;
+    double buy_price, sell_price;
     bool last_order_buy;
 } OrderBook;
 
@@ -22,9 +28,6 @@ void OrderBook_destroy(OrderBook *ob);
 
 /* Returns pointer to the OrderBook, NULL on error */
 OrderBook *OrderBook_append(OrderBook *ob, const char *id, int qty, double price);
-
-/* Sort the order book, exposed here for unit tests. */
-void OrderBook_sort(OrderBook *);
 
 /* See if there is a trade to match.  If so, fill in t and return true */
 bool OrderBook_match(OrderBook *, Trade *);
