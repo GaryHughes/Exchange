@@ -24,7 +24,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: part_2_swift	
-        path: ./part_2/swift_solution/.build/release/Exchange
+        path: './part_2/swift_solution/.build/release/Exchange'
     - name: upload runner
       uses: actions/upload-artifact@v2
       with:
