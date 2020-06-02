@@ -21,12 +21,11 @@ jobs:
       working-directory: './part_1/rust_solution'
       run: |
         curl https://sh.rustup.rs -sSf | sh -s -- -y
-        echo "::add-path::$HOME/.cargo/bin"
     - name: build
-      run: cargo build --release
+      run: source $HOME/.cargo/env && cargo build --release
     - name: test
       working-directory: './part_1/csharp_solution'
-      run: cargo test --all
+      run: source $HOME/.cargo/env && cargo test --all
     - name: upload Exchange
       uses: actions/upload-artifact@v2
       with:
