@@ -1,0 +1,32 @@
+name: Part 2 - Python
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+    
+jobs:
+  build:
+
+    runs-on: ubuntu-18.04
+    container: garyedwardhughes/exchange
+
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2
+    - name: setup path
+      run: ln -s 'Part 2' part_2
+    - name: build
+      working-directory: './part_2/python_solution'
+      run: python3 -m py_compile *.py
+    - name: upload Exchange
+      uses: actions/upload-artifact@v2
+      with:
+        name: part_2_python	
+        path: ./part_2/python_solution/*.py 
+    - name: upload runner
+      uses: actions/upload-artifact@v2
+      with:
+        name: part_2_python	
+        path: ./part_2/python_solution/runner 
