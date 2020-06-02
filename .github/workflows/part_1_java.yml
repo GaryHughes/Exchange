@@ -1,0 +1,32 @@
+name: Part 1 - Java
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+    
+jobs:
+  build:
+
+    runs-on: ubuntu-18.04
+    container: garyedwardhughes/exchange
+
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2
+    - name: setup path
+      run: ln -s 'Part 1' part_1
+    - name: build
+      working-directory: './part_1/java_solution'
+      run: ant -f Exchange.xml
+    - name: upload Exchange
+      uses: actions/upload-artifact@v2
+      with:
+        name: part_1_java	
+        path: ./part_1/java_solution/out/artifacts/Exchange_jar/* 
+    - name: upload runner
+      uses: actions/upload-artifact@v2
+      with:
+        name: part_1_java	
+        path: ./part_1/java_solution/runner 
