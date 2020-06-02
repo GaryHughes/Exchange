@@ -1,0 +1,35 @@
+name: Part 2 - F#
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+    
+jobs:
+  build:
+
+    runs-on: ubuntu-18.04
+    container: garyedwardhughes/exchange
+
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2
+    - name: setup path
+      run: ln -s 'Part 2' part_2
+    - name: build
+      working-directory: './part_2/fsharp_solution'
+      run: dotnet publish --configuration Release
+    - name: test
+      working-directory: './part_2/fsharp_solution'
+      run: dotnet test --configuration Release
+    - name: upload Exchange
+      uses: actions/upload-artifact@v2
+      with:
+        name: part_2_fsharp	
+        path: ./part_2/fsharp_solution/Exchange/bin/Release/netcoreapp3.0/publish/* 
+    - name: upload runner
+      uses: actions/upload-artifact@v2
+      with:
+        name: part_2_fsharp	
+        path: ./part_2/fsharp_solution/runner 
