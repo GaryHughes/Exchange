@@ -119,6 +119,21 @@ And the scaling is good, the O(n^2) doesn't become significant until around 1-2 
     5m      94.23 real
     10m     380.79 real
 
+## hand-code OrderBook lookup
+
+Every line of input calls `BookList_find()` to find the BookList for the current instrument.  So optimizing this function could be significant.  The standard libc doesn't have a hash table or any other useful data structure, so we keep the OrderBooks in a sorted list and look them up via `bsearch()`.  For the very few cases where this is a new instrument (couple of dozen out of millions of lookups) we use `qsort()` followed by another `bsearch()`.
+
+As noted for `qsort()` above, `bsearch()` is written with `void *` and function call per comparison.  A hand-crafted binary search can improve on this in three ways:
+ - Use concrete types and in-line compares
+ - In the case of new instrument, we can use the bsearch to find the insertion point saving a sort and another lookup
+  - Most usefully, the input data is quite bursty and the next order almost always has the same instrument as the previous order.  Stats says only 13k orders have different instrument to previous, out of 100k test file. We can cache the results of the last lookup and use that to start the search, avoiding many compares and finding the correct order book immediately in most cases.
+
+This saves about a a second per million orders.  Thsi is a small win (few percent) for 100k case, but a good win on medium-sized inputs, before getting overwhelmed by the O(n^2) behaviour on the 10M case.
+
+    real	0m0.172s
+    user	0m0.151s
+    sys	    0m0.014s
+
 # Possible future optimizations
 
 ## Use a real priority queue / heap
