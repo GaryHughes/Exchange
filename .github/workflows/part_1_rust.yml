@@ -17,15 +17,15 @@ jobs:
       uses: actions/checkout@v2
     - name: setup path
       run: ln -s 'Part 1' part_1
-    - name: install
-      working-directory: './part_1/rust_solution'
-      run: |
-        curl https://sh.rustup.rs -sSf | sh -s -- -y
+    - uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
     - name: build
-      run: source $HOME/.cargo/env && cargo build --release
+      working-directory: './part_1/csharp_solution'
+      run: cargo build --release
     - name: test
       working-directory: './part_1/csharp_solution'
-      run: source $HOME/.cargo/env && cargo test --all
+      run: cargo test --all
     - name: upload Exchange
       uses: actions/upload-artifact@v2
       with:
