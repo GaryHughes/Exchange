@@ -1,0 +1,32 @@
+name: Part 1 - Cython
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+    
+jobs:
+  build:
+
+    runs-on: ubuntu-18.04
+    container: garyedwardhughes/exchange
+
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2
+    - name: setup path
+      run: ln -s 'Part 1' part_1
+    - name: build
+      working-directory: './part_1/cython_solution'
+      run: python3 setup.py build_ext --inplace
+    - name: upload Exchange
+      uses: actions/upload-artifact@v2
+      with:
+        name: part_1_cython	
+        path: ./part_1/cython_solution/Exchange.so
+    - name: upload runner
+      uses: actions/upload-artifact@v2
+      with:
+        name: part_1_cython	
+        path: ./part_1/cython_solution/runner 
