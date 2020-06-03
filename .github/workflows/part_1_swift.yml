@@ -19,12 +19,14 @@ jobs:
       run: ln -s 'Part 1' part_1
     - name: build
       working-directory: './part_1/swift_solution'
-      run: swift build -c release
+      run: |
+        swift build -c release
+        cp .build/release/Exchange .
     - name: upload Exchange
       uses: actions/upload-artifact@v2
       with:
         name: part_1_swift	
-        path: ./part_1/swift_solution/.build/release/Exchange
+        path: ./part_1/swift_solution/Exchange
     - name: upload runner
       uses: actions/upload-artifact@v2
       with:
