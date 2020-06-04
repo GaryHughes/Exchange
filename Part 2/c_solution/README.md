@@ -1,6 +1,6 @@
 # C Solution
 
-See the (Part 1 README)[../../Part\ 1/c_solution/README.md] for notes on code style, building, testing and Unittest framework.
+See the [Part 1 README](../../Part\ 1/c_solution/README.md) for notes on code style, building, testing and Unittest framework.
 
 ## Performance Notes
 
@@ -133,7 +133,6 @@ This saves about a a second per million orders.  Thsi is a small win (few percen
     real	0m0.172s
     user	0m0.151s
     sys	    0m0.014s
-
 
 ## Use a real priority queue / heap
 
