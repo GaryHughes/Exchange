@@ -20,7 +20,7 @@ jobs:
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         workflow: part_1_cpp.yml
-        commit: HEAD
+        commit: d64f7bdee31ea6bc9b571395454f90cf861a3115
         name: part_1_cpp
         path: part_1_solutions
  
