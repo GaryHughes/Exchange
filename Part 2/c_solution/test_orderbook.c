@@ -22,8 +22,6 @@ void test_create(void) {
     TEST_ASSERT_EQUAL_INT(0, ob.buys.size);
     TEST_ASSERT_EQUAL_INT(0, ob.sells.size);
     TEST_ASSERT_EQUAL_STRING("AUDUSD", ob.instrument);
-    TEST_ASSERT_LESS_THAN_INT(0, ob.best_bid);
-    TEST_ASSERT_LESS_THAN_INT(0, ob.best_offer);
 }
 
 void test_append_buy(void) {
@@ -34,7 +32,7 @@ void test_append_buy(void) {
     op = OrderBook_append(&ob, "A", 300, 3.45);
     TEST_ASSERT_NOT_NULL(op);
     TEST_ASSERT_EQUAL_INT(1, ob.buys.size);
-    TEST_ASSERT_EQUAL_INT(300, ob.buys.orders[ob.best_bid].qty);
+    TEST_ASSERT_EQUAL_INT(300, ob.buys.orders[0].qty);
 }
 
 void test_append_buy_higher(void) {
@@ -46,9 +44,7 @@ void test_append_buy_higher(void) {
     op = OrderBook_append(&ob, "B", 200, 3.46);
     TEST_ASSERT_NOT_NULL(op);
     TEST_ASSERT_EQUAL_INT(2, ob.buys.size);
-    TEST_ASSERT_EQUAL_INT(1, ob.best_bid);
-    TEST_ASSERT_EQUAL_INT(200, ob.buys.orders[ob.best_bid].qty);
-    TEST_ASSERT_EQUAL_INT(100, ob.buys.orders[0].qty);
+    TEST_ASSERT_EQUAL_INT(200, ob.buys.orders[0].qty);
 }
 
 void test_append_buy_same(void) {
@@ -60,9 +56,7 @@ void test_append_buy_same(void) {
     op = OrderBook_append(&ob, "B", 200, 3.45);
     TEST_ASSERT_NOT_NULL(op);
     TEST_ASSERT_EQUAL_INT(2, ob.buys.size);
-    TEST_ASSERT_EQUAL_INT(0, ob.best_bid);
-    TEST_ASSERT_EQUAL_INT(100, ob.buys.orders[ob.best_bid].qty);
-    TEST_ASSERT_EQUAL_INT(200, ob.buys.orders[1].qty);
+    TEST_ASSERT_EQUAL_INT(100, ob.buys.orders[0].qty);
 }
 
 void test_append_sell(void) {
@@ -73,8 +67,7 @@ void test_append_sell(void) {
     op = OrderBook_append(&ob, "A", -300, 3.45);
     TEST_ASSERT_NOT_NULL(op);
     TEST_ASSERT_EQUAL_INT(1, ob.sells.size);
-    TEST_ASSERT_EQUAL_INT(0, ob.best_offer);
-    TEST_ASSERT_EQUAL_INT(300, ob.sells.orders[ob.best_offer].qty);
+    TEST_ASSERT_EQUAL_INT(300, ob.sells.orders[0].qty);
 }
 
 
@@ -87,9 +80,7 @@ void test_append_sell_lower(void) {
     op = OrderBook_append(&ob, "B", -200, 3.44);
     TEST_ASSERT_NOT_NULL(op);
     TEST_ASSERT_EQUAL_INT(2, ob.sells.size);
-    TEST_ASSERT_EQUAL_INT(1, ob.best_offer);
-    TEST_ASSERT_EQUAL_INT(200, ob.sells.orders[ob.best_offer].qty);
-    TEST_ASSERT_EQUAL_INT(100, ob.sells.orders[0].qty);
+    TEST_ASSERT_EQUAL_INT(200, ob.sells.orders[0].qty);
 }
 
 void test_append_sell_same(void) {
@@ -101,12 +92,8 @@ void test_append_sell_same(void) {
     op = OrderBook_append(&ob, "B", -200, 3.45);
     TEST_ASSERT_NOT_NULL(op);
     TEST_ASSERT_EQUAL_INT(2, ob.sells.size);
-    TEST_ASSERT_EQUAL_INT(0, ob.best_offer);
-    TEST_ASSERT_EQUAL_INT(100, ob.sells.orders[ob.best_offer].qty);
-    TEST_ASSERT_EQUAL_INT(200, ob.sells.orders[1].qty);
+    TEST_ASSERT_EQUAL_INT(100, ob.sells.orders[0].qty);
 }
-
-int lineno;
 
 int main(void) {
     UNITY_BEGIN();

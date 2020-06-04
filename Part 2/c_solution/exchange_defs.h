@@ -14,6 +14,7 @@ typedef struct {
     char id[ID_SIZE]; /* buyer/seller ID */
     int qty;
     double price;
+    int generation; /* So the heap can be made stable */
 } Order;
 
 typedef struct {

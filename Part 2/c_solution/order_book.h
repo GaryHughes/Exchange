@@ -11,15 +11,12 @@
 #include "order_list.h"
 
 /* 
- * The top of the order book is pointed to by best_bid / best_offer, the 
- * price is cached in buy_price/sell_price.  The OrderList contains the 
- * order book, in time priority order.  Good news is no memmove and no sorting.
+ * The top of the order book is buys[0] / sells[0]
+ * The OrderList contains the order book, in time priority order.
  */
 typedef struct {
     OrderList buys, sells;
     char instrument[INSTRUMENT_SIZE];
-    int best_bid, best_offer;
-    double buy_price, sell_price;
     bool last_order_buy;
 } OrderBook;
 

@@ -13,6 +13,9 @@
 typedef struct {
     OrderBook *books;
     int size, capacity;
+    /* Cache the result of the last lookup, as orders tend to be clustered */
+    int previous;
+
 } BookList;
 
 BookList *BookList_init(BookList *bl); /* NULL if it fails due to malloc() */

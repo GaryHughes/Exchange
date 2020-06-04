@@ -1,15 +1,20 @@
 
-CFLAGS=-O3 --std=c11 -Werror
+CFLAGS=-O3 --std=c11 -Wall -Wextra -Werror
 # For the clang leak checker
 # CFLAGS += -fsanitize=address -fno-omit-frame-pointer -g
 # For gprof profiling
 # CFLAGS += -pg -g
-CPPFLAGS=
-OBJS=main.o order_list.o order_book.o book_list.o
-TESTS=test_orderlist test_orderbook test_booklist test_sizes
+# Remove asserts for production builds
+#CPPFLAGS= -DNDEBUG
 
 # For .h dependencies, implies clang/gcc
 CFLAGS += -MMD
+
+OBJS=main.o order_list.o order_book.o book_list.o
+TESTS=test_orderlist test_orderbook test_booklist test_sizes
+
+# 4-heap a good tradeoff of speeding the large cases but not slowing the small cases too much
+order_list.o : CPPFLAGS += -DHEAP_FANOUT=4
 
 default:	Exchange
 
@@ -28,7 +33,7 @@ check: tests
 Exchange: $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $(OBJS) 
 
-test_orderlist: test_orderlist.o order_list.o unity.o order_book.o
+test_orderlist: test_orderlist.o order_list.o unity.o
 test_orderbook: test_orderbook.o order_book.o order_list.o unity.o
 test_booklist: test_booklist.o book_list.o order_book.o order_list.o unity.o
 test_sizes: test_sizes.o
