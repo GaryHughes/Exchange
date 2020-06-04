@@ -15,7 +15,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Download Part 1 C++ Solution
-      uses: dawidd6/action-download-artifact@v2
+      uses: GaryHughes/action-download-artifact
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         workflow: part_1_cpp.yml
