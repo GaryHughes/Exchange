@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [ master ]
 
+env:
+  COMMIT: f1716cf5b0ff217fcb3bd3454224ccbeb8926722
+
 jobs:
   build:
 
@@ -19,7 +22,7 @@ jobs:
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         workflow: part_1_cpp.yml
-        commit: d64f7bdee31ea6bc9b571395454f90cf861a3115
+        commit: ${{ env.COMMIT }}
         name: part_1_cpp
         path: solutions/part_1_cpp
 
@@ -28,7 +31,7 @@ jobs:
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         workflow: part_1_csharp.yml
-        commit: 21c857269ce71e0cc99b24fe39c1a6ec2c3be65e
+        commit: ${{ env.COMMIT }}
         name: part_1_csharp
         path: solutions/part_1_csharp
 
@@ -37,7 +40,7 @@ jobs:
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         workflow: part_1_fsharp.yml
-        commit: 4cacc065653a9d403b24ea9332564ce1323392b1
+        commit: ${{ env.COMMIT }}
         name: part_1_fsharp
         path: solutions/part_1_fsharp
 
@@ -46,7 +49,7 @@ jobs:
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         workflow: part_1_rust.yml
-        commit: e8b0caeb41c9eb87244341b13b73e1f269eb8bf3
+        commit: ${{ env.COMMIT }}
         name: part_1_rust
         path: solutions/part_1_rust
 
@@ -55,7 +58,7 @@ jobs:
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         workflow: part_1_go.yml
-        commit: 1975384b5fbb1b3dc7d95cae7db12d306d86c519
+        commit: ${{ env.COMMIT }}
         name: part_1_go
         path: solutions/part_1_go
 
@@ -64,7 +67,7 @@ jobs:
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         workflow: part_1_java.yml
-        commit: 29855509dbd92814b166f711a9185ebe1d528026 
+        commit: ${{ env.COMMIT }}
         name: part_1_java
         path: solutions/part_1_java
 
@@ -73,7 +76,7 @@ jobs:
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         workflow: part_1_python.yml
-        commit: 5a46819c3e7e340203bbf7227d15b9ef9b6debae
+        commit: ${{ env.COMMIT }}
         name: part_1_python
         path: solutions/part_1_python    
         
@@ -82,7 +85,7 @@ jobs:
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         workflow: part_1_cython.yml
-        commit: 6c6ca3b4a62045f69bf8da1031b0bbc00ac9607b
+        commit: ${{ env.COMMIT }}
         name: part_1_cython
         path: solutions/part_1_cython    
   
@@ -91,7 +94,7 @@ jobs:
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         workflow: part_1_c.yml
-        commit: e5874c309cd4ce493d3f27e523d9eb6cc65a8d70
+        commit: ${{ env.COMMIT }}
         name: part_1_c
         path: solutions/part_1_c    
  
@@ -100,10 +103,99 @@ jobs:
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         workflow: part_1_swift.yml
-        commit: 6b0a56c3101b0edb5cbc0d20602c32a2b66fad1f
+        commit: ${{ env.COMMIT }}
         name: part_1_swift
         path: solutions/part_1_swift    
  
+    - name: Download Part 2 C++ Solution
+      uses: dawidd6/action-download-artifact@v2
+      with:
+        github_token: ${{secrets.GITHUB_TOKEN}}
+        workflow: part_2_cpp.yml
+        commit: ${{ env.COMMIT }}
+        name: part_2_cpp
+        path: solutions/part_2_cpp
+
+    - name: Download Part 2 C# Solution
+      uses: dawidd6/action-download-artifact@v2
+      with:
+        github_token: ${{secrets.GITHUB_TOKEN}}
+        workflow: part_2_csharp.yml
+        commit: ${{ env.COMMIT }}
+        name: part_2_csharp
+        path: solutions/part_2_csharp
+
+    - name: Download Part 2 F# Solution
+      uses: dawidd6/action-download-artifact@v2
+      with:
+        github_token: ${{secrets.GITHUB_TOKEN}}
+        workflow: part_2_fsharp.yml
+        commit: ${{ env.COMMIT }}
+        name: part_2_fsharp
+        path: solutions/part_2_fsharp
+
+    - name: Download Part 2 Rust Solution
+      uses: dawidd6/action-download-artifact@v2
+      with:
+        github_token: ${{secrets.GITHUB_TOKEN}}
+        workflow: part_2_rust.yml
+        commit: ${{ env.COMMIT }}
+        name: part_2_rust
+        path: solutions/part_2_rust
+
+    - name: Download Part 2 Go Solution
+      uses: dawidd6/action-download-artifact@v2
+      with:
+        github_token: ${{secrets.GITHUB_TOKEN}}
+        workflow: part_2_go.yml
+        commit: ${{ env.COMMIT }}
+        name: part_2_go
+        path: solutions/part_2_go
+
+    - name: Download Part 2 Java Solution
+      uses: dawidd6/action-download-artifact@v2
+      with:
+        github_token: ${{secrets.GITHUB_TOKEN}}
+        workflow: part_2_java.yml
+        commit: ${{ env.COMMIT }}
+        name: part_2_java
+        path: solutions/part_2_java
+
+    - name: Download Part 2 Python Solution
+      uses: dawidd6/action-download-artifact@v2
+      with:
+        github_token: ${{secrets.GITHUB_TOKEN}}
+        workflow: part_2_python.yml
+        commit: ${{ env.COMMIT }}
+        name: part_2_python
+        path: solutions/part_2_python    
+        
+    - name: Download Part 2 Cython Solution
+      uses: dawidd6/action-download-artifact@v2
+      with:
+        github_token: ${{secrets.GITHUB_TOKEN}}
+        workflow: part_2_cython.yml
+        commit: ${{ env.COMMIT }}
+        name: part_2_cython
+        path: solutions/part_2_cython    
+  
+    - name: Download Part 2 C Solution
+      uses: dawidd6/action-download-artifact@v2
+      with:
+        github_token: ${{secrets.GITHUB_TOKEN}}
+        workflow: part_2_c.yml
+        commit: ${{ env.COMMIT }}
+        name: part_2_c
+        path: solutions/part_2_c    
+ 
+    - name: Download Part 2 Swift Solution
+      uses: dawidd6/action-download-artifact@v2
+      with:
+        github_token: ${{secrets.GITHUB_TOKEN}}
+        workflow: part_2_swift.yml
+        commit: ${{ env.COMMIT }}
+        name: part_2_swift
+        path: solutions/part_2_swift    
   
     - name: Display structure of downloaded files
       run: ls -R
