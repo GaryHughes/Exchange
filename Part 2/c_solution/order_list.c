@@ -1,6 +1,6 @@
 /*
- * A list of orders, kept in sorted order. 
- * Toop of order book is orders[0]
+ * A list of orders, kept in a priority queue. 
+ * Top of order book is orders[0]
  */
 #include <assert.h>
 #include <stdio.h>
@@ -8,6 +8,11 @@
 #include <memory.h>
 
 #include "order_list.h"
+
+/* n-ary heap defines.  Default is binary */
+#ifndef HEAP_FANOUT 
+#define HEAP_FANOUT 2
+#endif
 
 OrderList *OrderList_init(OrderList *ol) {
     ol->capacity = 10;
@@ -20,8 +25,37 @@ void OrderList_destroy(OrderList *ol) {
     free((void *)ol->orders);
 }
 
-Order *OrderList_append(OrderList *ol, const char *id, int qty, double price) {
+static int generation = 0;
+
+/* Comparison function - is a before b in the heap?
+ * Looks at price then generation.
+ * if ismin = false, price comparison is reversed but (for stability) generation is not
+ * Inlined so hopefully constant folding will optimize this!
+ */
+static inline int is_before(const Order *a, const Order *b, int ismin) {
+    double pdiff = a->price - b->price;
+    if (ismin)
+        return pdiff < 0 || (pdiff == 0.0 && a->generation < b->generation);
+    else
+        return pdiff > 0 || (pdiff == 0.0 && a->generation < b->generation); 
+}
+
+static inline int parent(int i) {
+    return (i - 1) / HEAP_FANOUT;
+}
+static inline int first_child(int i) {
+    return (i * HEAP_FANOUT) + 1;
+}
+static inline int last_child(int i) {
+    return (i * HEAP_FANOUT) + HEAP_FANOUT;
+}
+
+/* Common to min and max, return NULL for malloc failure */
+static inline Order *OrderList_push_impl(OrderList *ol, const char *id, int qty, double price, int ismin) {
     Order *op;
+    int pos, ppos;
+    Order tmp;
+
     // assert(ol->size <= ol->capacity && ol->size >= 0);
     if (ol->size == ol->capacity) {
         /* increase by 1.5x */
@@ -34,41 +68,84 @@ Order *OrderList_append(OrderList *ol, const char *id, int qty, double price) {
     strcpy(op->id, id);
     op->qty = qty;
     op->price = price;
-    return op;
+    op->generation = ++generation;
+
+    /* Restore the heap property.  This is usual heap "sift up" */
+    pos = ol->size - 1;
+    while (pos > 0) {
+        ppos = parent(pos);
+        if (!is_before(&ol->orders[pos], &ol->orders[ppos], ismin)) {
+            return ol->orders + pos;
+        }
+        /* swap */
+        tmp = ol->orders[pos];
+        ol->orders[pos] = ol->orders[ppos];
+        ol->orders[ppos] = tmp;
+        pos = ppos;
+    }
+    /* Pushed the new parent, pos = 0 */
+    return ol->orders;
 }
 
-int OrderList_remove_find_lowest(OrderList *ol, int idx) {
-    double minp;
-    int minidx;
-
-    memmove(&ol->orders[idx], &ol->orders[idx+1], (ol->size - idx - 1) * sizeof(Order));
-    if (!--ol->size)
-        return -1;
-    minp = ol->orders[0].price;
-    minidx = 0;
-    for (int i = 1; i < ol->size; i++) {
-        if (ol->orders[i].price < minp) {
-            minp = ol->orders[i].price;
-            minidx = i;
-        }
-    }
-    return minidx;
+Order *OrderList_push_min(OrderList *ol, const char *id, int qty, double price) {
+    return OrderList_push_impl(ol, id, qty, price, 1);
 }
 
-int OrderList_remove_find_highest(OrderList *ol, int idx) {
-    double maxp;
-    int maxidx;
+Order *OrderList_push_max(OrderList *ol, const char *id, int qty, double price) {
+    return OrderList_push_impl(ol, id, qty, price, 0);
+}
+    
+static inline void OrderList_pop_impl(OrderList *ol, int ismin) {
+    int pos = 0;
+    if (!ol->size) return;
+    /* Copy last element to top of heap, reduce size by 1 */
+    ol->orders[0] = ol->orders[--ol->size];
+    /* Re-establish the heap invariants. This is the usual heap "sift down" */
+    while (1) {
+        int smaller = pos;
+        int fchild = first_child(pos);
+        int lchild = last_child(pos);
+        Order tmp;
 
-    memmove(&ol->orders[idx], &ol->orders[idx+1], (ol->size - idx - 1) * sizeof(Order));
-    if (!--ol->size)
-        return -1;
-    maxp = ol->orders[0].price;
-    maxidx = 0;
-    for (int i = 1; i < ol->size; i++) {
-        if (ol->orders[i].price > maxp) {
-            maxp = ol->orders[i].price;
-            maxidx = i;
+        if (fchild >= ol->size)
+            /* Leaf node */
+            return;
+        if (lchild >= ol->size)
+            lchild = ol->size - 1;
+
+        for (int i = fchild; i <= lchild; i++) {
+            if (is_before(&ol->orders[i], &ol->orders[smaller], ismin))
+                smaller = i;
+        }
+        if (smaller == pos)
+            return;
+        /* swap pos & smaller child */
+        tmp = ol->orders[pos];
+        ol->orders[pos] = ol->orders[smaller];
+        ol->orders[smaller] = tmp;
+        pos = smaller;
+    }
+}
+
+void OrderList_pop_min(OrderList *ol) {
+    OrderList_pop_impl(ol, 1);
+}
+
+void OrderList_pop_max(OrderList *ol) {
+    OrderList_pop_impl(ol, 0);
+}
+
+/* Debugging / unit testing */
+int OrderList_check_heap(const OrderList *ol, int ismin) {
+    if (!ol->size) return 1;
+    for (int pos = ol->size - 1; pos > 0; pos--) {
+        int ppos = parent(pos); 
+        if (is_before(ol->orders + pos, ol->orders + ppos, ismin)) {
+            printf("check_heap failed, pos %d %g %d is before ppos %d %g %d\n",
+                pos, ol->orders[pos].price, ol->orders[pos].generation,
+                ppos, ol->orders[ppos].price, ol->orders[ppos].generation);
+            return 0;
         }
     }
-    return maxidx;
+    return 1;
 }
