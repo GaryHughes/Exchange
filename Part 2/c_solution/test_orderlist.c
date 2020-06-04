@@ -104,9 +104,9 @@ void test_min_5(void) {
 
     TEST_ASSERT_EQUAL_INT(5, ol.size);
     TEST_ASSERT_EQUAL_INT(300, ol.orders[0].qty);
-    TEST_ASSERT_TRUE(OrderList_check_heap(&ol, 1));
 
     OrderList_pop_min(&ol);
+    TEST_ASSERT_TRUE(OrderList_check_heap(&ol, 1));
     TEST_ASSERT_EQUAL_INT(4, ol.size);
     TEST_ASSERT_EQUAL_INT(100, ol.orders[0].qty);
     OrderList_pop_min(&ol);

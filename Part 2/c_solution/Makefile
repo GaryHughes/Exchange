@@ -13,6 +13,9 @@ CFLAGS += -MMD
 OBJS=main.o order_list.o order_book.o book_list.o
 TESTS=test_orderlist test_orderbook test_booklist test_sizes
 
+# 4-heap a good tradeoff of speeding the large cases but not slowing the small cases too much
+order_list.o : CPPFLAGS += -DHEAP_FANOUT=4
+
 default:	Exchange
 
 all:	Exchange tests

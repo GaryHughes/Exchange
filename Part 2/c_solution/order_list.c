@@ -9,6 +9,11 @@
 
 #include "order_list.h"
 
+/* n-ary heap defines.  Default is binary */
+#ifndef HEAP_FANOUT 
+#define HEAP_FANOUT 2
+#endif
+
 OrderList *OrderList_init(OrderList *ol) {
     ol->capacity = 10;
     ol->size = 0;
@@ -36,10 +41,13 @@ static inline int is_before(const Order *a, const Order *b, int ismin) {
 }
 
 static inline int parent(int i) {
-    return (i - 1) >> 1;
+    return (i - 1) / HEAP_FANOUT;
 }
 static inline int first_child(int i) {
-    return (i << 1) + 1;
+    return (i * HEAP_FANOUT) + 1;
+}
+static inline int last_child(int i) {
+    return (i * HEAP_FANOUT) + HEAP_FANOUT;
 }
 
 /* Common to min and max, return NULL for malloc failure */
@@ -95,17 +103,20 @@ static inline void OrderList_pop_impl(OrderList *ol, int ismin) {
     /* Re-establish the heap invariants. This is the usual heap "sift down" */
     while (1) {
         int smaller = pos;
-        int child = first_child(pos);
+        int fchild = first_child(pos);
+        int lchild = last_child(pos);
         Order tmp;
 
-        if (child >= ol->size)
+        if (fchild >= ol->size)
             /* Leaf node */
             return;
-        if (is_before(&ol->orders[child], &ol->orders[pos], ismin))
-            smaller = child;
-        /* Check the other child */
-        if (++child < ol->size && is_before(&ol->orders[child], &ol->orders[smaller], ismin))
-            smaller = child;
+        if (lchild >= ol->size)
+            lchild = ol->size - 1;
+
+        for (int i = fchild; i <= lchild; i++) {
+            if (is_before(&ol->orders[i], &ol->orders[smaller], ismin))
+                smaller = i;
+        }
         if (smaller == pos)
             return;
         /* swap pos & smaller child */

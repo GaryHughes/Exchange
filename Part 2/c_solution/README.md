@@ -162,12 +162,6 @@ Profiling shows that the libc functions used to read & parse each input order (`
 
 As an aside: stable heap algorithms exist (see e.g. [this CSTheory post](https://cstheory.stackexchange.com/questions/593/is-there-a-stable-heap)) but they are complex to implement and/or use O(n) extra space, which is no better than the extra generation number in each order, so we've not bothered here.
 
-# Possible future optimizations
-
-## Consider alternatives to sscanf()
-
-As noted above, runtime is now dominated by sscanf().  Are there more efficient ways to read, split and convert input lines?
-
 ## Use k-ary heap
 
 Once we have a (usual binary) heap to store the order books, we can consider using a higher-order heap instead.  Insert into an k-ary heap is O(log_k n), with no change to code complexity, so for e.g. 4-ary heap insert has half the compare/swap operations as a binary heap.  Remove for k-ary heaps is also asymptotically O(log_k n) but the logic is more complex and the constant factors higher as k-ary remove has to compare all k children of the current node.  Given that inserts are far more common than removes, this is an acceptable tradeoff for this project.
@@ -175,6 +169,25 @@ Once we have a (usual binary) heap to store the order books, we can consider usi
 If we use k-ary heap where k=2^*i* (i.e. k=4,8,16..) then this is simple to code and fast to calculate parent/child indexes. k-ary heaps are probably also kinder on caches and VM pagers as more of the accesses are closer together in memory.
 
 This particular optimization is not available to C++ developers without writing their own k-ary heap container.  There is a very sophisticated C/C++ heap implementation on [GitHub](https://github.com/valyala/gheap) that has B-Heaps (which are a more VM-friendly heap), k-ary heaps and other cleverness.  For the C version, it is like `qsort()` and has function calls and `void *` pointers, so a hand-coded implementation may be faster.
+
+Code changes to support k-ary keap is remarkably small.  For the smaller inputs, this does have a slight noticable increase in runtime, but for the 10M case, it has a positive impact:
+
+| size | k=2        |      k=4   | k=8        |
+| ---: | ---------: | ---------: | ---------: | 
+| 100k | 0.12 real  | 0.13 real  | 0.15 real  |
+| 200k | 0.25 real  | 0.28 real  | 0.25 real  |
+| 500k | 0.60 real  | 0.59 real  | 0.62 real  |
+| 1M   | 1.18 real  | 1.20 real  | 1.20 real  |
+| 2M   | 2.55 real  | 2.42 real  | 2.54 real  |
+| 5M   | 8.22 real  | 6.16 real  | 6.01 real  |
+| 10M  | 13.67 real | 12.13 real | 12.08 real |
+
+# Possible future optimizations
+
+## Consider alternatives to sscanf()
+
+As noted above, runtime is now dominated by sscanf().  Are there more efficient ways to read, split and convert input lines?
+
 
 ## PriceStep object
 
