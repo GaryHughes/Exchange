@@ -7,6 +7,7 @@ import gzip
 import shutil
 import glob
 import datetime
+import statistics
 
 # The Azure pipeline for each solution is required to publish a flattened artifact named like the following examples:
 #
@@ -71,7 +72,7 @@ for input in input_files:
         command = "subprocess.run(['./runner < {} > {}'], shell=True, cwd='{}')".format(input_file, output_file, working_directory)
         try:
             # TODO - support an exlusion file so we don't hard code this.
-            if solution.find('python') >= 0 or solution.find('cython') >= 0 or solution.find('swift') >= 0 or solution.find('_c_') >= 0:
+            if solution.find('python') >= 0 or solution.find('cython') >= 0 or solution.find('swift') >= 0:
                 # These solutions are too slow for the big file and relatively slow on
                 # the small file. Because the comparison with other solutions isn't as important
                 # we don't care so much about the validity of the results.
@@ -83,7 +84,7 @@ for input in input_files:
             result = timeit.repeat(stmt = command, setup = "import subprocess", number = 1, repeat = actual_iterations)
             if not os.path.exists(output_file):
                 continue
-            results[order_count].append((solution, min(result), line_count(output_file)))
+            results[order_count].append((solution, statistics.median(result), line_count(output_file)))
         except Exception as ex:
             print(str(ex))
             continue
