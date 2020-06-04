@@ -201,7 +201,13 @@ jobs:
     - name: Run Part 1 Benchmark
       run: |
         ./benchmark.py solutions part_1 5 orders-100K.txt.gz > part_1_results.md
-        ./generate_README.sh
+        
+    - name: Run Part 2 Benchmark
+      run: |
+        ./benchmark.py solutions part_2 5 orders-100K.txt.gz > part_1_results.md
+   
+    - name: Generate README.md
+      run: ./generate_README.sh
       
     - name: Commit README.md
       uses: EndBug/add-and-commit@v4
@@ -209,6 +215,6 @@ jobs:
         author_name: benchmark.py
         author_email: benchmark@example.com
         message: "Update benchmark results"
-        add: "README.md"
+        add: "part_1_results.md part_2_results.md README.md"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
