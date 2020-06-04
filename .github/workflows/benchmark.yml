@@ -16,10 +16,11 @@ jobs:
 
 
     - name: Download Part 1 C++ Solution
-      uses: GaryHughes/action-download-artifact@issue_16
+      uses: dawidd6/action-download-artifact@v2
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         workflow: part_1_cpp.yml
+        commit: HEAD
         name: part_1_cpp
         path: part_1_solutions
  
