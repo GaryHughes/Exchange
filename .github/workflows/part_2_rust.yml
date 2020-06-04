@@ -30,7 +30,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: part_2_rust	
-        path: ./part_2/rust_solution/exchange 
+        path: ./part_2/rust_solution/target/release/exchange 
     - name: upload runner
       uses: actions/upload-artifact@v2
       with:
