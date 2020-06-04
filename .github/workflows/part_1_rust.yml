@@ -15,8 +15,6 @@ jobs:
     steps:
     - name: checkout
       uses: actions/checkout@v2
-    - name: setup path
-      run: ln -s 'Part 1' part_1
     - uses: actions-rs/toolchain@v1
       with:
         toolchain: stable

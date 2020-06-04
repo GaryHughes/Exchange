@@ -15,8 +15,6 @@ jobs:
     steps:
     - name: checkout
       uses: actions/checkout@v2
-    - name: setup path
-      run: ln -s 'Part 2' part_2
     - name: build
       working-directory: './part_2/cython_solution'
       run: python3 setup.py build_ext --inplace
