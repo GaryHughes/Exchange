@@ -111,13 +111,13 @@ This is a good (50%) win for the 100k case:
 
 And the scaling is good, the O(n^2) doesn't become significant until around 1-2 million orders, and even then it's way faster (10x) than the sort solution.
 
-    100k    0.17 real
-    200k    0.37 real
-    500k    1.38 real
-    1m      4.59 real
-    2m      14.05 real
-    5m      94.23 real
-    10m     380.79 real
+      100k orders:         0.17 real         0.14 user         0.00 sys
+      200k orders:         0.37 real         0.33 user         0.01 sys
+      500k orders:         1.20 real         1.15 user         0.02 sys
+     1000k orders:         3.74 real         3.63 user         0.07 sys
+     2000k orders:        13.82 real        13.19 user         0.18 sys
+     5000k orders:        85.22 real        84.03 user         0.63 sys
+    10000k orders:       356.67 real       353.27 user         1.69 sys
 
 ## hand-code OrderBook lookup
 
@@ -134,17 +134,40 @@ This saves about a a second per million orders.  Thsi is a small win (few percen
     user	0m0.151s
     sys	    0m0.014s
 
-# Possible future optimizations
 
 ## Use a real priority queue / heap
 
 The optimized C++ code uses a priority queue (implemented as a [heap](https://en.wikipedia.org/wiki/Heap_(data_structure)) from the C++ standard library) to keep the best-priced order at the top of the order book.  Heaps are O(log n) for both insert and pop, so total running time should be O(n log n).
 
-The downside of the usual heap datastructure is that it is not stable, so we'd need to add a generation number back into the Order object in order to maintain the stable FIFO behaviour.  For a C programmer, there is no heap function in libc so it would have to be manually coded.  This is not too hard.
+The downside of the usual heap datastructure is that it is not stable, so we need to add a generation number back into the Order object in order to maintain the stable FIFO behaviour.  For a C programmer, there is no heap function in libc so it would have to be manually coded or downloaded from GitHub or something.  Heap algoithms for push() and pop() are pretty simple so hand-coding is not too hard, and will be more efficient than a library version.
 
 Current sort-less solution is (amortized) O(1) for insert but O(n) for remove.  Given the workload is 95% inserts, it's not clear if the faster removes of a heap would offset the slower inserts, and/or at what input size those two curves would cross over.
 
-Stable heap algorithms exist (see e.g. [this CSTheory post](https://cstheory.stackexchange.com/questions/593/is-there-a-stable-heap) but they are complex to implement and/or use O(n) extra space, which is no better than the extra generation number in each order.
+This in the end is (as expected) the biggest win yet, especially on large inputs.  Even for the 100K case, it's about 20% faster:
+
+    real	0m0.147s
+    user	0m0.117s
+    sys 	0m0.017s
+
+For the longer tests, this is showng near-linear scaling, so a massive speedup:
+
+      100k orders:         0.14 real         0.11 user         0.00 sys
+      200k orders:         0.25 real         0.22 user         0.01 sys
+      500k orders:         0.66 real         0.55 user         0.04 sys
+     1000k orders:         1.35 real         1.11 user         0.08 sys
+     2000k orders:         2.81 real         2.22 user         0.17 sys
+     5000k orders:         6.64 real         5.58 user         0.44 sys
+    10000k orders:        13.67 real        11.17 user         0.88 sys
+
+Profiling shows that the libc functions used to read & parse each input order (`fgets()` and `sscanf()`) being ~80% of the run time (for the 10M case).  This (a) explains why this is now looking like O(n) solution, and (b) suggests future optimizations are going to get a *lot* harder.
+
+As an aside: stable heap algorithms exist (see e.g. [this CSTheory post](https://cstheory.stackexchange.com/questions/593/is-there-a-stable-heap)) but they are complex to implement and/or use O(n) extra space, which is no better than the extra generation number in each order, so we've not bothered here.
+
+# Possible future optimizations
+
+## Consider alternatives to sscanf()
+
+As noted above, runtime is now dominated by sscanf().  Are there more efficient ways to read, split and convert input lines?
 
 ## Use k-ary heap
 
@@ -152,10 +175,14 @@ Once we have a (usual binary) heap to store the order books, we can consider usi
 
 If we use k-ary heap where k=2^*i* (i.e. k=4,8,16..) then this is simple to code and fast to calculate parent/child indexes. k-ary heaps are probably also kinder on caches and VM pagers as more of the accesses are closer together in memory.
 
-This particular optimization is not available to C++ developers without writing their own k-ary heap container!
+This particular optimization is not available to C++ developers without writing their own k-ary heap container.  There is a very sophisticated C/C++ heap implementation on [GitHub](https://github.com/valyala/gheap) that has B-Heaps (which are a more VM-friendly heap), k-ary heaps and other cleverness.  For the C version, it is like `qsort()` and has function calls and `void *` pointers, so a hand-coded implementation may be faster.
 
 ## PriceStep object
 
-Instead of maintaining a single OrderList per instrument/side, we can add another level of data structure.  The OrderBook would store lists of PriceStep objects, each of which contains a list of Orders for a given price, in time priority.  New orders added to the back, traded orders popped from the front of the PriceStep.  So there would be no need to sort the Orders at all, only the PriceStep objects, and then only when a new price is seen, which should cut the sorting down to almost nothing.  Searching price steps can be done using binary search, which is O(log n) on the number of price steps per stock/side (not order). 
+Instead of maintaining a single OrderList per instrument/side, we can add another level of data structure.  The OrderBook would store lists of PriceStep objects, each of which contains a list of Orders for a given price, in time priority.  New orders added to the back, traded orders popped from the front of the PriceStep.  So there would be no need to sort the Orders at all, only the PriceStep objects, and then only when a new price is seen, which should cut the sorting (or heap operations) down to almost nothing.  Searching price steps can be done using binary search, which is O(log n) on the number of price steps per stock/side (not order). 
 
-In addition, the Order objects wouldn't need the price element, making them smaller and more efficient.
+In addition, the Order objects wouldn't need the price element (or the generation element), making them smaller and more efficient.
+
+## match before push
+
+Current implementation pushes new orders onto the OrderList then runs `match()` to see if there are any trades.  In the case where the order crosses the spread and produces a trade, it is likely that the order will then be immediately removed from the OrderList.  We could save some time by running the match as part od the append process and only pushing the order into the OrderList if it doesn't get consumed immediately.

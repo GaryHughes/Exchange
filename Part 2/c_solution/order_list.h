@@ -19,19 +19,23 @@ typedef struct {
 OrderList *OrderList_init(OrderList *ol); /* NULL if it fails due to malloc() */
 void OrderList_destroy(OrderList *ol);
 
-/* Return the address of the added order in the list, or NULL on error.
- don't keep this pointer around, it will be invalidated by another append operation */
-Order *OrderList_append(OrderList *ol, const char *id, int qty, double price);
+/* 
+ * Push a new entry on the orders heap.  Heap is on price+generation (for stability)
+ * Return the address of the added order in the list, or NULL on error. 
+ * Don't keep this pointer around, it will be invalidated by another append operation.
+ * One version each for min heap (sells) and max heap (buys)
+ */
+Order *OrderList_push_max(OrderList *ol, const char *id, int qty, double price);
+Order *OrderList_push_min(OrderList *ol, const char *id, int qty, double price);
 
 /* 
- * Remove the Order at poisition idx, reducing the size by 1.
- * Then return the index of the first order in the list with the price 
- * that is the lowest in the list, or -1 if the list is empty.
- * This is a linear seach through the whole unsorted list, and does a memmove()
- * to remove the item. But good news is no sorting required, and it is "stable" - the
- * orders for the current lowest price are returned FIFO.
+ * heap pop() - Remove the Order at the top of the heap, reducing the size by 1.
+ * One version for min heap (sells), one for max heap (buys)
  */
-int OrderList_remove_find_lowest(OrderList *ol, int idx);
-int OrderList_remove_find_highest(OrderList *ol, int idx);
+void OrderList_pop_min(OrderList *ol);
+void OrderList_pop_max(OrderList *ol);
 
+/* For unit testing */
+/* Return 1 if it really is still a heap */
+int OrderList_check_heap(const OrderList *ol, int ismin);
 #endif /* ORDER_LIST_H */
