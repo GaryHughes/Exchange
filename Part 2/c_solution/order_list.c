@@ -139,7 +139,7 @@ void OrderList_pop_max(OrderList *ol) {
 int OrderList_check_heap(const OrderList *ol, int ismin) {
     if (!ol->size) return 1;
     for (int pos = ol->size - 1; pos > 0; pos--) {
-        int ppos = (pos - 1) >> 1; 
+        int ppos = parent(pos); 
         if (is_before(ol->orders + pos, ol->orders + ppos, ismin)) {
             printf("check_heap failed, pos %d %g %d is before ppos %d %g %d\n",
                 pos, ol->orders[pos].price, ol->orders[pos].generation,
