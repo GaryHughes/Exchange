@@ -203,3 +203,12 @@ jobs:
         ./benchmark.py solutions part_1 5 orders-100K.txt.gz > part_1_results.md
         ./generate_README.sh
       
+    - name: Commit README.md
+      uses: EndBug/add-and-commit@v4
+      with:
+        author_name: benchmark.py
+        author_email: benchmark@example.com
+        message: "Update benchmark results"
+        add: "README.md"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
