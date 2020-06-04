@@ -182,12 +182,22 @@ Code changes to support k-ary keap is remarkably small.  For the smaller inputs,
 | 5M   | 8.22 real  | 6.16 real  | 6.01 real  |
 | 10M  | 13.67 real | 12.13 real | 12.08 real |
 
+
+## Replace sscanf()
+
+As noted above, runtime is now dominated by sscanf().  This can be replaced by explicit conversions using `strchr()`, `strtol()` and `strtod()`, at the cost of longer and uglier code in `main()`.  This is worth nearly 50% on the 100K test: 
+
+    real	0m0.088s
+    user	0m0.069s
+    sys	    0m0.015s
+
+and about 30% on the 10M test (10.9 vs 13.7 sec).
+
 # Possible future optimizations
 
-## Consider alternatives to sscanf()
+## replace fgets()
 
-As noted above, runtime is now dominated by sscanf().  Are there more efficient ways to read, split and convert input lines?
-
+Can we be faster by replacing the `fgets()` and parsing functions (`strtol()` etc) with `getchar()` and hand-coding the conversions to int/double?
 
 ## PriceStep object
 
@@ -195,6 +205,8 @@ Instead of maintaining a single OrderList per instrument/side, we can add anothe
 
 In addition, the Order objects wouldn't need the price element (or the generation element), making them smaller and more efficient.
 
+Given that the priority queue has now improved the order push/pop so dramatically that the reading & parsing of input data is now the most expensive operation, this change may not have noticable improvement.
+
 ## match before push
 
-Current implementation pushes new orders onto the OrderList then runs `match()` to see if there are any trades.  In the case where the order crosses the spread and produces a trade, it is likely that the order will then be immediately removed from the OrderList.  We could save some time by running the match as part od the append process and only pushing the order into the OrderList if it doesn't get consumed immediately.
+Current implementation pushes new orders onto the OrderList then runs `match()` to see if there are any trades.  In the case where the order crosses the spread and produces a trade, it is likely that the order will then be immediately removed from the OrderList.  We could save some (probably insignificant) time by running the match as part od the append process and only pushing the order into the OrderList if it doesn't get consumed immediately.
