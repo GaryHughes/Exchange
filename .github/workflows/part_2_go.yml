@@ -3,8 +3,12 @@ name: Part 2 - Go
 on:
   push:
     branches: [ master ]
+    paths:
+      - 'part_2/go_solution'
   pull_request:
     branches: [ master ]
+    paths:
+      - 'part_2/go_solution'
     
 jobs:
   build:

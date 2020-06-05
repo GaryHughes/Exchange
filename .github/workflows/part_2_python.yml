@@ -3,8 +3,12 @@ name: Part 2 - Python
 on:
   push:
     branches: [ master ]
+    paths:
+      - 'part_2/python_solution'
   pull_request:
     branches: [ master ]
+    paths:
+      - 'part_2/python_solution'
     
 jobs:
   build:

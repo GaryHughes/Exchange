@@ -3,8 +3,12 @@ name: Part 1 - Cython
 on:
   push:
     branches: [ master ]
+    paths:
+      - 'part_1/cython_solution'
   pull_request:
     branches: [ master ]
+    paths:
+      - 'part_1/cython_solution'
     
 jobs:
   build:

@@ -3,8 +3,12 @@ name: Part 2 - Java
 on:
   push:
     branches: [ master ]
+    paths:
+      - 'part_2/java_solution'
   pull_request:
     branches: [ master ]
+    paths:
+      - 'part_2/java_solution'
     
 jobs:
   build:

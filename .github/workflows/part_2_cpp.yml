@@ -3,8 +3,12 @@ name: Part 2 - C++
 on:
   push:
     branches: [ master ]
-  pull_request:
+    paths:
+      - 'part_2/cpp_solution'
+    pull_request:
     branches: [ master ]
+    paths:
+      - 'part_2/cpp_solution'
     
 jobs:
   build:

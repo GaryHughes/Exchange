@@ -3,8 +3,12 @@ name: Part 1 - Swift
 on:
   push:
     branches: [ master ]
+    paths:
+      - 'part_1/swift_solution'
   pull_request:
     branches: [ master ]
+    paths:
+      - 'part_1/swift_solution'
     
 jobs:
   build:

@@ -3,8 +3,12 @@ name: Part 1 - F#
 on:
   push:
     branches: [ master ]
+    paths:
+      - 'part_1/fsharp_solution'
   pull_request:
     branches: [ master ]
+    paths:
+      - 'part_1/fsharp_solution'
     
 jobs:
   build:

@@ -3,8 +3,12 @@ name: Part 1 - Rust
 on:
   push:
     branches: [ master ]
-  pull_request:
+    paths:
+      - 'part_1/rust_solution'
+    pull_request:
     branches: [ master ]
+    paths:
+      - 'part_1/rust_solution'
     
 jobs:
   build:

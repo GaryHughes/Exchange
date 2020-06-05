@@ -3,8 +3,12 @@ name: Part 2 - C
 on:
   push:
     branches: [ master ]
+    paths:
+      - 'part_2/c_solution'
   pull_request:
     branches: [ master ]
+    paths:
+      - 'part_2/c_solution'
     
 jobs:
   build:
