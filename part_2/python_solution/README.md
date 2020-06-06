@@ -60,10 +60,30 @@ As it turns out, this is by far the biggest optimization of all.  Amazing 95% im
 
 That's 1/60th the time of the original version.... 
 
+# Remove sort altogether and use heapq
+
+This problem doesn't really need a fully-sorted orderbook, just knowing the lowest price and efficiently getting the next-lowest entry when the lowest entry is removed.  This is an ideal problem for a priority queue, which is usually implemented as a [heap](https://en.wikipedia.org/wiki/Heap_(data_structure)).  Python standard library supports minimum heaps via the `heapq` module.
+
+In order to use the heapq module, we need to solve 2 problems:
+ - heaps are not naturally stable, i.e. entries for a given price might come out in any order. So we have to add back a generation number to the order and include that in the comparison to ensure the FIFO behaviour of orders at a price.  This is a problem with heaps in general, not the python module.
+ - The heapq module itself only supports min heaps, and only uses the natural object compares (the `__lt__()` member) to order the heap.  We have to create 2 Order classes, one for buy and one for sell, with different `__lt__()` functions, to get the buys ordered by decreasing price and generation, but the sells ordered by increasing price and decreasing generation.
+
+Both of these points mean that the Order objects are more complex and slower to compare, which might reduce the alorithmic superiority of heap vs sort.
+
+Turns out that for 100k orders, the heap is still way faster, even with complex comparisons:
+
+    real	0m2.085s
+    user	0m1.960s
+    sys 	0m0.096s
+
+The 10m test now also runs in a bit under 4 minutes:
+
+    225.02 real       215.15 user         6.01 sys
+
 # Failed optimizations
 
 ## Compare Orders directly
-Sorting the order book is clearly an expensive part of the process, given the benefit of omitting the generation and simplifying the sort.  Can we simplify the sort even more by making the Order objects diurectly comparible?
+Sorting the order book is clearly an expensive part of the process, given the benefit of omitting the generation and simplifying the sort.  Can we simplify the sort even more by making the Order objects directly comparable by adding an `__lt()__` member?
 
 Turns out no, this is about 40% more expensive.
 
@@ -71,7 +91,7 @@ Turns out no, this is about 40% more expensive.
 
 ## Use Tuples for Orders
 
-Changing the Order objects to use `__slots__` was a reasonable win.  Given there is no methods on these objects, could replace them with tuples which should have even faster element lookup.  
+Changing the Order objects to use `__slots__` was a reasonable win.  Given how simple the Order objects are, can we replace them with tuples and have even faster element lookup?
 
-This will also sort naturally without needing a key function which might save even more time; try with natural sorting based on tuple, or with a key function to extract the price from the tuple.
+Have to think about how to make the heapq work on the buys, as there would be no BuyOrder object to attach a comparison operator.  Perhaps store the price for buys as negative?
 
