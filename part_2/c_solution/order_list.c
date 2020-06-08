@@ -52,7 +52,6 @@ static inline int last_child(int i) {
 
 /* Common to min and max, return NULL for malloc failure */
 static inline Order *OrderList_push_impl(OrderList *ol, const char *id, int qty, double price, int ismin) {
-    Order *op;
     int pos, ppos;
     Order tmp;
 
@@ -64,26 +63,29 @@ static inline Order *OrderList_push_impl(OrderList *ol, const char *id, int qty,
         if (!ol->orders)
             return NULL;
     }
-    op = ol->orders + ol->size++;
-    strcpy(op->id, id);
-    op->qty = qty;
-    op->price = price;
-    op->generation = ++generation;
+    strcpy(tmp.id, id);
+    tmp.qty = qty;
+    tmp.price = price;
+    tmp.generation = ++generation;
 
-    /* Restore the heap property.  This is usual heap "sift up" */
-    pos = ol->size - 1;
+    /* 
+     * Restore the heap property.  Find the spot where tmp needs to be inserted,
+     * starting at the new bottom of the heap.
+     * This is usual heap "sift up" algorithm.
+     */
+    pos = ol->size++;
     while (pos > 0) {
         ppos = parent(pos);
-        if (!is_before(&ol->orders[pos], &ol->orders[ppos], ismin)) {
+        if (!is_before(&tmp, &ol->orders[ppos], ismin)) {
+            ol->orders[pos] = tmp;
             return ol->orders + pos;
         }
-        /* swap */
-        tmp = ol->orders[pos];
+        /* Move the parent down */
         ol->orders[pos] = ol->orders[ppos];
-        ol->orders[ppos] = tmp;
         pos = ppos;
     }
     /* Pushed the new parent, pos = 0 */
+    ol->orders[0] =  tmp;
     return ol->orders;
 }
 
@@ -97,32 +99,38 @@ Order *OrderList_push_max(OrderList *ol, const char *id, int qty, double price) 
     
 static inline void OrderList_pop_impl(OrderList *ol, int ismin) {
     int pos = 0;
+    Order tmp;
+
     if (!ol->size) return;
-    /* Copy last element to top of heap, reduce size by 1 */
-    ol->orders[0] = ol->orders[--ol->size];
-    /* Re-establish the heap invariants. This is the usual heap "sift down" */
+    /* Save the last element of heap, reduce size by 1 */
+    tmp = ol->orders[--ol->size];
+    /* 
+     * Find where to insert this element, starting at the (nominally empty) root.
+     * Re-establish the heap invariants. This is the usual heap "sift down"
+     */
     while (1) {
         int smaller = pos;
         int fchild = first_child(pos);
         int lchild = last_child(pos);
-        Order tmp;
 
-        if (fchild >= ol->size)
+        if (fchild >= ol->size) {
             /* Leaf node */
+            ol->orders[pos] = tmp;
             return;
+        }
         if (lchild >= ol->size)
             lchild = ol->size - 1;
 
         for (int i = fchild; i <= lchild; i++) {
-            if (is_before(&ol->orders[i], &ol->orders[smaller], ismin))
+            if (is_before(&ol->orders[i], smaller == pos ? &tmp : ol->orders + smaller, ismin))
                 smaller = i;
         }
-        if (smaller == pos)
+        if (smaller == pos) {
+            ol->orders[pos] = tmp;
             return;
-        /* swap pos & smaller child */
-        tmp = ol->orders[pos];
+        }
+        /* Move smallest child to parent */
         ol->orders[pos] = ol->orders[smaller];
-        ol->orders[smaller] = tmp;
         pos = smaller;
     }
 }

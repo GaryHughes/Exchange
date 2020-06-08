@@ -193,6 +193,22 @@ As noted above, runtime is now dominated by sscanf().  This can be replaced by e
 
 and about 30% on the 10M test (10.9 vs 13.7 sec).
 
+## Optimize swaps in heap sift up/down
+
+The idea for this optimization came from the python `heapq.py` module, see  the comments in [The Python heapy.py file](https://github.com/python/cpython/blob/264e4fd9619dfab3d9de7f78a46efd8772b03ea6/Lib/heapq.py#L205). 
+
+Current implementation of heap pop/insert does one swap for every compare.  Each swap is 3 moves of an Order struct, so relatively expensive.  End result is that a single record gets swapped multiple times per operation, until it is in the correct place.  Better to save the record in a tmp variable, find the correct place to insert it (and moving, not swapping, the other heap elements to maintain heap invariants), then insert the new record.  This cuts the amount of struct copies by a factor of (nearly) 3.  For `append()` this is a small code chamge, for `pop()` the inner lpop needs to be careful which elements it is comapring.
+
+This is a small win, even given the runtime dominated by parsing the input:
+
+  100k orders:         0.12 real         0.06 user         0.00 sys
+  200k orders:         0.21 real         0.12 user         0.01 sys
+  500k orders:         0.56 real         0.30 user         0.03 sys
+ 1000k orders:         1.04 real         0.60 user         0.07 sys
+ 2000k orders:         2.08 real         1.20 user         0.13 sys
+ 5000k orders:         5.28 real         3.01 user         0.33 sys
+10000k orders:        10.58 real         6.02 user         0.65 sys
+
 # Possible future optimizations
 
 ## replace fgets()
