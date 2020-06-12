@@ -2,11 +2,11 @@ name: Part 2 - Java
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
     paths:
       - 'part_2/java_solution'
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
     paths:
       - 'part_2/java_solution'
     

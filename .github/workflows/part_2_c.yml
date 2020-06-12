@@ -2,11 +2,11 @@ name: Part 2 - C
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
     paths:
       - 'part_2/c_solution'
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
     paths:
       - 'part_2/c_solution'
     

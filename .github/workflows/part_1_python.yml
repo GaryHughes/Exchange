@@ -2,11 +2,11 @@ name: Part 1 - Python
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
     paths:
       - 'part_1/python_solution'
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
     paths:
       - 'part_1/python_solution'
     

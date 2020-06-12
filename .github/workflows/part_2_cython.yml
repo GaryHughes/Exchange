@@ -2,11 +2,11 @@ name: Part 2 - Cython
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
     paths:
       - 'part_2/cython_solution'
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
     paths:
       - 'part_2/cython_solution'
     

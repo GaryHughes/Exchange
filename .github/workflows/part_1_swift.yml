@@ -2,11 +2,11 @@ name: Part 1 - Swift
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
     paths:
       - 'part_1/swift_solution'
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
     paths:
       - 'part_1/swift_solution'
     

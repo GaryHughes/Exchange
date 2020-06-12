@@ -2,11 +2,11 @@ name: Part 2 - Rust
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
     paths:
       - 'part_2/rust_solution'
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
     paths:
       - 'part_2/rust_solution'
     

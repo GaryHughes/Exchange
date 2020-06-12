@@ -2,9 +2,9 @@ name: Benchmark
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 env:
   COMMIT: f1716cf5b0ff217fcb3bd3454224ccbeb8926722
