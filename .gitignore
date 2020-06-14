@@ -20,16 +20,16 @@ __pycache__/
 *.out
 *.so
 *.d
-Part 1/cython_solution/build/
-Part 1/cython_solution/Exchange.c
-Part 2/cython_solution/build/
-Part 2/cython_solution/Exchange.c
-Part 1/c_solution/test_booklist
-Part 1/c_solution/test_order
-Part 1/c_solution/test_orderbook
-Part 1/c_solution/test_orderlist
-Part 1/c_solution/test_sizes
-Part 2/c_solution/test_sizes
-Part 2/c_solution/test_orderlist
-Part 2/c_solution/test_orderbook
-Part 2/c_solution/test_booklist
+part_1/cython_solution/build/
+part_1/cython_solution/Exchange.c
+part_2/cython_solution/build/
+part_2/cython_solution/Exchange.c
+part_1/c_solution/test_booklist
+part_1/c_solution/test_order
+part_1/c_solution/test_orderbook
+part_1/c_solution/test_orderlist
+part_1/c_solution/test_sizes
+part_2/c_solution/test_sizes
+part_2/c_solution/test_orderlist
+part_2/c_solution/test_orderbook
+part_2/c_solution/test_booklist

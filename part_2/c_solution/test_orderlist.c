@@ -110,15 +110,19 @@ void test_min_5(void) {
     TEST_ASSERT_EQUAL_INT(4, ol.size);
     TEST_ASSERT_EQUAL_INT(100, ol.orders[0].qty);
     OrderList_pop_min(&ol);
+    TEST_ASSERT_TRUE(OrderList_check_heap(&ol, 1));
     TEST_ASSERT_EQUAL_INT(3, ol.size);
     TEST_ASSERT_EQUAL_INT(200, ol.orders[0].qty);
     OrderList_pop_min(&ol);
+    TEST_ASSERT_TRUE(OrderList_check_heap(&ol, 1));
     TEST_ASSERT_EQUAL_INT(2, ol.size);
     TEST_ASSERT_EQUAL_INT(500, ol.orders[0].qty);
     OrderList_pop_min(&ol);
+    TEST_ASSERT_TRUE(OrderList_check_heap(&ol, 1));
     TEST_ASSERT_EQUAL_INT(1, ol.size);
     TEST_ASSERT_EQUAL_INT(400, ol.orders[0].qty);
     OrderList_pop_min(&ol);
+    TEST_ASSERT_TRUE(OrderList_check_heap(&ol, 1));
     TEST_ASSERT_EQUAL_INT(0, ol.size);
 }
 
