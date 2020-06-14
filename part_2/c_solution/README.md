@@ -209,11 +209,15 @@ This is a small win, even given the runtime dominated by parsing the input:
  5000k orders:         5.28 real         3.01 user         0.33 sys
 10000k orders:        10.58 real         6.02 user         0.65 sys
 
-# Possible future optimizations
+# Failed optimizations
 
 ## replace fgets()
 
 Can we be faster by replacing the `fgets()` and parsing functions (`strtol()` etc) with `getchar()` and hand-coding the conversions to int/double?
+
+Answer is no, and by a surprising margin.  Coded with plain `getchar()` this is ~3x as expensive as `fgets()`.  Most of this is in the locking underlying the `getchar()` call, replacing this with `getchar_unlocked()` is much better, but still ~10% slower than fgets.
+
+# Possible future optimizations
 
 ## PriceStep object
 
