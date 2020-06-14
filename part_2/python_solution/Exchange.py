@@ -1,19 +1,31 @@
 #! /usr/bin/env python3
 
-class Order:
+import heapq
+
+class SellOrder:
     '''
     Represent an order, no logic just a container
     '''
-    __slots__ = ['id', 'qty', 'price', 'side']
+    gen = 0
+
+    __slots__ = ['id', 'qty', 'price', 'generation']
+    
     def __init__(self, id, qty, price):
         self.id = id
-        self.qty = int(qty)
-        self.price = float(price)
-        if self.qty < 0:
-            self.qty = -self.qty
-            self.side = 'S'
-        else:
-            self.side = 'B'
+        self.qty = qty
+        self.price = price
+        SellOrder.gen += 1
+        self.generation = SellOrder.gen
+
+    def __lt__(self, r):
+        return self.price < r.price \
+                or (self.price == r.price and self.generation < r.generation)
+
+class BuyOrder(SellOrder):
+    # An order with the reversed price comparison
+    def __lt__(self, r):
+        return self.price > r.price \
+                or (self.price == r.price and self.generation < r.generation)
 
 class Trade:
     '''
@@ -38,23 +50,16 @@ class OrderBook:
         self.buys = []
         self.sells = []
         self.last_order = None
-        self.best_bid = 0.0
-        self.best_offer = 1e10
     
-    def append(self, o):
-        self.last_order = o
-        if o.side == "B":
-            self.buys.append(o)
-            if o.price > self.best_bid:
-                    self.best_bid = o.price
-            # Higest price first, rest assumes stable sort()
-            #self.buys.sort(reverse=True, key=lambda o: o.price)
+    def append(self, id, qty, price):
+        qty = int(qty)
+        price = float(price)
+        if qty > 0:
+            heapq.heappush(self.buys, BuyOrder(id, qty, price))
+            self.last_order_buy = True
         else:
-            self.sells.append(o)
-            if o.price < self.best_offer:
-                self.best_offer = o.price
-            # lowest price first, rest assumes stable sort()
-            #self.sells.sort(key=lambda o: o.price)
+            heapq.heappush(self.sells, SellOrder(id, -qty, price))
+            self.last_order_buy = False
 
     def match(self):
         '''
@@ -63,42 +68,27 @@ class OrderBook:
         '''
         ret = []
 
-        if self.best_bid < self.best_offer:
-            return ret
-
-        self.sort_books()
-        while self.buys and self.sells and self.best_bid >= self.best_offer:
+        while self.buys and self.sells:
             buy = self.buys[0]
             sell = self.sells[0]
-            # if buy.price < sell.price:
-            #     break
-            tprice = buy.price if self.last_order.side == "S" else sell.price
+            if buy.price < sell.price:
+                 break
+            tprice = sell.price if self.last_order_buy else buy.price
             if buy.qty > sell.qty:
                 tqty = sell.qty
-                self.sells.pop(0)
-                self.best_offer = self.sells[0].price if self.sells else 1e10
+                heapq.heappop(self.sells)
                 buy.qty -= tqty
             elif sell.qty > buy.qty:
                 tqty = buy.qty
-                self.buys.pop(0)
-                self.best_bid = self.buys[0].price if self.buys else 0.0
+                heapq.heappop(self.buys)
                 sell.qty -= tqty
             else: # equal
                 tqty = buy.qty
-                self.buys.pop(0)
-                self.sells.pop(0)
-                self.best_bid = self.buys[0].price if self.buys else 0.0
-                self.best_offer = self.sells[0].price if self.sells else 1e10
+                heapq.heappop(self.buys)
+                heapq.heappop(self.sells)
             ret.append(Trade(buy.id, sell.id, self.instrument, tqty, tprice))
             
         return ret
-
-    def sort_books(self):
-        '''
-        Extract this into a separate function so we can use it in the unit tests
-        '''
-        self.buys.sort(reverse=True, key=lambda o: o.price)
-        self.sells.sort(key=lambda o: o.price)
 
 if __name__ == "__main__":
     import sys
@@ -106,11 +96,10 @@ if __name__ == "__main__":
     for l in sys.stdin:
         if len(l) < 2: break # empty last line
         id, instrument, qty, price = l.strip().split(":")
-        o = Order(id, qty, price)
         try:
             b = books[instrument]
         except KeyError:
             b = books[instrument] = OrderBook(instrument)
-        b.append(o)
+        b.append(id, qty, price)
         for t in b.match():
             print(t)
