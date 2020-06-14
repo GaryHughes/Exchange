@@ -201,13 +201,13 @@ Current implementation of heap pop/insert does one swap for every compare.  Each
 
 This is a small win, even given the runtime dominated by parsing the input:
 
-  100k orders:         0.12 real         0.06 user         0.00 sys
-  200k orders:         0.21 real         0.12 user         0.01 sys
-  500k orders:         0.56 real         0.30 user         0.03 sys
- 1000k orders:         1.04 real         0.60 user         0.07 sys
- 2000k orders:         2.08 real         1.20 user         0.13 sys
- 5000k orders:         5.28 real         3.01 user         0.33 sys
-10000k orders:        10.58 real         6.02 user         0.65 sys
+      100k orders:         0.12 real         0.06 user         0.00 sys
+      200k orders:         0.21 real         0.12 user         0.01 sys
+      500k orders:         0.56 real         0.30 user         0.03 sys
+     1000k orders:         1.04 real         0.60 user         0.07 sys
+     2000k orders:         2.08 real         1.20 user         0.13 sys
+     5000k orders:         5.28 real         3.01 user         0.33 sys
+    10000k orders:        10.58 real         6.02 user         0.65 sys
 
 # Failed optimizations
 
