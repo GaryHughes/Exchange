@@ -3,8 +3,18 @@ name: Benchmark
 on:
   push:
     branches: [ main ]
+    paths:
+      - 'benchmark.py'
+      - 'README_part_1_header.md'
+      - 'README_part_2_header.md'
+      - 'README-header.md'
   pull_request:
     branches: [ main ]
+    paths:
+      - 'benchmark.py'
+      - 'README_part_1_header.md'
+      - 'README_part_2_header.md'
+      - 'README-header.md'
 
 jobs:
   build:
