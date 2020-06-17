@@ -4,11 +4,11 @@ on:
   push:
     branches: [ main ]
     paths:
-      - 'part_1/rust_solution'
+      - 'part_1/rust_solution/**'
     pull_request:
     branches: [ main ]
     paths:
-      - 'part_1/rust_solution'
+      - 'part_1/rust_solution/**'
     
 jobs:
   build:

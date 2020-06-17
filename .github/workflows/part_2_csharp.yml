@@ -4,11 +4,11 @@ on:
   push:
     branches: [ main ]
     paths:
-      - 'part_2/csharp_solution'
+      - 'part_2/csharp_solution/**'
     pull_request:
     branches: [ main ]
     paths:
-      - 'part_2/csharp_solution'
+      - 'part_2/csharp_solution/**'
     
 jobs:
   build:

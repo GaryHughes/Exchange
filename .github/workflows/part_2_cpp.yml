@@ -4,11 +4,11 @@ on:
   push:
     branches: [ main ]
     paths:
-      - 'part_2/cpp_solution'
+      - 'part_2/cpp_solution/**'
     pull_request:
     branches: [ main ]
     paths:
-      - 'part_2/cpp_solution'
+      - 'part_2/cpp_solution/**'
     
 jobs:
   build:
