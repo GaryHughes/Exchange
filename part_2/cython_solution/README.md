@@ -12,7 +12,7 @@ The extension API for python2 & python3 are not the same, so a cython extension 
 
     Symbol not found: _PyMethodDescr_Type
 
-then double-check you are using the same python version.  We'll be using 3.6 for this purpose.
+then double-check you are using the same python version.  We'll be using 3.6 for this purpose. 
 
 ### Cython install
 
