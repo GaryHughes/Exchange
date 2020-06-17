@@ -10,7 +10,7 @@ import datetime
 import statistics
 
 # The Azure pipeline for each solution is required to publish a flattened artifact named like the following examples:
-#
+# 
 # Part 1/cpp_solution -> part_1_cpp_solution
 # Part 1/csharp_solution -> part_1_csharp_solution
 #
