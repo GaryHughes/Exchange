@@ -72,7 +72,7 @@ for input in input_files:
         command = "subprocess.run(['./runner < {} > {}'], shell=True, cwd='{}')".format(input_file, output_file, working_directory)
         try:
             # TODO - support an exlusion file so we don't hard code this.
-            if solution.find('python') >= 0 or solution.find('cython') >= 0 or solution.find('swift') >= 0:
+            if solution.find('python') >= 0 or solution.find('swift') >= 0:
                 # These solutions are too slow for the big file and relatively slow on
                 # the small file. Because the comparison with other solutions isn't as important
                 # we don't care so much about the validity of the results.
