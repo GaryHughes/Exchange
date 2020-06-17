@@ -12,7 +12,7 @@ Then run it using the usual runner:
 
     time ./runner < ../../orders_100K.txt >100.out 
 
-Speedup is not insignificant 15% over the raw interpreted Python version:
+Speedup is not insignificant 15% over the raw interpreted Python version: 
 
 Python3:
 
