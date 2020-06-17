@@ -32,7 +32,6 @@ class TestSorting(unittest.TestCase):
         self.assertEqual(b.num_buys(), 2)
         self.assertEqual(b.num_sells(), 0)
         # remember, first element is top of book
-        b.sort_books()
         self.assertEqual(b.buy_qty(), 100)
         self.assertEqual(b.buy_qty(1), 200)
        
@@ -43,7 +42,6 @@ class TestSorting(unittest.TestCase):
         self.assertEqual(b.num_sells(), 2)
         self.assertEqual(b.num_buys(), 0)
         # remember, first element is top of book
-        b.sort_books()
         self.assertEqual(b.sell_qty(), 100)
         self.assertEqual(b.sell_qty(1), 200)
        
@@ -54,7 +52,6 @@ class TestSorting(unittest.TestCase):
         self.assertEqual(b.num_buys(), 2)
         self.assertEqual(b.num_sells(), 0)
         # for buys, first element has highest price
-        b.sort_books()
         self.assertEqual(b.buy_qty(), 200)
         self.assertEqual(b.buy_qty(1), 100)
        
@@ -65,7 +62,6 @@ class TestSorting(unittest.TestCase):
         self.assertEqual(b.num_sells(), 2)
         self.assertEqual(b.num_buys(), 0)
         # for sells, first element has lowest price
-        b.sort_books()
         self.assertEqual(b.sell_qty(), 100)
         self.assertEqual(b.sell_qty(1), 200)
        
