@@ -1,6 +1,6 @@
 # Cython solution
 
-This version starts with the optimized Python implementation from [Part 2/python_solution](../python_solution/README.md), not the Part 1 cython solution.
+This version starts with the optimized Python implementation from [part_2/python_solution](../python_solution/README.md), not the Part 1 cython solution.
 
 First step is to run the Python code as a compiled Cython extension, then proceed to use the various cython facilities (typing, C structs &c) to improve performance.
 
@@ -79,12 +79,25 @@ This is a good win, about 30%:
     user	0m2.032s
     sys	    0m0.052s
 
+## Use a priority queue
+
+As with the other solutions, there is a large gain from using a more appropriate data structure.  Changing from sorted list to a priority queue is a big win for smaller runs (4x for the 100K case) and overwhelming win for the longer runs.  
+
+Behaviour is now more or less linear, which says remaining bottlenecks are in the reading and parsing of the input data.
+
+      100k orders:         0.52 real         0.38 user         0.08 sys
+      200k orders:         0.78 real         0.71 user         0.05 sys
+      500k orders:         1.79 real         1.68 user         0.09 sys
+     1000k orders:         3.53 real         3.29 user         0.17 sys
+     2000k orders:         7.04 real         6.52 user         0.31 sys
+     5000k orders:        17.10 real        16.23 user         0.72 sys
+    10000k orders:        34.52 real        32.41 user         1.58 sys
+
 # Possible further optimizations
 
-## Omit generation again
-We could hand-craft a stable sort function in Cython and omit the generation altogether.  Again, this is more code and more complext code.
-
-MacOS libc has a stable `mergesort()` function which would be useful, but that is not available on Linux.
-
 ## Investigate Unicode IDs
-A fair bit of the effort reading each input line is convedrting the Python unicode string pbjkects for buyer/seller IDs into char array in the Order object.  There may be a better/faster way to do this 
+A fair bit of the effort reading each input line is converting the Python unicode string objects for buyer/seller IDs into char array in the Order struct.  There may be a better/faster way to do this 
+
+## Consider k-ary heap
+
+Priority queue implementation is based on a standard binary heap.  The C solution benefited from a move to 4-heap due to the excess of push operations over pop operations offsetting the more complicated pop logic.  The cython version would also likely gain a small amount.
