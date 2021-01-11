@@ -1,0 +1,29 @@
+{
+  "name": "exchange",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test-100K": "gunzip -c ../../orders-100K.txt.gz | time node build/index.js > /tmp/trades-100K.txt",
+    "test-10M": "gunzip -c ../../orders-10M.txt.gz | time node build/index.js > /tmp/trades-10M.txt",
+    "test": "npm run test-100K",
+    "build": "tsc"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@tsconfig/node14": "^1.0.0",
+    "@types/node": "^14.14.20",
+    "@typescript-eslint/eslint-plugin": "^4.12.0",
+    "@typescript-eslint/parser": "^4.12.0",
+    "eslint": "^7.17.0",
+    "eslint-config-prettier": "^7.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "prettier": "^2.2.1",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.3"
+  },
+  "dependencies": {
+    "fp-ts": "^2.9.3"
+  }
+}
