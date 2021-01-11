@@ -1,5 +1,5 @@
 import { flow, pipe } from 'fp-ts/lib/function';
-import { matchMarket } from './match-market';
+import { matchExchange } from './match-exchange';
 import { Trade } from './types';
 import * as A from 'fp-ts/Array';
 import * as R from 'fp-ts/Reader';
@@ -20,7 +20,7 @@ function stringify(instrument: string, { buyer, seller, price, size }: Trade) {
 
 export const processor = flow(parse, (parsed) =>
   pipe(
-    matchMarket(parsed),
+    matchExchange(parsed),
     R.map(A.map((trade) => stringify(parsed.instrument, trade)))
   )
 );

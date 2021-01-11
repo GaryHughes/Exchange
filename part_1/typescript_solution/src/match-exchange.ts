@@ -1,7 +1,7 @@
 import { matchBook } from './match-book';
 import { Exchange, Order, Trade } from './types';
 
-export function matchMarket({
+export function matchExchange({
   instrument,
   order,
   isBuy,
