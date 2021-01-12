@@ -7,7 +7,8 @@
     "test-100K": "gunzip -c ../../orders-100K.txt.gz | time node build/index.js > /tmp/trades-100K.txt",
     "test-10M": "gunzip -c ../../orders-10M.txt.gz | time node build/index.js > /tmp/trades-10M.txt",
     "test": "npm run test-100K",
-    "build": "tsc"
+    "build": "tsc",
+    "postbuild": "cp package.json build/package.json && cd build && npm install --only=production"
   },
   "author": "",
   "license": "ISC",
