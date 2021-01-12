@@ -33,3 +33,5 @@ part_2/c_solution/test_sizes
 part_2/c_solution/test_orderlist
 part_2/c_solution/test_orderbook
 part_2/c_solution/test_booklist
+DerivedData
+.swiftpm
