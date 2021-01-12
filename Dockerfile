@@ -12,7 +12,9 @@ RUN apt-get -y update && apt-get install -y \
     ant \
     openjdk-11-jdk \
     vim \
-    python3-pip
+    python3-pip \
+    nodejs \
+    npm
     
 #
 # These are for the Cython builds
