@@ -105,6 +105,14 @@ jobs:
         name: part_1_swift
         path: solutions/part_1_swift    
  
+    - name: Download Part 1 TypeScript Solution
+      uses: dawidd6/action-download-artifact@v2
+      with:
+        github_token: ${{secrets.GITHUB_TOKEN}}
+        workflow: part_1_typescript.yml
+        name: part_1_typescript
+        path: solutions/part_1_typescript    
+
     - name: Download Part 2 C++ Solution
       uses: dawidd6/action-download-artifact@v2
       with:
@@ -183,7 +191,15 @@ jobs:
         github_token: ${{secrets.GITHUB_TOKEN}}
         workflow: part_2_swift.yml
         name: part_2_swift
-        path: solutions/part_2_swift    
+        path: solutions/part_2_swift   
+
+    - name: Download Part 2 TypeScript Solution
+      uses: dawidd6/action-download-artifact@v2
+      with:
+        github_token: ${{secrets.GITHUB_TOKEN}}
+        workflow: part_2_typescript.yml
+        name: part_2_typescript
+        path: solutions/part_2_typescript   
   
     - name: Run Part 1 Benchmark
       run: |
