@@ -9,12 +9,11 @@ on:
     branches: [ main ]
     paths:
       - 'part_1/rust_solution/**'
-   
-    
+
 jobs:
   build:
 
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     container: garyedwardhughes/exchange
 
     steps:
