@@ -9,6 +9,7 @@ on:
     branches: [ main ]
     paths:
       - 'part_1/c_solution/**'
+  workflow_dispatch:
     
 jobs:
   build:

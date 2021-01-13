@@ -9,6 +9,7 @@ on:
     branches: [ main ]
     paths:
       - 'part_1/go_solution/**'
+  workflow_dispatch:
     
 jobs:
   build:

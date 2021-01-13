@@ -9,7 +9,8 @@ on:
     branches: [ main ]
     paths:
       - 'part_1/python_solution/**'
-    
+  workflow_dispatch:
+     
 jobs:
   build:
 

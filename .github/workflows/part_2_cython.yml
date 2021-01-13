@@ -9,7 +9,7 @@ on:
     branches: [ main ]
     paths:
       - 'part_2/cython_solution/**'
-    
+  workflow_dispatch:   
     
 jobs:
   build:

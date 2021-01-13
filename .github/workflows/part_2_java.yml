@@ -9,7 +9,8 @@ on:
     branches: [ main ]
     paths:
       - 'part_2/java_solution/**'
-    
+  workflow_dispatch:
+     
 jobs:
   build:
 

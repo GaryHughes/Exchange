@@ -15,7 +15,8 @@ on:
       - 'README_part_1_header.md'
       - 'README_part_2_header.md'
       - 'README-header.md'
-
+  workflow_dispatch:
+  
 jobs:
   build:
 
