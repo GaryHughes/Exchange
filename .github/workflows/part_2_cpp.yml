@@ -5,7 +5,7 @@ on:
     branches: [ main ]
     paths:
       - 'part_2/cpp_solution/**'
-    pull_request:
+  pull_request:
     branches: [ main ]
     paths:
       - 'part_2/cpp_solution/**'
