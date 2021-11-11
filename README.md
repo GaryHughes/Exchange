@@ -15,50 +15,50 @@ Some solutions are excluded from the benchmarks entirely because they take too l
 ## Part 1 Performance
 
 
-local variable 'i' referenced before assignment
-local variable 'i' referenced before assignment
 ||100K orders|trades|
 -|:-:|:-:|
-|Java|0:00:00.697680|3368|
-|Rust|0:00:01.091793|3368|
-|TypeScript|0:00:01.228595|3368|
-|Swift|0:00:07.794452|3368|
-|C|0:00:11.294198|3368|
-|C++|0:00:21.380896|3368|
-|Go|0:00:42.452837|3368|
-|Cython|0:02:13.831923|3368|
-|Python|0:02:22.291459|3368|
+|C#|0:00:00.666428|3368|
+|Java|0:00:00.892694|3368|
+|TypeScript|0:00:01.411278|3368|
+|Rust|0:00:01.528642|3368|
+|F#|0:00:07.604119|3368|
+|Swift|0:00:10.738239|3368|
+|C|0:00:12.910180|3368|
+|C++|0:00:26.996797|3368|
+|Go|0:00:48.766151|3368|
+|Cython|0:02:50.596575|3368|
+|Python|0:03:01.999539|3368|
 
 
 ## Part 2 Performance
 
 The slower implementations are excluded from the larger benchmark just so it runs in a reasonable time.
 
-local variable 'i' referenced before assignment
-local variable 'i' referenced before assignment
-local variable 'i' referenced before assignment
-local variable 'i' referenced before assignment
 ||100K orders|trades|
 -|:-:|:-:|
-|C|0:00:00.035477|3368|
-|Rust|0:00:00.045906|3368|
-|C++|0:00:00.052314|3368|
-|Go|0:00:00.063677|3368|
-|Cython|0:00:00.107284|3368|
-|Java|0:00:00.300802|3368|
-|Python|0:00:00.371655|3368|
-|TypeScript|0:00:00.744560|3368|
-|Swift|0:00:01.647415|3368|
+|C|0:00:00.040084|3368|
+|Rust|0:00:00.059139|3368|
+|C++|0:00:00.067229|3368|
+|Go|0:00:00.083329|3368|
+|Cython|0:00:00.129343|3368|
+|C#|0:00:00.174683|3368|
+|Java|0:00:00.388386|3368|
+|F#|0:00:00.428819|3368|
+|Python|0:00:00.449402|3368|
+|TypeScript|0:00:00.861123|3368|
+|Swift|0:00:02.050332|3368|
 
 
 ||10M orders|trades|
 -|:-:|:-:|
-|C|0:00:03.259091|360131|
-|Rust|0:00:05.066187|360131|
-|C++|0:00:05.603880|360131|
-|Go|0:00:08.698170|360131|
-|Cython|0:00:09.043245|360131|
-|Java|0:00:11.714401|360131|
-|TypeScript|0:00:20.346875|360131|
+|C|0:00:03.637150|360131|
+|Rust|0:00:05.559069|360131|
+|C++|0:00:06.476930|360131|
+|Go|0:00:09.989149|360131|
+|Cython|0:00:10.431817|360131|
+|Java|0:00:13.025079|360131|
+|C#|0:00:14.854358|360131|
+|TypeScript|0:00:26.239031|360131|
+|F#|0:00:30.832277|360131|
 
 
