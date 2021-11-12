@@ -1,22 +1,5 @@
 using System;
 
-namespace Exchange
-{
-    public class Trade
-    {
-        public Trade(string buyer, string seller, string instrument, long quantity, decimal price)
-        {
-            Buyer = buyer;
-            Seller = seller;
-            Instrument = instrument;
-            Quantity = quantity;
-            Price = price;
-        }
+namespace Exchange;
 
-        public string Buyer { get; }
-        public string Seller { get; }
-        public string Instrument { get; }
-        public long Quantity { get; }
-        public decimal Price { get; }
-    }
-}
+public record class Trade(string Buyer, string Seller, string Instrument, long Quantity, decimal Price);
