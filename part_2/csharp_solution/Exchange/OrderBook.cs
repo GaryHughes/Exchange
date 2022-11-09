@@ -7,8 +7,20 @@ namespace Exchange;
 
 class BuyComparer : IComparer<Order>
 {
-    public int Compare(Order left, Order right)
+    public int Compare(Order? left, Order? right)
     {
+        if (left is null && right is null) {
+            return 0;
+        }
+
+        if (left is null) {
+            return -1;
+        }
+
+        if (right is null) {
+            return 1;
+        }
+     
         var result = right.Price.CompareTo(left.Price);
 
         if (result == 0) {
@@ -21,8 +33,20 @@ class BuyComparer : IComparer<Order>
 
 class SellComparer : IComparer<Order>
 {
-    public int Compare(Order left, Order right)
+    public int Compare(Order? left, Order? right)
     {
+        if (left is null && right is null) {
+            return 0;
+        }
+
+        if (left is null) {
+            return -1;
+        }
+
+        if (right is null) {
+            return 1;
+        }
+        
         var result = left.Price.CompareTo(right.Price);
 
         if (result == 0) {
