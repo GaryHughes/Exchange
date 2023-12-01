@@ -30,7 +30,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: part_2_fsharp	
-        path: ./part_2/fsharp_solution/Exchange/bin/Release/net7.0/publish/* 
+        path: ./part_2/fsharp_solution/Exchange/bin/Release/net8.0/publish/* 
     - name: upload runner
       uses: actions/upload-artifact@v2
       with:
