@@ -200,7 +200,11 @@ jobs:
         github_token: ${{secrets.GITHUB_TOKEN}}
         workflow: part_2_typescript.yml
         name: part_2_typescript
-        path: solutions/part_2_typescript   
+        path: solutions/part_2_typescript
+        
+    - name: Add repository ownership exception
+      run: |
+        git config --global --add safe.directory *
   
     - name: Run Part 1 Benchmark
       run: |
@@ -214,7 +218,7 @@ jobs:
       run: ./generate_README.sh
       
     - name: Commit README.md
-      uses: EndBug/add-and-commit@v4
+      uses: EndBug/add-and-commit@v9
       with:
         author_name: benchmark.py
         author_email: benchmark@example.com
