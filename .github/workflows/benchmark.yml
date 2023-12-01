@@ -204,7 +204,7 @@ jobs:
         
     - name: Add repository ownership exception
       run: |
-        git config --global --add safe.directory *
+        git config --global --add safe.directory '/__w/Exchange/Exchange'
   
     - name: Run Part 1 Benchmark
       run: |
