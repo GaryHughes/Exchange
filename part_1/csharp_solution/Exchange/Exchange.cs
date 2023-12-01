@@ -14,5 +14,5 @@ public class Exchange
         return orderBook.Execute(order);
     }
 
-    Dictionary<string, OrderBook> OrderBooks { get; } = new Dictionary<string, OrderBook>();
+    Dictionary<string, OrderBook> OrderBooks { get; } = [];
 }

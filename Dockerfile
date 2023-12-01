@@ -1,4 +1,4 @@
-FROM  mcr.microsoft.com/dotnet/nightly/sdk:7.0-focal
+FROM  mcr.microsoft.com/dotnet/nightly/sdk:8.0-jammy
 
 RUN apt-get -y update && apt-get install -y \
     make \

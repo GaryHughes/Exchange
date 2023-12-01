@@ -60,6 +60,6 @@ public class OrderBook
         return trades.ToArray();
     }
 
-    public SortedDictionary<(decimal, long), Order> BuyOrders { get; } = new SortedDictionary<(decimal, long), Order>(new BuyComparer());
-    public SortedDictionary<(decimal, long), Order> SellOrders { get; } = new SortedDictionary<(decimal, long), Order>();         
+    public SortedDictionary<(decimal, long), Order> BuyOrders { get; } = new(new BuyComparer());
+    public SortedDictionary<(decimal, long), Order> SellOrders { get; } = new();         
 }
