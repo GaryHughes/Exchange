@@ -13,7 +13,7 @@ public class Order
         
     };
 
-    static readonly Dictionary<int, string> Strings = new Dictionary<int, string>();
+    static readonly Dictionary<int, string> Strings = [];
 
     static string GetString(ref ReadOnlySpan<char> span)
     {
