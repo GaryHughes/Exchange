@@ -1,4 +1,4 @@
-FROM  mcr.microsoft.com/dotnet/nightly/sdk:8.0-jammy
+FROM  mcr.microsoft.com/dotnet/nightly/sdk:9.0-noble
 
 RUN apt-get -y update && apt-get install -y \
     make \
@@ -7,28 +7,20 @@ RUN apt-get -y update && apt-get install -y \
     g++ \
     libicu-dev \
     wget \
-    libtinfo5 \
-    libncurses5 \
     ant \
     openjdk-11-jdk \
     vim \
     python3-pip \
     nodejs \
     npm
-    
-#
-# These are for the Cython builds
-#
-RUN pip3 install cython setuptools
-
+  
 #
 # Clang
 #
-RUN curl -SL https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.0/clang+llvm-10.0.0-x86_64-linux-gnu-ubuntu-18.04.tar.xz | tar --strip-components 1 -xJC /usr/local
+RUN curl -SL https://github.com/llvm/llvm-project/releases/download/llvmorg-18.1.8/clang+llvm-18.1.8-x86_64-linux-gnu-ubuntu-18.04.tar.xz | tar --strip-components 1 -xJC /usr/local
    
 #
 # Swift
 #
-RUN wget -q https://swift.org/builds/swift-5.1.2-release/ubuntu1804/swift-5.1.2-RELEASE/swift-5.1.2-RELEASE-ubuntu18.04.tar.gz \
-    && tar zxf swift-5.1.2-RELEASE-ubuntu18.04.tar.gz --strip-components=1 -C /
-
+RUN wget -q https://download.swift.org/swift-6.0.2-release/ubuntu2404/swift-6.0.2-RELEASE/swift-6.0.2-RELEASE-ubuntu24.04.tar.gz \
+    && tar zxf swift-6.0.2-RELEASE-ubuntu24.04.tar.gz --strip-components=1 -C /
