@@ -82,14 +82,6 @@ jobs:
         name: part_1_python
         path: solutions/part_1_python    
         
-    - name: Download Part 1 Cython Solution
-      uses: dawidd6/action-download-artifact@v2
-      with:
-        github_token: ${{secrets.GITHUB_TOKEN}}
-        workflow: part_1_cython.yml
-        name: part_1_cython
-        path: solutions/part_1_cython    
-  
     - name: Download Part 1 C Solution
       uses: dawidd6/action-download-artifact@v2
       with:
@@ -170,14 +162,6 @@ jobs:
         name: part_2_python
         path: solutions/part_2_python    
         
-    - name: Download Part 2 Cython Solution
-      uses: dawidd6/action-download-artifact@v2
-      with:
-        github_token: ${{secrets.GITHUB_TOKEN}}
-        workflow: part_2_cython.yml
-        name: part_2_cython
-        path: solutions/part_2_cython    
-  
     - name: Download Part 2 C Solution
       uses: dawidd6/action-download-artifact@v2
       with:
