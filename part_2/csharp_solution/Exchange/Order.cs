@@ -67,18 +67,22 @@ public class Order
             throw new ArgumentException($"Could not parse order '{line}'", nameof(line));
         }
 
-        Price = double.Parse(input.Slice(start));
-
         RemainingQuantity = Math.Abs(Quantity);
-        Generation = NextGeneration++;
+
+        Priority = new PriorityKey(double.Parse(input.Slice(start)), NextGeneration++);
     }
+
+    public readonly record struct PriorityKey(double Price, int Generation);
+
+    public PriorityKey Priority { get; init; }
 
     public string Participant { get; } 
     public string Instrument { get; }
     public long Quantity { get; }
     public long RemainingQuantity { get; private set; }
-    public double Price { get; }
-    public int Generation { get; }
+    public double Price => Priority.Price;
+    public int Generation => Priority.Generation;
+    
 
     public void Fill(long quantity)
     {

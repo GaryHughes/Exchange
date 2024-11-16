@@ -19,17 +19,17 @@ jobs:
 
     steps:
     - name: checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
     - name: build
       working-directory: './part_1/python_solution'
       run: python3 -m py_compile *.py
     - name: upload Exchange
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: part_1_python	
         path: ./part_1/python_solution/*.py 
     - name: upload runner
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: part_1_python	
         path: ./part_1/python_solution/runner 

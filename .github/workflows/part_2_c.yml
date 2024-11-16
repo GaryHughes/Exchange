@@ -19,7 +19,7 @@ jobs:
 
     steps:
     - name: checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
     - name: make
       working-directory: './part_2/c_solution'
       run: make
@@ -27,12 +27,12 @@ jobs:
       working-directory: './part_2/c_solution'
       run: make check
     - name: upload Exchange
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: part_2_c	
         path: ./part_2/c_solution/Exchange 
     - name: upload runner
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: part_2_c	
         path: ./part_2/c_solution/runner 

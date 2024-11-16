@@ -1,26 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Medallion.Collections;
 
 namespace Exchange;
 
-class BuyComparer : IComparer<Order>
+class BuyComparer : IComparer<Order.PriorityKey>
 {
-    public int Compare(Order? left, Order? right)
+    public int Compare(Order.PriorityKey left, Order.PriorityKey right)
     {
-        if (left is null && right is null) {
-            return 0;
-        }
-
-        if (left is null) {
-            return -1;
-        }
-
-        if (right is null) {
-            return 1;
-        }
-     
         var result = right.Price.CompareTo(left.Price);
 
         if (result == 0) {
@@ -31,22 +18,10 @@ class BuyComparer : IComparer<Order>
     }
 }
 
-class SellComparer : IComparer<Order>
+class SellComparer : IComparer<Order.PriorityKey>
 {
-    public int Compare(Order? left, Order? right)
+    public int Compare(Order.PriorityKey left, Order.PriorityKey right)
     {
-        if (left is null && right is null) {
-            return 0;
-        }
-
-        if (left is null) {
-            return -1;
-        }
-
-        if (right is null) {
-            return 1;
-        }
-        
         var result = left.Price.CompareTo(right.Price);
 
         if (result == 0) {
@@ -62,10 +37,10 @@ public class OrderBook
     public Trade[] Execute(Order order)
     {
         if (order.Quantity > 0) {
-            BuyOrders.Enqueue(order);
+            BuyOrders.Enqueue(order, order.Priority);
         }    
         else {
-            SellOrders.Enqueue(order);
+            SellOrders.Enqueue(order, order.Priority);
         }
 
         var trades = new List<Trade>();
@@ -101,7 +76,7 @@ public class OrderBook
         return trades.ToArray();
     }
 
-    public PriorityQueue<Order> BuyOrders = new (1000, new BuyComparer());
-    public PriorityQueue<Order> SellOrders = new (1000, new SellComparer());
+    public PriorityQueue<Order, Order.PriorityKey> BuyOrders = new (new BuyComparer());
+    public PriorityQueue<Order, Order.PriorityKey> SellOrders = new (new SellComparer());
 
 }

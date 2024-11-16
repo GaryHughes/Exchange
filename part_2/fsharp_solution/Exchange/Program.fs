@@ -5,18 +5,21 @@ open System.IO
 open System.Text
 open System.Collections.Generic
 open FSharp.Data
-open Medallion.Collections
+
+[<Struct>]
+type OrderPriority =
+    {   Price: decimal
+        Generation: int }
 
 type Order =
     {   Participant:string
         Instrument:string
         Quantity:Int64
         RemainingQuantity:int
-        Price:decimal
-        Generation:int }
+        Priority:OrderPriority }
     
 type BuyPriceGenerationComparer() =
-    interface IComparer<Order> with
+    interface IComparer<OrderPriority> with
         member this.Compare(left, right) =
             match right.Price.CompareTo(left.Price) with
             | 1 -> 1
@@ -24,7 +27,7 @@ type BuyPriceGenerationComparer() =
             | _ -> left.Generation.CompareTo(right.Generation)
 
 type SellPriceGenerationComparer() =
-    interface IComparer<Order> with
+    interface IComparer<OrderPriority> with
         member this.Compare(left, right) =
             match left.Price.CompareTo(right.Price) with
             | 1 -> 1
@@ -39,8 +42,8 @@ type Trade =
         Price:decimal }
 
 type OrderBook =
-    {   BuyOrders : PriorityQueue<Order>
-        SellOrders : PriorityQueue<Order>    }
+    {   BuyOrders : PriorityQueue<Order, OrderPriority>
+        SellOrders : PriorityQueue<Order, OrderPriority>    }
 
 
 let tokeniseOrderText text =
@@ -63,8 +66,11 @@ let createOrder (fields:string[]) =
          Instrument = fields.[1]
          Quantity = Int64.Parse(fields.[2])
          RemainingQuantity = 0
-         Price = Decimal.Parse(fields.[3])
-         Generation = generation }
+         Priority = { 
+            Price = Decimal.Parse(fields.[3]) 
+            Generation = generation 
+        } 
+    }
 
 let parseOrder text =
     text
@@ -80,8 +86,8 @@ let getOrderBook instrument =
     | true -> orderBook
     | false -> 
         let orderBook = {
-            BuyOrders = new PriorityQueue<Order>(1000, BuyPriceGenerationComparer())
-            SellOrders = new PriorityQueue<Order>(1000, SellPriceGenerationComparer()) 
+            BuyOrders = new PriorityQueue<Order, OrderPriority>(BuyPriceGenerationComparer())
+            SellOrders = new PriorityQueue<Order, OrderPriority>(SellPriceGenerationComparer()) 
         }
         orderBooks.Add(instrument, orderBook)
         orderBook        
@@ -92,7 +98,7 @@ let insertOrder (order:Order) =
         match order.Quantity with
         | quantity when quantity < 0L -> orderBook.SellOrders
         | _ -> orderBook.BuyOrders
-    side.Add(order)
+    side.Enqueue(order, order.Priority)
     orderBook
     
 let matchingOrders orderBook =
@@ -101,14 +107,14 @@ let matchingOrders orderBook =
     else
         let buyOrder = orderBook.BuyOrders.Peek()
         let sellOrder = orderBook.SellOrders.Peek()
-        if buyOrder.Price >= sellOrder.Price then
+        if buyOrder.Priority.Price >= sellOrder.Priority.Price then
             Some (buyOrder, sellOrder)
         else
             None     
 
 let createTrade (buyOrder:Order,  sellOrder:Order) =
     let tradeQuantity = [|Math.Abs(buyOrder.Quantity); Math.Abs(sellOrder.Quantity)|] |> Seq.min
-    let tradePrice = if buyOrder.Generation < sellOrder.Generation then buyOrder.Price else sellOrder.Price
+    let tradePrice = if buyOrder.Priority.Generation < sellOrder.Priority.Generation then buyOrder.Priority.Price else sellOrder.Priority.Price
     {   Buyer = buyOrder.Participant
         Seller = sellOrder.Participant
         Instrument = buyOrder.Instrument
@@ -121,9 +127,9 @@ let trimOrderBook orderBook trade =
     let buyOrder = { buyOrder with Quantity = buyOrder.Quantity - trade.Quantity }
     let sellOrder = { sellOrder with Quantity = sellOrder.Quantity + trade.Quantity }
     if buyOrder.Quantity <> 0L then
-        orderBook.BuyOrders.Add(buyOrder) |> ignore
+        orderBook.BuyOrders.Enqueue(buyOrder, buyOrder.Priority) |> ignore
     else if sellOrder.Quantity <> 0L then
-        orderBook.SellOrders.Add(sellOrder) |> ignore
+        orderBook.SellOrders.Enqueue(sellOrder, sellOrder.Priority) |> ignore
     trade
   
 let matchOrders orderBook =

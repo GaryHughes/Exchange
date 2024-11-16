@@ -24,7 +24,7 @@ jobs:
     container: garyedwardhughes/exchange
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Download Part 1 C++ Solution
       uses: dawidd6/action-download-artifact@v2

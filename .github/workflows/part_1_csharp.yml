@@ -19,7 +19,7 @@ jobs:
 
     steps:
     - name: checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
     - name: build
       working-directory: './part_1/csharp_solution'
       run: dotnet publish --configuration Release
@@ -27,12 +27,12 @@ jobs:
       working-directory: './part_1/csharp_solution'
       run: dotnet test --configuration Release
     - name: upload Exchange
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: part_1_csharp	
-        path: ./part_1/csharp_solution/Exchange/bin/Release/net8.0/publish/* 
+        path: ./part_1/csharp_solution/Exchange/bin/Release/net9.0/publish/* 
     - name: upload runner
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: part_1_csharp	
         path: ./part_1/csharp_solution/runner 
