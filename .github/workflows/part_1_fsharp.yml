@@ -30,9 +30,11 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: part_1_fsharp	
-        path: ./part_1/fsharp_solution/Exchange/bin/Release/net8.0/publish/* 
+        path: ./part_1/fsharp_solution/Exchange/bin/Release/net8.0/publish/*
+        overwrite: true
     - name: upload runner
       uses: actions/upload-artifact@v4
       with:
         name: part_1_fsharp	
         path: ./part_1/fsharp_solution/runner 
+        overwrite: true

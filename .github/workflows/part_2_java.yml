@@ -28,8 +28,10 @@ jobs:
       with:
         name: part_2_java	
         path: ./part_2/java_solution/out/artifacts/Exchange_jar/* 
+        overwrite: true
     - name: upload runner
       uses: actions/upload-artifact@v4
       with:
         name: part_2_java	
         path: ./part_2/java_solution/runner 
+        overwrite: true

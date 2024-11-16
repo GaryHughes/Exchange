@@ -31,8 +31,10 @@ jobs:
       with:
         name: part_2_c	
         path: ./part_2/c_solution/Exchange 
+        overwrite: true
     - name: upload runner
       uses: actions/upload-artifact@v4
       with:
         name: part_2_c	
         path: ./part_2/c_solution/runner 
+        overwrite: true

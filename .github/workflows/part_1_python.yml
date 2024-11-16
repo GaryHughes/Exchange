@@ -28,8 +28,10 @@ jobs:
       with:
         name: part_1_python	
         path: ./part_1/python_solution/*.py 
+        overwrite: true
     - name: upload runner
       uses: actions/upload-artifact@v4
       with:
         name: part_1_python	
         path: ./part_1/python_solution/runner 
+        overwrite: true
