@@ -1,15 +1,14 @@
+cannot access local variable 'i' where it is not associated with a value
+cannot access local variable 'i' where it is not associated with a value
+cannot access local variable 'i' where it is not associated with a value
+cannot access local variable 'i' where it is not associated with a value
+cannot access local variable 'i' where it is not associated with a value
+cannot access local variable 'i' where it is not associated with a value
+cannot access local variable 'i' where it is not associated with a value
+cannot access local variable 'i' where it is not associated with a value
 ||100K orders|trades|
 -|:-:|:-:|
-|C#|0:00:00.536024|3368|
-|TypeScript|0:00:00.589452|3368|
-|Java|0:00:00.600445|3368|
-|Rust|0:00:00.754958|3368|
-|Swift|0:00:03.768346|3368|
-|F#|0:00:04.042534|3368|
-|C|0:00:09.253327|3368|
-|C++|0:00:20.250530|3368|
-|Go|0:00:27.841520|3368|
-|Cython|0:01:21.374656|3368|
-|Python|0:01:38.638284|3368|
+|C#|0:00:00.206607|4|
+|F#|0:00:00.213889|4|
 
 
