@@ -29,11 +29,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: part_1_swift	
-        path: ./part_1/swift_solution/Exchange
-        overwrite: true
-    - name: upload runner
-      uses: actions/upload-artifact@v4
-      with:
-        name: part_1_swift	
-        path: ./part_1/swift_solution/runner 
+        path: |
+          ./part_1/swift_solution/Exchange
+          ./part_1/swift_solution/runner
         overwrite: true

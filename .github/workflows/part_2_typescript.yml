@@ -23,15 +23,11 @@ jobs:
     - name: build
       working-directory: './part_2/typescript_solution'
       run: npm install && npm run build
-    - name: upload Exchange
+    - name: upload artifacts
       uses: actions/upload-artifact@v4
       with:
         name: part_2_typescript	
-        path: ./part_2/typescript_solution/build 
-        overwrite: true
-    - name: upload runner
-      uses: actions/upload-artifact@v4
-      with:
-        name: part_2_typescript
-        path: ./part_2/typescript_solution/runner
+        path: |
+          ./part_2/typescript_solution/build 
+          ./part_2/typescript_solution/runner
         overwrite: true

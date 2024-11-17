@@ -29,15 +29,11 @@ jobs:
     - name: test
       working-directory: './part_2/rust_solution'
       run: cargo test --all
-    - name: upload Exchange
+    - name: upload artifacts
       uses: actions/upload-artifact@v4
       with:
         name: part_2_rust	
-        path: ./part_2/rust_solution/target/release/exchange 
-        overwrite: true
-    - name: upload runner
-      uses: actions/upload-artifact@v4
-      with:
-        name: part_2_rust	
-        path: ./part_2/rust_solution/runner 
+        path: |
+          ./part_2/rust_solution/target/release/exchange 
+          ./part_2/rust_solution/runner 
         overwrite: true

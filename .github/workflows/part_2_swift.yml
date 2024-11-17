@@ -25,15 +25,11 @@ jobs:
       run: |
         swift build -c release
         cp .build/release/Exchange .
-    - name: upload Exchange
+    - name: upload artifacts
       uses: actions/upload-artifact@v4
       with:
         name: part_2_swift	
-        path: './part_2/swift_solution/Exchange'
-        overwrite: true
-    - name: upload runner
-      uses: actions/upload-artifact@v4
-      with:
-        name: part_2_swift	
-        path: ./part_2/swift_solution/runner 
+        path: | 
+          ./part_2/swift_solution/Exchange
+          ./part_2/swift_solution/runner 
         overwrite: true

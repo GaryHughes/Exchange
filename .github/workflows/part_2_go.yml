@@ -27,15 +27,11 @@ jobs:
         go version
         go get -v -t -d ./...
         go build -v .
-    - name: upload Exchange
+    - name: upload artifacts
       uses: actions/upload-artifact@v4
       with:
         name: part_2_go
-        path: ./part_2/go_solution/Exchange 
-        overwrite: true
-    - name: upload runner
-      uses: actions/upload-artifact@v4
-      with:
-        name: part_2_go	
-        path: ./part_2/go_solution/runner 
+        path: |
+          ./part_2/go_solution/Exchange 
+          ./part_2/go_solution/runner 
         overwrite: true
