@@ -7,13 +7,14 @@ RUN apt-get -y update && apt-get install -y \
     g++ \
     libicu-dev \
     wget \
+    libncurses6 \
     ant \
     openjdk-11-jdk \
     vim \
     python3-pip \
     nodejs \
     npm
-  
+
 #
 # Clang
 #
