@@ -31,6 +31,6 @@ jobs:
       with:
         name: part_2_fsharp	
         path: |
-          ./part_2/fsharp_solution/Exchange/bin/Release/net8.0/publish/* 
+          ./part_2/fsharp_solution/Exchange/bin/Release/net9.0/publish/* 
           ./part_2/fsharp_solution/runner
         overwrite: true
