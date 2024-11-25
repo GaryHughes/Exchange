@@ -27,7 +27,7 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Download Part 1 C++ Solution
-      uses: dawidd6/action-download-artifact@v2
+      uses: dawidd6/action-download-artifact@v6
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         workflow: part_1_cpp.yml
@@ -35,7 +35,7 @@ jobs:
         path: solutions/part_1_cpp
 
     - name: Download Part 1 C# Solution
-      uses: dawidd6/action-download-artifact@v2
+      uses: dawidd6/action-download-artifact@v6
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         workflow: part_1_csharp.yml
@@ -43,7 +43,7 @@ jobs:
         path: solutions/part_1_csharp
 
     - name: Download Part 1 F# Solution
-      uses: dawidd6/action-download-artifact@v2
+      uses: dawidd6/action-download-artifact@v6
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         workflow: part_1_fsharp.yml
@@ -51,7 +51,7 @@ jobs:
         path: solutions/part_1_fsharp
 
     - name: Download Part 1 Rust Solution
-      uses: dawidd6/action-download-artifact@v2
+      uses: dawidd6/action-download-artifact@v6
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         workflow: part_1_rust.yml
@@ -59,7 +59,7 @@ jobs:
         path: solutions/part_1_rust
 
     - name: Download Part 1 Go Solution
-      uses: dawidd6/action-download-artifact@v2
+      uses: dawidd6/action-download-artifact@v6
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         workflow: part_1_go.yml
@@ -67,7 +67,7 @@ jobs:
         path: solutions/part_1_go
 
     - name: Download Part 1 Java Solution
-      uses: dawidd6/action-download-artifact@v2
+      uses: dawidd6/action-download-artifact@v6
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         workflow: part_1_java.yml
@@ -75,7 +75,7 @@ jobs:
         path: solutions/part_1_java
 
     - name: Download Part 1 Python Solution
-      uses: dawidd6/action-download-artifact@v2
+      uses: dawidd6/action-download-artifact@v6
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         workflow: part_1_python.yml
@@ -83,7 +83,7 @@ jobs:
         path: solutions/part_1_python    
         
     - name: Download Part 1 C Solution
-      uses: dawidd6/action-download-artifact@v2
+      uses: dawidd6/action-download-artifact@v6
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         workflow: part_1_c.yml
@@ -91,7 +91,7 @@ jobs:
         path: solutions/part_1_c    
  
     - name: Download Part 1 Swift Solution
-      uses: dawidd6/action-download-artifact@v2
+      uses: dawidd6/action-download-artifact@v6
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         workflow: part_1_swift.yml
@@ -99,7 +99,7 @@ jobs:
         path: solutions/part_1_swift    
  
     - name: Download Part 1 TypeScript Solution
-      uses: dawidd6/action-download-artifact@v2
+      uses: dawidd6/action-download-artifact@v6
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         workflow: part_1_typescript.yml
@@ -107,7 +107,7 @@ jobs:
         path: solutions/part_1_typescript    
 
     - name: Download Part 2 C++ Solution
-      uses: dawidd6/action-download-artifact@v2
+      uses: dawidd6/action-download-artifact@v6
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         workflow: part_2_cpp.yml
@@ -115,7 +115,7 @@ jobs:
         path: solutions/part_2_cpp
 
     - name: Download Part 2 C# Solution
-      uses: dawidd6/action-download-artifact@v2
+      uses: dawidd6/action-download-artifact@v6
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         workflow: part_2_csharp.yml
@@ -123,7 +123,7 @@ jobs:
         path: solutions/part_2_csharp
 
     - name: Download Part 2 F# Solution
-      uses: dawidd6/action-download-artifact@v2
+      uses: dawidd6/action-download-artifact@v6
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         workflow: part_2_fsharp.yml
@@ -131,7 +131,7 @@ jobs:
         path: solutions/part_2_fsharp
 
     - name: Download Part 2 Rust Solution
-      uses: dawidd6/action-download-artifact@v2
+      uses: dawidd6/action-download-artifact@v6
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         workflow: part_2_rust.yml
@@ -139,7 +139,7 @@ jobs:
         path: solutions/part_2_rust
 
     - name: Download Part 2 Go Solution
-      uses: dawidd6/action-download-artifact@v2
+      uses: dawidd6/action-download-artifact@v6
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         workflow: part_2_go.yml
@@ -147,7 +147,7 @@ jobs:
         path: solutions/part_2_go
 
     - name: Download Part 2 Java Solution
-      uses: dawidd6/action-download-artifact@v2
+      uses: dawidd6/action-download-artifact@v6
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         workflow: part_2_java.yml
@@ -155,7 +155,7 @@ jobs:
         path: solutions/part_2_java
 
     - name: Download Part 2 Python Solution
-      uses: dawidd6/action-download-artifact@v2
+      uses: dawidd6/action-download-artifact@v6
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         workflow: part_2_python.yml
@@ -163,7 +163,7 @@ jobs:
         path: solutions/part_2_python    
         
     - name: Download Part 2 C Solution
-      uses: dawidd6/action-download-artifact@v2
+      uses: dawidd6/action-download-artifact@v6
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         workflow: part_2_c.yml
@@ -171,7 +171,7 @@ jobs:
         path: solutions/part_2_c    
  
     - name: Download Part 2 Swift Solution
-      uses: dawidd6/action-download-artifact@v2
+      uses: dawidd6/action-download-artifact@v6
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         workflow: part_2_swift.yml
@@ -179,7 +179,7 @@ jobs:
         path: solutions/part_2_swift   
 
     - name: Download Part 2 TypeScript Solution
-      uses: dawidd6/action-download-artifact@v2
+      uses: dawidd6/action-download-artifact@v6
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         workflow: part_2_typescript.yml
