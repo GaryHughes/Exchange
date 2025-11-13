@@ -42,8 +42,8 @@ impl OrderBook {
     pub fn resolve_matches(&mut self) -> Vec<Trade> {
         let mut trades = Vec::<Trade>::new();
         while !self.buys.is_empty() && !self.sells.is_empty() {
-            let mut buy = &mut self.buys.last_mut().unwrap();
-            let mut sell = &mut self.sells.last_mut().unwrap();
+            let buy = &mut self.buys.last_mut().unwrap();
+            let sell = &mut self.sells.last_mut().unwrap();
             if buy.price < sell.price {
                 break;
             }
