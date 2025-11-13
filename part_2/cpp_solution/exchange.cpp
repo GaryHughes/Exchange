@@ -3,11 +3,11 @@
 namespace ae
 {
 
-trade_collection exchange::execute(std::string_view instrument, const ae::order& order)
+trade_collection exchange::execute(std::string_view instrument, ae::order&& order)
 {
 	auto& book = order_book_for_instrument(std::string(instrument));
 
-	book.insert(order);
+	book.insert(std::move(order));
 
 	return book.match();
 }

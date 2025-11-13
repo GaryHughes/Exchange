@@ -48,7 +48,7 @@ public:
 
 	order_book();
 
-	void insert(const order& order);
+	void insert(order&& order);
 	trade_collection match();
 
 	const buy_order_collection& buy_orders() const { return m_buy_orders; }

@@ -9,17 +9,17 @@ order_book::order_book()
 {
 }
 
-void order_book::insert(const order& order)
+void order_book::insert(order&& order)
 {
 	order.bump_generation();
 
 	if(order.is_buy())
 	{
-		m_buy_orders.push(order);
+		m_buy_orders.push(std::move(order));
 	}
 	else
 	{
-		m_sell_orders.push(order);
+		m_sell_orders.push(std::move(order));
 	}
 }
 
