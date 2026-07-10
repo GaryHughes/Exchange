@@ -37,9 +37,7 @@ if iterations <= 0 or len(input_files) == 0:
 
 def line_count(file):
     with open(file) as f:
-        for i, _ in enumerate(f):
-            pass
-    return i + 1
+        return sum(1 for _ in f)
 
 def uncompress(input):
     if not input.endswith('.gz'):
