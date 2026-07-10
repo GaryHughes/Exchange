@@ -1,11 +1,11 @@
 
-CFLAGS=-O3 --std=c11 -Wall -Wextra -Werror
+CFLAGS=-O3 --std=c11 -Wall -Wextra -Werror -flto
 # For the clang leak checker
 # CFLAGS += -fsanitize=address -fno-omit-frame-pointer -g
 # For gprof profiling
 # CFLAGS += -pg -g
 # Remove asserts for production builds
-#CPPFLAGS= -DNDEBUG
+CPPFLAGS= -DNDEBUG
 
 # For .h dependencies, implies clang/gcc
 CFLAGS += -MMD

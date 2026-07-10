@@ -22,6 +22,12 @@ int main()
     int qty;
     double price;
 
+    /* glibc auto-detects block buffering for non-tty stdout, but the buffer size it
+     * picks is tied to the filesystem block size (often 4K); use a larger one to
+     * reduce the number of write() calls for high trade volumes. Must be set before
+     * any I/O on the stream. */
+    setvbuf(stdout, NULL, _IOFBF, 65536);
+
     if (!BookList_init(&bl)) {
         fprintf(stderr, "Can't init BookList\n");
         exit(1);
