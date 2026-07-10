@@ -4,8 +4,6 @@ namespace ae
 {
 
 order_book::order_book()
-:	m_buy_orders(buy_ordering)
-,	m_sell_orders(sell_ordering)
 {
 }
 
@@ -47,17 +45,14 @@ trade_collection order_book::match()
 							match_quantity,
 							match_price);
 		
-		auto buy_remainder = buy_order.fill(match_quantity);
-		auto sell_remainder = sell_order.fill(match_quantity);
+		buy_order.reduce_remaining_quantity(match_quantity);
+		sell_order.reduce_remaining_quantity(match_quantity);
 
-		m_buy_orders.pop();
-		m_sell_orders.pop();
+		if (buy_order.remaining_quantity() == 0)
+			m_buy_orders.pop();
 
-		if (buy_remainder.remaining_quantity() > 0)
-			m_buy_orders.push(buy_remainder);
-
-		if (sell_remainder.remaining_quantity() > 0)
-			m_sell_orders.push(sell_remainder);
+		if (sell_order.remaining_quantity() == 0)
+			m_sell_orders.pop();
 	}
 
 	return trades;

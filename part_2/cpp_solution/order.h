@@ -29,7 +29,7 @@ public:
 		m_generation = s_next_generation++;
 	}
 
-	order fill(quantity_type quantity) const;
+	void reduce_remaining_quantity(quantity_type quantity) const;
 
 private:
 
@@ -44,7 +44,7 @@ private:
 	std::string m_participant;
 
 	quantity_type m_quantity;
-	quantity_type m_remaining_quantity;
+	mutable quantity_type m_remaining_quantity;
 
 	price_type m_price;
 

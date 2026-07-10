@@ -6,6 +6,7 @@
 #include <array>
 #include <charconv>
 #include <cstring>
+#include <cstdlib>
 #include "exchange.h"
 
 static const std::string separator = ":";
@@ -61,8 +62,14 @@ int main(int, char**)
 			}
 			*end = 0;
 
-			// The double overload of from_chars is deleted on macOS.
-			price = std::stod(begin);
+			// std::stod requires a std::string, which would force an implicit copy of
+			// this buffer on every line; from_chars for double is deleted on macOS
+			// libc++, so use strtod directly on the null-terminated char buffer instead.
+			char* price_end;
+			price = std::strtod(begin, &price_end);
+			if (price_end == begin) {
+				throw std::out_of_range(std::string(begin) + " is not a valid price");
+			}
 
 			for (const auto& trade : exchange.execute(instrument, ae::order(participant, quantity, price)))
 			{

@@ -52,16 +52,14 @@ void order::price(price_type value)
 	m_price = value;
 }
 
-order order::fill(quantity_type quantity) const
+void order::reduce_remaining_quantity(quantity_type quantity) const
 {
 	if (quantity > m_remaining_quantity)
 	{
 		throw std::runtime_error("invalid attempt to fill more than the remaining quantity");
 	}
 
-	order result = *this;
-	result.m_remaining_quantity -= quantity;
-	return result;
+	m_remaining_quantity -= quantity;
 }
 
 } // namespace ae
