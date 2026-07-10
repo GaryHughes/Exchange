@@ -1,7 +1,7 @@
 package com.geh.Exchange;
 
 import java.math.BigDecimal;
-import java.util.LinkedList;
+import java.util.ArrayDeque;
 
 public class Order {
 
@@ -34,7 +34,7 @@ public class Order {
                     token = Token.Quantity;
                     break;
                 case Quantity:
-                    this.quantity = Long.parseLong(line.subSequence(start, i), 0, i - start, 10);
+                    this.quantity = Long.parseLong(line, start, i, 10);
                     this.remainingQuantity = Math.abs(quantity);
                     token = Token.Price;
                     break;
@@ -67,7 +67,7 @@ public class Order {
 
     private static int nextGeneration = 1;
 
-    private static LinkedList<Order> retiredOrders = new LinkedList<>();
+    private static ArrayDeque<Order> retiredOrders = new ArrayDeque<>();
 
     public static Order get(String line) throws Exception
     {

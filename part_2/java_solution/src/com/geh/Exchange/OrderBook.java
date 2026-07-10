@@ -1,7 +1,7 @@
 package com.geh.Exchange;
 
 import java.util.PriorityQueue;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 public class OrderBook {
 
@@ -14,7 +14,7 @@ public class OrderBook {
             sellOrders.add(order);
         }
 
-        var trades = new LinkedList<Trade>();
+        var trades = new ArrayList<Trade>();
 
         while (!buyOrders.isEmpty() && !sellOrders.isEmpty()) {
 
