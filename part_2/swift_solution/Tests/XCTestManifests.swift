@@ -46,6 +46,11 @@ extension OrderTests {
         ("testInvalidInit", testInvalidInit),
         ("testStringInit", testStringInit),
         ("testWhitespaceInit", testWhitespaceInit),
+        ("testBytesInit", testBytesInit),
+        ("testBytesSellInit", testBytesSellInit),
+        ("testBytesEmptyInit", testBytesEmptyInit),
+        ("testBytesInvalidInit", testBytesInvalidInit),
+        ("testBytesExtraFieldIsIgnored", testBytesExtraFieldIsIgnored),
     ]
 }
 
