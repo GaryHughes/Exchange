@@ -5,7 +5,7 @@ namespace Exchange;
 
 public class Exchange
 {
-    public Trade[] Execute(Order order)
+    public List<Trade> Execute(Order order)
     {
         if (!OrderBooks.TryGetValue(order.Instrument, out var orderBook)) {
             orderBook = new OrderBook();

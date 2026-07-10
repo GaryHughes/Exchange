@@ -34,16 +34,18 @@ class SellComparer : IComparer<Order.PriorityKey>
 
 public class OrderBook
 {
-    public Trade[] Execute(Order order)
+    readonly List<Trade> Trades = [];
+
+    public List<Trade> Execute(Order order)
     {
         if (order.Quantity > 0) {
             BuyOrders.Enqueue(order, order.Priority);
-        }    
+        }
         else {
             SellOrders.Enqueue(order, order.Priority);
         }
 
-        var trades = new List<Trade>();
+        Trades.Clear();
 
         while (BuyOrders.Count > 0 && SellOrders.Count > 0) {
 
@@ -59,7 +61,7 @@ public class OrderBook
 
             var trade = new Trade(buy.Participant, sell.Participant, buy.Instrument, quantity, price);
 
-            trades.Add(trade);
+            Trades.Add(trade);
 
             buy.Fill(quantity);
             sell.Fill(quantity);
@@ -72,8 +74,8 @@ public class OrderBook
                 SellOrders.Dequeue();
             }
         }
-        
-        return trades.ToArray();
+
+        return Trades;
     }
 
     public PriorityQueue<Order, Order.PriorityKey> BuyOrders = new (new BuyComparer());

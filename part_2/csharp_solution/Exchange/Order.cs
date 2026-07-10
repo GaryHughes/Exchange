@@ -15,14 +15,19 @@ public class Order
 
     static readonly Dictionary<int, string> Strings = [];
 
-    static string GetString(ref ReadOnlySpan<char> span)
+    static string GetString(ReadOnlySpan<char> span)
     {
         var hash = string.GetHashCode(span);
-        if (!Strings.TryGetValue(hash, out var value))
+        if (Strings.TryGetValue(hash, out var cached))
         {
-            value = span.ToString();
-            Strings[hash] = value;
+            if (span.SequenceEqual(cached))
+            {
+                return cached;
+            }
+            return span.ToString();
         }
+        var value = span.ToString();
+        Strings[hash] = value;
         return value;
     }
     
@@ -44,14 +49,14 @@ public class Order
                 case Token.Participant:
                     {
                     var span = input.Slice(start, end - start);
-                    Participant = GetString(ref span);
+                    Participant = GetString(span);
                     token = Token.Instrument;
                     }
                     break;
                 case Token.Instrument:
                     {
                     var span = input.Slice(start, end - start);
-                    Instrument = GetString(ref span);
+                    Instrument = GetString(span);
                     token = Token.Quantity;
                     }
                     break;
