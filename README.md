@@ -15,48 +15,48 @@ Some solutions are excluded from the benchmarks entirely because they take too l
 ## Part 1 Performance
 
 
-cannot access local variable 'i' where it is not associated with a value
-cannot access local variable 'i' where it is not associated with a value
 ||100K orders|trades|
 -|:-:|:-:|
-|C#|0:00:00.577554|3368|
-|F#|0:00:02.336442|3368|
-|Go|0:00:04.677722|3368|
-|Swift|0:00:06.994584|3368|
-|C|0:00:08.474344|3368|
-|Rust|0:00:09.866398|3368|
-|C++|0:00:16.400881|3368|
-|Python|0:01:18.230324|3368|
+|Java|0:00:00.002590|0|
+|TypeScript|0:00:00.429815|0|
+|C#|0:00:00.579640|3368|
+|F#|0:00:02.573871|3368|
+|Go|0:00:05.594406|3368|
+|Swift|0:00:05.857785|3368|
+|C|0:00:09.579067|3368|
+|Rust|0:00:11.540588|3368|
+|C++|0:00:20.664188|3368|
+|Python|0:01:25.243774|3368|
 
 
 ## Part 2 Performance
 
 The slower implementations are excluded from the larger benchmark just so it runs in a reasonable time.
 
-cannot access local variable 'i' where it is not associated with a value
-cannot access local variable 'i' where it is not associated with a value
-cannot access local variable 'i' where it is not associated with a value
-cannot access local variable 'i' where it is not associated with a value
 ||100K orders|trades|
 -|:-:|:-:|
-|C|0:00:00.020344|3368|
-|Rust|0:00:00.021291|3368|
-|C++|0:00:00.032205|3368|
-|Go|0:00:00.035950|3368|
-|C#|0:00:00.164438|3368|
-|Swift|0:00:00.196581|3368|
-|Python|0:00:00.277508|3368|
-|F#|0:00:00.305936|3368|
+|Java|0:00:00.002107|0|
+|C|0:00:00.022952|3368|
+|Rust|0:00:00.024995|3368|
+|Go|0:00:00.034548|3368|
+|C++|0:00:00.036093|3368|
+|TypeScript|0:00:00.098017|0|
+|C#|0:00:00.181715|3368|
+|Swift|0:00:00.215887|3368|
+|Python|0:00:00.300442|3368|
+|F#|0:00:00.375146|3368|
 
 
 ||10M orders|trades|
 -|:-:|:-:|
-|C|0:00:01.878073|360131|
-|Rust|0:00:02.173052|360131|
-|C++|0:00:03.212063|360131|
-|Go|0:00:04.115119|360131|
-|C#|0:00:07.070721|360131|
-|F#|0:00:19.256855|360131|
-|Swift|0:00:19.271844|360131|
+|Java|0:00:00.002141|0|
+|TypeScript|0:00:00.097465|0|
+|C|0:00:02.047086|360131|
+|Rust|0:00:02.209474|360131|
+|C++|0:00:03.151766|360131|
+|Go|0:00:03.812951|360131|
+|C#|0:00:07.755294|360131|
+|F#|0:00:19.975677|360131|
+|Swift|0:00:20.910458|360131|
 
 
