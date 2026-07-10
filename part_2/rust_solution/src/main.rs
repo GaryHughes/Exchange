@@ -17,7 +17,7 @@ pub fn run() -> Result<(), Box<dyn Error>> {
     let mut record = StringRecord::with_capacity(100, 4);
     let mut gen = 0;
     let stdout = io::stdout();
-    let mut buf_stdout = BufWriter::new(stdout);
+    let mut buf_stdout = BufWriter::with_capacity(64 * 1024, stdout);
     while rdr.read_record(&mut record)? {
         gen += 1;
         let instrument = &record[1];

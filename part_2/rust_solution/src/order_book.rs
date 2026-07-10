@@ -39,8 +39,8 @@ impl OrderBook {
             };
             let match_qty = min(buy.remaining, sell.remaining);
             let t = Trade {
-                buyer: buy.participant.to_string(),
-                seller: sell.participant.to_string(),
+                buyer: buy.participant.clone(),
+                seller: sell.participant.clone(),
                 instrument: instrument.to_string(),
                 quantity: match_qty,
                 price: match_price,
@@ -69,11 +69,12 @@ impl OrderBook {
 mod tests {
     use super::*;
     use crate::types::Price;
+    use std::rc::Rc;
 
     fn buy(p: &str, px: f32, qty: i64, rem: i64, g: usize) -> Buy {
         Buy {
             gen: g,
-            participant: p.to_string(),
+            participant: Rc::from(p),
             quantity: qty,
             remaining: rem,
             price: Price(px),
@@ -83,7 +84,7 @@ mod tests {
     fn sell(p: &str, px: f32, qty: i64, rem: i64, g: usize) -> Sell {
         Sell {
             gen: g,
-            participant: p.to_string(),
+            participant: Rc::from(p),
             quantity: qty,
             remaining: rem,
             price: Price(px),
@@ -186,8 +187,8 @@ mod tests {
 
     fn trade(b: &str, s: &str, i: &str, q: i64, p: f32, bgen: usize, sgen: usize) -> Trade {
         Trade {
-            buyer: b.to_string(),
-            seller: s.to_string(),
+            buyer: Rc::from(b),
+            seller: Rc::from(s),
             instrument: i.to_string(),
             quantity: q,
             price: Price(p),

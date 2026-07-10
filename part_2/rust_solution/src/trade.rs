@@ -1,11 +1,12 @@
 use std::fmt;
+use std::rc::Rc;
 
 use crate::types::Price;
 
 #[derive(Debug, PartialEq)]
 pub struct Trade {
-    pub buyer: String,
-    pub seller: String,
+    pub buyer: Rc<str>,
+    pub seller: Rc<str>,
     pub instrument: String,
     pub quantity: i64,
     pub price: Price,

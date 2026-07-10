@@ -1,20 +1,23 @@
 use crate::types::Price;
+use std::cell::RefCell;
 use std::cmp::{Ordering, PartialOrd};
+use std::collections::HashMap;
 use std::error::Error;
+use std::rc::Rc;
 
-#[derive(Default, Debug, Eq, PartialEq)]
+#[derive(Debug, Eq, PartialEq)]
 pub struct Buy {
     pub gen: usize,
-    pub participant: String,
+    pub participant: Rc<str>,
     pub quantity: i64,
     pub remaining: i64,
     pub price: Price,
 }
 
-#[derive(Default, Debug, Eq, PartialEq)]
+#[derive(Debug, Eq, PartialEq)]
 pub struct Sell {
     pub gen: usize,
-    pub participant: String,
+    pub participant: Rc<str>,
     pub quantity: i64,
     pub remaining: i64,
     pub price: Price,
@@ -23,6 +26,24 @@ pub struct Sell {
 pub enum Order {
     Buy(Buy),
     Sell(Sell),
+}
+
+thread_local! {
+    // Participant ids repeat heavily across an order file, and Rust's String has no small-string
+    // optimisation, so interning avoids a fresh heap allocation for every single incoming order.
+    static PARTICIPANTS: RefCell<HashMap<Box<str>, Rc<str>>> = RefCell::new(HashMap::new());
+}
+
+fn intern(participant: &str) -> Rc<str> {
+    PARTICIPANTS.with(|cache| {
+        let mut cache = cache.borrow_mut();
+        if let Some(existing) = cache.get(participant) {
+            return existing.clone();
+        }
+        let interned: Rc<str> = Rc::from(participant);
+        cache.insert(Box::from(participant), interned.clone());
+        interned
+    })
 }
 
 pub fn read(
@@ -35,7 +56,7 @@ pub fn read(
     let aqty = if qty > 0 { qty } else { -qty };
     let o = if qty > 0 {
         Order::Buy(Buy {
-            participant: participant.to_string(),
+            participant: intern(participant),
             quantity: aqty,
             remaining: aqty,
             price: Price(price.parse()?),
@@ -43,7 +64,7 @@ pub fn read(
         })
     } else {
         Order::Sell(Sell {
-            participant: participant.to_string(),
+            participant: intern(participant),
             quantity: aqty,
             remaining: aqty,
             price: Price(price.parse()?),
@@ -89,7 +110,7 @@ mod tests {
     #[test]
     fn test_read_buy() {
         if let Order::Buy(o) = read("F", "123", "87.125", 99).unwrap() {
-            assert_eq!("F", o.participant);
+            assert_eq!("F", o.participant.as_ref());
             assert_eq!(123, o.quantity);
             assert_eq!(123, o.remaining);
             assert_eq!(Price(87.125), o.price);
@@ -102,7 +123,7 @@ mod tests {
     #[test]
     fn test_read_sell() {
         if let Order::Sell(o) = read("F", "-123", "87.125", 99).unwrap() {
-            assert_eq!("F", o.participant);
+            assert_eq!("F", o.participant.as_ref());
             assert_eq!(123, o.quantity);
             assert_eq!(123, o.remaining);
             assert_eq!(Price(87.125), o.price);
@@ -115,7 +136,7 @@ mod tests {
     fn buy(px: f32, g: usize) -> Buy {
         Buy {
             gen: g,
-            participant: "".to_string(),
+            participant: Rc::from(""),
             quantity: 0,
             remaining: 0,
             price: Price(px),
@@ -125,7 +146,7 @@ mod tests {
     fn sell(px: f32, g: usize) -> Sell {
         Sell {
             gen: g,
-            participant: "".to_string(),
+            participant: Rc::from(""),
             quantity: 0,
             remaining: 0,
             price: Price(px),
