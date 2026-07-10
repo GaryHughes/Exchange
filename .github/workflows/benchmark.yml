@@ -202,7 +202,7 @@ jobs:
       run: ./generate_README.sh
       
     - name: Commit README.md
-      uses: EndBug/add-and-commit@v9
+      uses: EndBug/add-and-commit@v10
       with:
         author_name: benchmark.py
         author_email: benchmark@example.com
