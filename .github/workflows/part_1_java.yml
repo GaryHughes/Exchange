@@ -23,11 +23,12 @@ jobs:
     - name: build
       working-directory: './part_1/java_solution'
       run: ant -f Exchange.xml
+    - name: copy runner into build output
+      working-directory: './part_1/java_solution'
+      run: cp runner out/artifacts/Exchange_jar/runner
     - name: upload artifacts
       uses: actions/upload-artifact@v7
       with:
-        name: part_1_java	
-        path: |
-          ./part_1/java_solution/out/artifacts/Exchange_jar/* 
-          ./part_1/java_solution/runner 
+        name: part_1_java
+        path: ./part_1/java_solution/out/artifacts/Exchange_jar
         overwrite: true

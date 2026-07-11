@@ -23,11 +23,12 @@ jobs:
     - name: build
       working-directory: './part_2/typescript_solution'
       run: npm install && npm run build
+    - name: copy runner into build output
+      working-directory: './part_2/typescript_solution'
+      run: cp runner build/runner
     - name: upload artifacts
       uses: actions/upload-artifact@v7
       with:
-        name: part_2_typescript	
-        path: |
-          ./part_2/typescript_solution/build 
-          ./part_2/typescript_solution/runner
+        name: part_2_typescript
+        path: ./part_2/typescript_solution/build
         overwrite: true
