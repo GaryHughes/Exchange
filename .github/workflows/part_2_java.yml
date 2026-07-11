@@ -19,12 +19,12 @@ jobs:
 
     steps:
     - name: checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
     - name: build
       working-directory: './part_2/java_solution'
       run: ant -f Exchange.xml
     - name: upload artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: part_2_java	
         path: |

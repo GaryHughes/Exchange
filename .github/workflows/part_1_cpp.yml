@@ -19,7 +19,7 @@ jobs:
 
     steps:
     - name: checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
     - name: make
       working-directory: './part_1/cpp_solution'
       run: make
@@ -27,7 +27,7 @@ jobs:
       working-directory: './part_1/cpp_solution'
       run: make check
     - name: upload artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: part_1_cpp	
         path: |

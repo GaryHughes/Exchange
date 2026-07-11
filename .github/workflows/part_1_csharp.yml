@@ -19,7 +19,7 @@ jobs:
 
     steps:
     - name: checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
     - name: build
       working-directory: './part_1/csharp_solution'
       run: dotnet publish --configuration Release
@@ -27,7 +27,7 @@ jobs:
       working-directory: './part_1/csharp_solution'
       run: dotnet test --configuration Release
     - name: upload artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: part_1_csharp	
         path: |

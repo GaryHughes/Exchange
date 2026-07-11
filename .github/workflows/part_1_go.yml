@@ -19,7 +19,7 @@ jobs:
 
     steps:
     - name: checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
     - name: build
       working-directory: './part_1/go_solution'
       run: |
@@ -28,7 +28,7 @@ jobs:
         go get -v -t -d ./...
         go build -v .
     - name: upload artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: part_1_go
         path: |

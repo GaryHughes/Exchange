@@ -19,7 +19,7 @@ jobs:
 
     steps:
     - name: checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
     - uses: actions-rs/toolchain@v1
       with:
         toolchain: stable
@@ -30,7 +30,7 @@ jobs:
       working-directory: './part_1/rust_solution'
       run: cargo test --all
     - name: upload Exchange
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: part_1_rust	
         path: |
